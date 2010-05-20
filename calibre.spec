@@ -16,8 +16,10 @@ BuildRequires:	chmlib-devel
 BuildRequires:	podofo-devel
 BuildRequires:	poppler-Qt-devel
 BuildRequires:	python-BeautifulSoup
+BuildRequires:	python-PIL
 BuildRequires:	python-PyQt4-devel
 BuildRequires:	python-cssutils
+BuildRequires:	python-dateutil
 BuildRequires:	python-lxml
 BuildRequires:	python-mechanize
 BuildRequires:	python-modules-sqlite
