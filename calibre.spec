@@ -1,14 +1,29 @@
-# TODO
-# - Upstream packages some unfree fonts which we cannot redistribute - use
-#   tarball from fc or rip their script.
+#
+# NOTE:
+# Upstream packages some unfree fonts which we cannot redistribute,
+# so when upgrading calibre we should download upstream tarball by hand from
+# http://downloads.sourceforge.net/calibre and run below script in order
+# to remove them:
+#
+# #!/bin/sh
+#
+# VERSION=$1
+#
+# rm -rf calibre
+# tar -xvzf calibre-$VERSION.tar.gz
+# rm -f calibre/resources/fonts/liberation/*
+# rm -f calibre/resources/fonts/prs500/*
+#
+# tar -cvjf calibre-$VERSION-nofonts.tar.bz2 calibre
+#
 Summary:	E-book converter and library management
 Name:		calibre
 Version:	0.6.53
 Release:	0.1
 License:	GPL v3+
 Group:		Applications/Multimedia
-Source0:	http://status.calibre-ebook.com/dist/src/%{name}-%{version}.tar.gz
-# Source0-md5:	42255d2eb55d1a047d74d3dbb0d0f355
+Source0:	%{name}-%{version}-nofonts.tar.bz2
+# Source0-md5:	74f8a83e86820b248eb094bde4f1ab69
 Patch0:		%{name}-prefix.patch
 URL:		http://www.calibre-ebook.com/
 BuildRequires:	ImageMagick-devel
