@@ -40,7 +40,9 @@ BuildRequires:	python-mechanize
 BuildRequires:	python-modules-sqlite
 BuildRequires:	python-sip-devel
 BuildRequires:	rpm-pythonprov
+Requires:	python-PIL
 Requires:	python-cssutils
+Requires:	python-dateutil
 Requires:	python-lxml
 Requires:	python-mechanize
 Requires:	python-modules-sqlite
