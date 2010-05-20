@@ -5,7 +5,7 @@ Summary:	E-book converter and library management
 Name:		calibre
 Version:	0.6.53
 Release:	0.1
-License:	GPL v3
+License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	http://status.calibre-ebook.com/dist/src/%{name}-%{version}.tar.gz
 # Source0-md5:	42255d2eb55d1a047d74d3dbb0d0f355
@@ -20,8 +20,13 @@ BuildRequires:	python-PyQt4-devel
 BuildRequires:	python-cssutils
 BuildRequires:	python-lxml
 BuildRequires:	python-mechanize
+BuildRequires:	python-modules-sqlite
 BuildRequires:	python-sip-devel
 BuildRequires:	rpm-pythonprov
+Requires:	python-cssutils
+Requires:	python-lxml
+Requires:	python-mechanize
+Requires:	python-modules-sqlite
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
