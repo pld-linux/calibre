@@ -1,0 +1,22 @@
+--- calibre/setup/install.py~	2010-05-16 05:55:33.000000000 +0200
++++ calibre/setup/install.py	2010-05-20 12:00:42.483014835 +0200
+@@ -91,15 +91,10 @@
+             self.sharedir = self.j(opts.prefix, 'share')
+         if not getattr(opts, 'staging_root', None):
+             opts.staging_root = opts.prefix
+-        self.staging_libdir = getattr(opts, 'staging_libdir', None)
+-        if self.staging_libdir is None:
+-            self.staging_libdir = opts.staging_libdir = self.j(opts.staging_root, 'lib')
+-        self.staging_bindir = getattr(opts, 'staging_bindir', None)
+-        if self.staging_bindir is None:
+-            self.staging_bindir = opts.staging_bindir = self.j(opts.staging_root, 'bin')
+-        self.staging_sharedir = getattr(opts, 'staging_sharedir', None)
+-        if self.staging_sharedir is None:
+-            self.staging_sharedir = opts.staging_sharedir = self.j(opts.staging_root, 'share')
++
++        self.staging_libdir = opts.staging_libdir = self.j(opts.staging_root, 'usr/', 'lib')
++        self.staging_bindir = opts.staging_bindir = self.j(opts.staging_root, 'usr/', 'bin')
++        self.staging_sharedir = opts.staging_sharedir = self.j(opts.staging_root, 'usr/', 'share')
+ 
+         self.staging_libdir = opts.staging_libdir = self.j(self.staging_libdir, 'calibre')
+         self.staging_sharedir = opts.staging_sharedir = self.j(self.staging_sharedir, 'calibre')
