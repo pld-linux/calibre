@@ -25,6 +25,7 @@ Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.bz2
 # Source0-md5:	74f8a83e86820b248eb094bde4f1ab69
 Patch0:		%{name}-prefix.patch
+Patch1:		%{name}-manpages.patch
 URL:		http://www.calibre-ebook.com/
 BuildRequires:	ImageMagick-devel
 BuildRequires:	chmlib-devel
@@ -65,6 +66,7 @@ CBR, CBZ, RTF, TXT, PDF and LRS.
 %prep
 %setup -q -n %{name}
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__python} setup.py build
@@ -76,6 +78,8 @@ rm -rf $RPM_BUILD_ROOT
 	--root=$RPM_BUILD_ROOT \
 	--libdir=%{_libdir}
 
+mv $RPM_BUILD_ROOT%{_datadir}/%{name}/man $RPM_BUILD_ROOT%{_mandir}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -85,3 +89,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/%{name}
 %{_libdir}/%{name}
+%{_mandir}/man1/*.1*
