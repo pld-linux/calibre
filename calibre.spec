@@ -71,7 +71,8 @@ CBR, CBZ, RTF, TXT, PDF and LRS.
 rm -rf $RPM_BUILD_ROOT
 
 %{__python} setup.py install \
-	--root=$RPM_BUILD_ROOT
+	--root=$RPM_BUILD_ROOT \
+	--libdir=%{_libdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT

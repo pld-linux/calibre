@@ -14,7 +14,7 @@
 -        if self.staging_sharedir is None:
 -            self.staging_sharedir = opts.staging_sharedir = self.j(opts.staging_root, 'share')
 +
-+        self.staging_libdir = opts.staging_libdir = self.j(opts.staging_root, 'usr/', 'lib')
++        self.staging_libdir = opts.staging_libdir = opts.staging_root + self.libdir
 +        self.staging_bindir = opts.staging_bindir = self.j(opts.staging_root, 'usr/', 'bin')
 +        self.staging_sharedir = opts.staging_sharedir = self.j(opts.staging_root, 'usr/', 'share')
  
