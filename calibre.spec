@@ -2,7 +2,7 @@ Summary:	-
 Summary(pl.UTF-8):	-
 Name:		calibre
 Version:	0.6.53
-Release:	1
+Release:	0.1
 License:	GPL/LGPL/BSD and other
 Group:		Applications
 Source0:	http://status.calibre-ebook.com/dist/src/%{name}-%{version}.tar.gz
@@ -13,6 +13,7 @@ BuildRequires:	ImageMagick-devel
 BuildRequires:	chmlib-devel
 BuildRequires:	podofo-devel
 BuildRequires:	poppler-Qt-devel
+BuildRequires:	python-BeautifulSoup
 BuildRequires:	python-PyQt4-devel
 BuildRequires:	python-cssutils
 BuildRequires:	python-lxml
