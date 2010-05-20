@@ -23,9 +23,10 @@ Release:	0.1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.bz2
-# Source0-md5:	74f8a83e86820b248eb094bde4f1ab69
+# Source0-md5:	892ba688ecd827d1d3c4cdbc72583e42
 Patch0:		%{name}-prefix.patch
 Patch1:		%{name}-manpages.patch
+Patch2:		%{name}-no-update.patch
 URL:		http://www.calibre-ebook.com/
 BuildRequires:	ImageMagick-devel
 BuildRequires:	chmlib-devel
@@ -67,6 +68,7 @@ CBR, CBZ, RTF, TXT, PDF and LRS.
 %setup -q -n %{name}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__python} setup.py build
