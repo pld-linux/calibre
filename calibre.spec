@@ -6,6 +6,7 @@
 # included as SourceX.
 #
 Summary:	E-book converter and library management
+Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
 Version:	0.6.53
 Release:	0.1
@@ -58,6 +59,19 @@ dozen different ebook formats.
 
 Supported input formats are: MOBI, LIT, PRC, EPUB, CHM, ODT, HTML,
 CBR, CBZ, RTF, TXT, PDF and LRS.
+
+%description -l pl.UTF-8
+Calibre to bardzo dobry i darmowy program do czytania e-książek.
+
+Calibre umożliwia zarówno czytanie e-książek jak i konwersję wielu
+formatów do ich postaci. Program obsługuje następujące typy plików:
+import: LRF, PDF, LIT, RTF, OPF, MOBI, PRC, EPUB, FB2, IMP, RB i HTML
+eksport: Mobi, LRF i EPUB oraz do aplikacji iPhone-reader i Stanza.
+
+Ten czytnik e-książek oferuje również pobieranie okładek, komiksów i
+najnowszych wiadomości z serwisów poświęconym e-książkom. Twórcy
+dołączyli również aplikację, którą użytkownik może wykorzystać jako
+swój własny serwer darmowych książek.
 
 %prep
 %setup -q -n %{name}
