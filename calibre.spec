@@ -18,6 +18,7 @@ Patch0:		%{name}-prefix.patch
 Patch1:		%{name}-manpages.patch
 Patch2:		%{name}-no-update.patch
 Patch3:		%{name}-env_module.patch
+Patch4:		%{name}-locales.patch
 URL:		http://www.calibre-ebook.com/
 BuildRequires:	ImageMagick-devel
 BuildRequires:	chmlib-devel
@@ -33,6 +34,8 @@ BuildRequires:	python-mechanize
 BuildRequires:	python-modules-sqlite
 BuildRequires:	python-sip-devel
 BuildRequires:	rpm-pythonprov
+BuildRequires:	rpmbuild(find_lang) >= 1.23
+BuildRequires:	sed >= 4.0
 BuildRequires:	xdg-utils
 Requires:	python-PIL
 Requires:	python-cssutils
@@ -62,6 +65,7 @@ CBR, CBZ, RTF, TXT, PDF and LRS.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 %{__python} setup.py build
@@ -73,12 +77,31 @@ rm -rf $RPM_BUILD_ROOT
 	--root=$RPM_BUILD_ROOT \
 	--libdir="%{_libdir}"
 
+# move manpages and locales to proper place
 mv $RPM_BUILD_ROOT%{_datadir}/%{name}/man $RPM_BUILD_ROOT%{_mandir}
+mv $RPM_BUILD_ROOT%{_datadir}/%{name}/localization/locales $RPM_BUILD_ROOT%{_datadir}/locale
+
+# set proper filenames for locales (switch to patch if possible)
+for file in $RPM_BUILD_ROOT%{_datadir}/locale/*/LC_MESSAGES/messages.mo; do
+	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
+	mv $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/messages.mo \
+	$RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/%{name}.mo
+done;
+for file in $RPM_BUILD_ROOT%{_datadir}/locale/*/LC_MESSAGES/iso639.mo; do
+	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
+	mv $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/iso639.mo \
+	$RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/%{name}_iso639.mo
+done;
+
+# unsupported?
+rm -f $RPM_BUILD_ROOT%{_datadir}/locale/*/LC_MESSAGES/qt.qm
+
+%find_lang %{name} --all-name
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc COPYRIGHT README
 %attr(755,root,root) %{_bindir}/*
