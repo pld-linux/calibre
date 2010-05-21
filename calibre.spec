@@ -35,7 +35,7 @@ BuildRequires:	python-mechanize
 BuildRequires:	python-modules-sqlite
 BuildRequires:	python-sip-devel
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(find_lang) >= 1.23
+BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	sed >= 4.0
 BuildRequires:	xdg-utils
 Requires:	python-PIL
