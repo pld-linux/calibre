@@ -23,7 +23,7 @@ Release:	0.1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.bz2
-# Source0-md5:	892ba688ecd827d1d3c4cdbc72583e42
+# Source0-md5:	7ed89159bbd97db0d2dcf850bb1dd867
 Patch0:		%{name}-prefix.patch
 Patch1:		%{name}-manpages.patch
 Patch2:		%{name}-no-update.patch
@@ -71,7 +71,8 @@ CBR, CBZ, RTF, TXT, PDF and LRS.
 %patch2 -p1
 
 %build
-%{__python} setup.py build
+%{__python} setup.py build \
+	OVERRIDE_CFLAGS="%{rpmcxxflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
