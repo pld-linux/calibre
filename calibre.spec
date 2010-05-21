@@ -71,15 +71,14 @@ CBR, CBZ, RTF, TXT, PDF and LRS.
 %patch2 -p1
 
 %build
-%{__python} setup.py build \
-	OVERRIDE_CFLAGS="%{rpmcxxflags}"
+%{__python} setup.py build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 %{__python} setup.py install \
 	--root=$RPM_BUILD_ROOT \
-	--libdir=%{_libdir}
+	--libdir="%{_libdir}"
 
 mv $RPM_BUILD_ROOT%{_datadir}/%{name}/man $RPM_BUILD_ROOT%{_mandir}
 
