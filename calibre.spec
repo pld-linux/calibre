@@ -81,7 +81,7 @@ rm -rf $RPM_BUILD_ROOT
 mv $RPM_BUILD_ROOT%{_datadir}/%{name}/man $RPM_BUILD_ROOT%{_mandir}
 mv $RPM_BUILD_ROOT%{_datadir}/%{name}/localization/locales $RPM_BUILD_ROOT%{_datadir}/locale
 
-# set proper filenames for locales (switch to patch if possible)
+# set proper filenames for locales (TODO: switch to patch if possible)
 for file in $RPM_BUILD_ROOT%{_datadir}/locale/*/LC_MESSAGES/messages.mo; do
 	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
 	mv $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/messages.mo \
@@ -95,6 +95,7 @@ done;
 
 # unsupported?
 rm -f $RPM_BUILD_ROOT%{_datadir}/locale/*/LC_MESSAGES/qt.qm
+rm -f $RPM_BUILD_ROOT%{_bindir}/%{name}-uninstall
 
 %find_lang %{name} --all-name
 
