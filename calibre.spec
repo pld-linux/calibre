@@ -106,9 +106,11 @@ for file in $RPM_BUILD_ROOT%{_datadir}/locale/*/LC_MESSAGES/iso639.mo; do
 	mv $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/iso639.mo \
 	$RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/%{name}_iso639.mo
 done;
+for file in $RPM_BUILD_ROOT%{_datadir}/locale/*/LC_MESSAGES/qt.qm; do
+	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
+	mv $file $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/%{name}.$lang.qm
+done;
 
-# unsupported?
-rm -f $RPM_BUILD_ROOT%{_datadir}/locale/*/LC_MESSAGES/qt.qm
 rm -f $RPM_BUILD_ROOT%{_bindir}/%{name}-uninstall
 
 %find_lang %{name} --all-name
@@ -121,5 +123,19 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYRIGHT README
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/%{name}
+%lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/%{name}.ar.qm
+%lang(da) %{_datadir}/locale/da/LC_MESSAGES/%{name}.da.qm
+%lang(de) %{_datadir}/locale/de/LC_MESSAGES/%{name}.de.qm
+%lang(es) %{_datadir}/locale/es/LC_MESSAGES/%{name}.es.qm
+%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/%{name}.fr.qm
+%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/%{name}.pl.qm
+%lang(pt) %{_datadir}/locale/pt/LC_MESSAGES/%{name}.pt.qm
+%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/%{name}.ru.qm
+%lang(sk) %{_datadir}/locale/sk/LC_MESSAGES/%{name}.sk.qm
+%lang(sl) %{_datadir}/locale/sl/LC_MESSAGES/%{name}.sl.qm
+%lang(sv) %{_datadir}/locale/sv/LC_MESSAGES/%{name}.sv.qm
+%lang(uk) %{_datadir}/locale/uk/LC_MESSAGES/%{name}.uk.qm
+%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/%{name}.zh_CN.qm
+%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/%{name}.zh_TW.qm
 %{_libdir}/%{name}
 %{_mandir}/man1/*.1*
