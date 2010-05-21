@@ -2,19 +2,8 @@
 # NOTE:
 # Upstream packages some unfree fonts which we cannot redistribute,
 # so when upgrading calibre we should download upstream tarball by hand from
-# http://downloads.sourceforge.net/calibre and run below script in order
-# to remove them:
-#
-# #!/bin/sh
-#
-# VERSION=$1
-#
-# rm -rf calibre
-# tar -xvzf calibre-$VERSION.tar.gz
-# rm -f calibre/resources/fonts/liberation/*
-# rm -f calibre/resources/fonts/prs500/*
-#
-# tar -cvjf calibre-$VERSION-nofonts.tar.bz2 calibre
+# http://downloads.sourceforge.net/calibre and run generate-tarball.sh script
+# included as SourceX.
 #
 Summary:	E-book converter and library management
 Name:		calibre
@@ -24,6 +13,7 @@ License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.bz2
 # Source0-md5:	7ed89159bbd97db0d2dcf850bb1dd867
+Source1:	generate-tarball.sh
 Patch0:		%{name}-prefix.patch
 Patch1:		%{name}-manpages.patch
 Patch2:		%{name}-no-update.patch
@@ -42,6 +32,7 @@ BuildRequires:	python-mechanize
 BuildRequires:	python-modules-sqlite
 BuildRequires:	python-sip-devel
 BuildRequires:	rpm-pythonprov
+BuildRequires:	xdg-utils
 Requires:	python-PIL
 Requires:	python-cssutils
 Requires:	python-dateutil
