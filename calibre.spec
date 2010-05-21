@@ -17,6 +17,7 @@ Source1:	generate-tarball.sh
 Patch0:		%{name}-prefix.patch
 Patch1:		%{name}-manpages.patch
 Patch2:		%{name}-no-update.patch
+Patch3:		%{name}-env_module.patch
 URL:		http://www.calibre-ebook.com/
 BuildRequires:	ImageMagick-devel
 BuildRequires:	chmlib-devel
@@ -60,6 +61,7 @@ CBR, CBZ, RTF, TXT, PDF and LRS.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %{__python} setup.py build
