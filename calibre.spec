@@ -1,4 +1,6 @@
 #
+# TODO: xdg stuff (desktops, icons)
+#
 # NOTE:
 # Upstream packages some unfree fonts which we cannot redistribute,
 # so when upgrading calibre we should download upstream tarball by hand from
