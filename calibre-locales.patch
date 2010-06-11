@@ -21,3 +21,14 @@
              if os.path.exists(isof):
                  iso639 = open(isof, 'rb')
  
+--- calibre/src/calibre/startup.py~	2010-06-06 22:46:25.000000000 +0200
++++ calibre/src/calibre/startup.py	2010-06-11 20:31:39.644201974 +0200
+@@ -49,7 +49,7 @@
+     # Setup translations
+     from calibre.utils.localization import set_translators
+ 
+-    set_translators()
++    #set_translators()
+ 
+     ################################################################################
+     # Initialize locale
