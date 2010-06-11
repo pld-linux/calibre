@@ -1,5 +1,5 @@
 #
-# TODO: - xdg stuff (desktops, icons)
+# TODO: - xdg stuff (put desktops and icons in proper place)
 #	- fix locales, now only english works
 #
 # NOTE:
@@ -93,7 +93,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__python} setup.py install \
 	--root=$RPM_BUILD_ROOT \
-	--libdir="%{_libdir}"
+	--libdir="%{_libdir}" \
+	XDG_UTILS_INSTALL_MODE="system"
 
 # move manpages and locales to proper place
 mv $RPM_BUILD_ROOT%{_datadir}/%{name}/man $RPM_BUILD_ROOT%{_mandir}
