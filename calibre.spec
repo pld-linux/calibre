@@ -1,6 +1,5 @@
 #
 # TODO: - xdg stuff (put desktops and icons in proper place)
-#	- fix locales, now only english works
 #
 # NOTE:
 # Upstream packages some unfree fonts which we cannot redistribute,
