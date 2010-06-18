@@ -1,6 +1,6 @@
---- calibre/src/calibre/gui2/ui.py~	2010-06-06 22:46:26.000000000 +0200
-+++ calibre/src/calibre/gui2/ui.py	2010-06-11 19:52:30.581117740 +0200
-@@ -266,11 +266,11 @@
+--- calibre/src/calibre/gui2/ui.py~	2010-06-12 00:28:24.000000000 +0200
++++ calibre/src/calibre/gui2/ui.py	2010-06-18 11:35:45.509704767 +0200
+@@ -248,11 +248,11 @@
          self.latest_version = ' '
          self.vanity.setText(self.vanity_template%dict(version=' ', device=' '))
          self.device_info = ' '
@@ -14,6 +14,6 @@
 +        #    self.update_checker.update_found.connect(self.update_found,
 +        #            type=Qt.QueuedConnection)
 +        #    self.update_checker.start()
+ 
          ####################### Status Bar #####################
          self.status_bar.initialize(self.system_tray_icon)
-         self.status_bar.show_book_info.connect(self.show_book_info)
