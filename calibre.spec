@@ -22,6 +22,7 @@ Patch1:		%{name}-manpages.patch
 Patch2:		%{name}-no-update.patch
 Patch3:		%{name}-env_module.patch
 Patch4:		%{name}-locales.patch
+Patch5:		%{name}-mounthelper.patch
 URL:		http://www.calibre-ebook.com/
 BuildRequires:	ImageMagick-devel
 BuildRequires:	chmlib-devel
@@ -83,6 +84,7 @@ swój własny serwer darmowych książek.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 %{__python} setup.py build
