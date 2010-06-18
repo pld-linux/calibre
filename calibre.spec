@@ -11,7 +11,7 @@ Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
 Version:	0.7.2
-Release:	0.1
+Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.bz2
@@ -94,8 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__python} setup.py install \
 	--root=$RPM_BUILD_ROOT \
-	--libdir="%{_libdir}" \
-	XDG_UTILS_INSTALL_MODE="system"
+	--libdir="%{_libdir}"
 
 # move manpages and locales to proper place
 mv $RPM_BUILD_ROOT%{_datadir}/%{name}/man $RPM_BUILD_ROOT%{_mandir}
