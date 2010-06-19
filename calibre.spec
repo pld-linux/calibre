@@ -42,6 +42,7 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	sed >= 4.0
 BuildRequires:	xdg-utils
+Requires:	ImageMagick-coder-jpeg
 Requires:	python-PIL
 Requires:	python-cssutils
 Requires:	python-dateutil
