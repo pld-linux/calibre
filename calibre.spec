@@ -1,5 +1,6 @@
 #
 # TODO: - xdg stuff (put desktops and icons in proper place)
+#	- calibre can be installed only when some locales files are already installed, try to fix it
 #
 # NOTE:
 # Upstream packages some unfree fonts which we cannot redistribute,
@@ -11,7 +12,7 @@ Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
 Version:	0.7.2
-Release:	1
+Release:	0.1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.bz2
