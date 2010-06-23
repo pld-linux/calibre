@@ -1,9 +1,9 @@
---- calibre/src/calibre/gui2/ui.py~	2010-06-12 00:28:24.000000000 +0200
-+++ calibre/src/calibre/gui2/ui.py	2010-06-18 11:35:45.509704767 +0200
-@@ -248,11 +248,11 @@
-         self.latest_version = ' '
-         self.vanity.setText(self.vanity_template%dict(version=' ', device=' '))
-         self.device_info = ' '
+--- calibre/src/calibre/gui2/update.py~	2010-06-20 02:32:33.000000000 +0200
++++ calibre/src/calibre/gui2/update.py	2010-06-23 12:36:15.515849515 +0200
+@@ -40,11 +40,11 @@
+ class UpdateMixin(object):
+ 
+     def __init__(self, opts):
 -        if not opts.no_update_check:
 -            self.update_checker = CheckForUpdates(self)
 -            self.update_checker.update_found.connect(self.update_found,
@@ -15,5 +15,5 @@
 +        #            type=Qt.QueuedConnection)
 +        #    self.update_checker.start()
  
-         ####################### Status Bar #####################
-         self.status_bar.initialize(self.system_tray_icon)
+     def update_found(self, version):
+         os = 'windows' if iswindows else 'osx' if isosx else 'linux'
