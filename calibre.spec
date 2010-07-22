@@ -11,12 +11,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	0.7.8
+Version:	0.7.9
 Release:	0.1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.bz2
-# Source0-md5:	b6d0cf3afc2d6ef927028cd98e13604b
+# Source0-md5:	7e529df6ee1bd3ee7bf0c069b5505eac
 Source1:	generate-tarball.sh
 Patch0:		%{name}-prefix.patch
 Patch1:		%{name}-manpages.patch
@@ -79,6 +79,18 @@ najnowszych wiadomości z serwisów poświęconym e-książkom. Twórcy
 dołączyli również aplikację, którą użytkownik może wykorzystać jako
 swój własny serwer darmowych książek.
 
+%package -n bash-completion-calibre
+Summary:	bash-completion for calibre
+Summary(pl.UTF-8):	bashowe uzupełnianie nazw dla calibre
+Group:		Applications/Shells
+Requires:	%{name} = %{version}-%{release}
+
+%description -n bash-completion-calibre
+bash-completion for calibre.
+
+%description -n bash-completion-calibre -l pl.UTF-8
+Pakiet ten dostarcza bashowe uzupełnianie nazw dla calibre.
+
 %prep
 %setup -q -n %{name}
 %patch0 -p1
@@ -131,10 +143,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/%{name}
 %lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/%{name}.ar.qm
+%lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/%{name}.cs.qm
 %lang(da) %{_datadir}/locale/da/LC_MESSAGES/%{name}.da.qm
 %lang(de) %{_datadir}/locale/de/LC_MESSAGES/%{name}.de.qm
 %lang(es) %{_datadir}/locale/es/LC_MESSAGES/%{name}.es.qm
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/%{name}.fr.qm
+%lang(he) %{_datadir}/locale/he/LC_MESSAGES/%{name}.he.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/%{name}.pl.qm
 %lang(pt) %{_datadir}/locale/pt/LC_MESSAGES/%{name}.pt.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/%{name}.ru.qm
@@ -146,3 +160,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/%{name}.zh_TW.qm
 %{_libdir}/%{name}
 %{_mandir}/man1/*.1*
+
+%files -n bash-completion-calibre
+%defattr(644,root,root,755)
+%{_sysconfdir}/bash_completion.d/*
