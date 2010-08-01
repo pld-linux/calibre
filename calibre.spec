@@ -1,6 +1,5 @@
 #
 # TODO: - xdg stuff (put desktops and icons in proper place)
-#	- calibre can be installed only when some locales files are already installed, try to fix it
 #
 # NOTE:
 # Upstream packages some unfree fonts which we cannot redistribute,
@@ -11,12 +10,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	0.7.10
+Version:	0.7.12
 Release:	0.1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.bz2
-# Source0-md5:	5de205ecb44a10d3104ff19a91af5e5a
+# Source0-md5:	6b58ed740c3680d1441ff6948299ecff
 Source1:	generate-tarball.sh
 Patch0:		%{name}-prefix.patch
 Patch1:		%{name}-manpages.patch
@@ -29,7 +28,6 @@ BuildRequires:	ImageMagick-devel
 BuildRequires:	chmlib-devel
 BuildRequires:	pkgconfig
 BuildRequires:	podofo-devel
-BuildRequires:	poppler-Qt-devel
 BuildRequires:	python-BeautifulSoup
 BuildRequires:	python-PIL
 BuildRequires:	python-PyQt4-devel
