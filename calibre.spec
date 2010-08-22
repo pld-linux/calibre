@@ -11,12 +11,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	0.7.14
+Version:	0.7.15
 Release:	0.1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.bz2
-# Source0-md5:	560dee3aa00a5cc4536dc71fc67df5f2
+# Source0-md5:	f0c2c40a6f494615a40b9913641464d5
 Source1:	generate-tarball.sh
 Patch0:		%{name}-prefix.patch
 Patch1:		%{name}-manpages.patch
@@ -29,6 +29,7 @@ BuildRequires:	ImageMagick-devel
 BuildRequires:	chmlib-devel
 BuildRequires:	pkgconfig
 BuildRequires:	podofo-devel
+BuildRequires:	poppler-Qt-devel
 BuildRequires:	python-BeautifulSoup
 BuildRequires:	python-PIL
 BuildRequires:	python-PyQt4-devel
@@ -160,8 +161,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/%{name}
 %{_mandir}/man1/*.1*
 
-%if 0
 %files -n bash-completion-calibre
 %defattr(644,root,root,755)
 %{_sysconfdir}/bash_completion.d/*
-%endif
