@@ -1,6 +1,5 @@
 #
 # TODO: - xdg stuff (put desktops and icons in proper place)
-#	- fix "TypeError:an integer is required" error (calibre's developers say our QT is responsible)
 #
 # NOTE:
 # Upstream packages some unfree fonts which we cannot redistribute,
@@ -11,12 +10,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	0.7.15
-Release:	0.1
+Version:	0.7.16
+Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.bz2
-# Source0-md5:	f0c2c40a6f494615a40b9913641464d5
+# Source0-md5:	a7d964e36905e37fd966a4728a2ef83f
 Source1:	generate-tarball.sh
 Patch0:		%{name}-prefix.patch
 Patch1:		%{name}-manpages.patch
