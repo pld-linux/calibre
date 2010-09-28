@@ -32,7 +32,7 @@ BuildRequires:	poppler-Qt-devel
 BuildRequires:	python-BeautifulSoup
 BuildRequires:	python-PIL
 BuildRequires:	python-PyQt4-devel
-BuildRequires:	python-cssutils
+BuildRequires:	python-cssutils >= 0.9.7b3
 BuildRequires:	python-dateutil
 BuildRequires:	python-lxml
 BuildRequires:	python-mechanize
