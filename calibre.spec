@@ -24,7 +24,7 @@ Patch3:		%{name}-env_module.patch
 Patch4:		%{name}-locales.patch
 Patch5:		%{name}-mounthelper.patch
 URL:		http://www.calibre-ebook.com/
-BuildRequires:	ImageMagick-devel
+BuildRequires:	ImageMagick-devel >= 6.6.4.7
 BuildRequires:	chmlib-devel
 BuildRequires:	pkgconfig
 BuildRequires:	podofo-devel
