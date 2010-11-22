@@ -10,12 +10,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	0.7.28
+Version:	0.7.29
 Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.bz2
-# Source0-md5:	bb525da6510662d05365101391a43c42
+# Source0-md5:	788c6435ed624e1538000880b923ef13
 Source1:	generate-tarball.sh
 Patch0:		%{name}-prefix.patch
 Patch1:		%{name}-manpages.patch
@@ -148,6 +148,8 @@ rm -rf $RPM_BUILD_ROOT
 %lang(es) %{_datadir}/locale/es/LC_MESSAGES/%{name}.es.qm
 %lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/%{name}.fr.qm
 %lang(he) %{_datadir}/locale/he/LC_MESSAGES/%{name}.he.qm
+%lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/%{name}.hu.qm
+%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/%{name}.ja.qm
 %lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/%{name}.pl.qm
 %lang(pt) %{_datadir}/locale/pt/LC_MESSAGES/%{name}.pt.qm
 %lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/%{name}.ru.qm
