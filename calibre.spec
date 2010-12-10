@@ -10,19 +10,18 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	0.7.31
-Release:	2
+Version:	0.7.32
+Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.bz2
-# Source0-md5:	7ee5f7ef5fe7e50401f5e3f1970d2d6b
+# Source0-md5:	b991d961c9a948e7041c9f0c70d56ba3
 Source1:	generate-tarball.sh
 Patch0:		%{name}-prefix.patch
 Patch1:		%{name}-manpages.patch
 Patch2:		%{name}-no-update.patch
 Patch3:		%{name}-env_module.patch
 Patch4:		%{name}-locales.patch
-Patch5:		%{name}-mounthelper.patch
 URL:		http://www.calibre-ebook.com/
 BuildRequires:	ImageMagick-devel >= 6.6.4.7
 BuildRequires:	chmlib-devel
@@ -97,7 +96,6 @@ Pakiet ten dostarcza bashowe uzupełnianie nazw dla calibre.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
 
 %build
 %{__python} setup.py build
