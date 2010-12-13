@@ -42,6 +42,7 @@ BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	sed >= 4.0
 BuildRequires:	xdg-utils
 Requires:	ImageMagick-coder-jpeg
+Requires:	ImageMagick-coder-png
 Requires:	python-BeautifulSoup
 Requires:	python-PIL
 Requires:	python-cssutils
