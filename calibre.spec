@@ -25,6 +25,7 @@ Patch4:		%{name}-locales.patch
 URL:		http://www.calibre-ebook.com/
 BuildRequires:	ImageMagick-devel >= 6.6.4.7
 BuildRequires:	chmlib-devel
+BuildRequires:	libicu-devel
 BuildRequires:	pkgconfig
 BuildRequires:	podofo-devel
 BuildRequires:	poppler-Qt-devel
@@ -40,6 +41,7 @@ BuildRequires:	python-sip-devel
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	sed >= 4.0
+BuildRequires:	sqlite3-devel
 BuildRequires:	xdg-utils
 Requires:	ImageMagick-coder-jpeg
 Requires:	ImageMagick-coder-png
