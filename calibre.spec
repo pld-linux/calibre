@@ -10,12 +10,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	0.7.34
+Version:	0.7.35
 Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
-Source0:	%{name}-%{version}-nofonts.tar.bz2
-# Source0-md5:	ced1ab0e656b6ce27fffc13f199ca2a9
+Source0:	%{name}-%{version}-nofonts.tar.xz
+# Source0-md5:	0e49023ffac8384597e4c3170eb2fbea
 Source1:	generate-tarball.sh
 Patch0:		%{name}-prefix.patch
 Patch1:		%{name}-manpages.patch
@@ -39,10 +39,12 @@ BuildRequires:	python-mechanize
 BuildRequires:	python-modules-sqlite
 BuildRequires:	python-sip-devel
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.268
+BuildRequires:	rpmbuild(macros) >= 1.586
 BuildRequires:	sed >= 4.0
 BuildRequires:	sqlite3-devel
+BuildRequires:	tar >= 1:1.22
 BuildRequires:	xdg-utils
+BuildRequires:	xz >= 1:4.999.7
 Requires:	ImageMagick-coder-jpeg
 Requires:	ImageMagick-coder-png
 Requires:	python-BeautifulSoup
@@ -140,27 +142,29 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc COPYRIGHT README
-%attr(755,root,root) %{_bindir}/*
+%doc Changelog.yaml COPYRIGHT README
+%attr(755,root,root) %{_bindir}/calibre
+%attr(755,root,root) %{_bindir}/calibre-complete
+%attr(755,root,root) %{_bindir}/calibre-customize
+%attr(755,root,root) %{_bindir}/calibre-debug
+%attr(755,root,root) %{_bindir}/calibre-parallel
+%attr(755,root,root) %{_bindir}/calibre-server
+%attr(755,root,root) %{_bindir}/calibre-smtp
+%attr(755,root,root) %{_bindir}/calibredb
+%attr(755,root,root) %{_bindir}/ebook-convert
+%attr(755,root,root) %{_bindir}/ebook-device
+%attr(755,root,root) %{_bindir}/ebook-meta
+%attr(755,root,root) %{_bindir}/ebook-viewer
+%attr(755,root,root) %{_bindir}/epub-fix
+%attr(755,root,root) %{_bindir}/fetch-ebook-metadata
+%attr(755,root,root) %{_bindir}/librarything
+%attr(755,root,root) %{_bindir}/lrf2lrs
+%attr(755,root,root) %{_bindir}/lrfviewer
+%attr(755,root,root) %{_bindir}/lrs2lrf
+%attr(755,root,root) %{_bindir}/markdown-calibre
+%attr(755,root,root) %{_bindir}/pdfmanipulate
+%attr(755,root,root) %{_bindir}/web2disk
 %{_datadir}/%{name}
-%lang(ar) %{_datadir}/locale/ar/LC_MESSAGES/%{name}.ar.qm
-%lang(cs) %{_datadir}/locale/cs/LC_MESSAGES/%{name}.cs.qm
-%lang(da) %{_datadir}/locale/da/LC_MESSAGES/%{name}.da.qm
-%lang(de) %{_datadir}/locale/de/LC_MESSAGES/%{name}.de.qm
-%lang(es) %{_datadir}/locale/es/LC_MESSAGES/%{name}.es.qm
-%lang(fr) %{_datadir}/locale/fr/LC_MESSAGES/%{name}.fr.qm
-%lang(he) %{_datadir}/locale/he/LC_MESSAGES/%{name}.he.qm
-%lang(hu) %{_datadir}/locale/hu/LC_MESSAGES/%{name}.hu.qm
-%lang(ja) %{_datadir}/locale/ja/LC_MESSAGES/%{name}.ja.qm
-%lang(pl) %{_datadir}/locale/pl/LC_MESSAGES/%{name}.pl.qm
-%lang(pt) %{_datadir}/locale/pt/LC_MESSAGES/%{name}.pt.qm
-%lang(ru) %{_datadir}/locale/ru/LC_MESSAGES/%{name}.ru.qm
-%lang(sk) %{_datadir}/locale/sk/LC_MESSAGES/%{name}.sk.qm
-%lang(sl) %{_datadir}/locale/sl/LC_MESSAGES/%{name}.sl.qm
-%lang(sv) %{_datadir}/locale/sv/LC_MESSAGES/%{name}.sv.qm
-%lang(uk) %{_datadir}/locale/uk/LC_MESSAGES/%{name}.uk.qm
-%lang(zh_CN) %{_datadir}/locale/zh_CN/LC_MESSAGES/%{name}.zh_CN.qm
-%lang(zh_TW) %{_datadir}/locale/zh_TW/LC_MESSAGES/%{name}.zh_TW.qm
 %{_libdir}/%{name}
 %{_mandir}/man1/*.1*
 
