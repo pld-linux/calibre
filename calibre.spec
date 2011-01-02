@@ -11,7 +11,7 @@ Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
 Version:	0.7.36
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
@@ -135,7 +135,7 @@ done;
 
 %{__rm} $RPM_BUILD_ROOT%{_bindir}/%{name}-uninstall
 
-%find_lang %{name} --all-name
+%find_lang %{name} --all-name --with-qm
 
 %clean
 rm -rf $RPM_BUILD_ROOT
