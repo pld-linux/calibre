@@ -10,12 +10,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	0.7.37
+Version:	0.7.38
 Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	ff8f4168fe8bfb60acb8035c41fadfdf
+# Source0-md5:	b06fd699786308a35ed3e2f5bd1d07e6
 Source1:	generate-tarball.sh
 Patch0:		%{name}-prefix.patch
 Patch1:		%{name}-manpages.patch
@@ -32,7 +32,7 @@ BuildRequires:	poppler-Qt-devel
 BuildRequires:	python-BeautifulSoup
 BuildRequires:	python-PIL
 BuildRequires:	python-PyQt4-devel
-BuildRequires:	python-cssutils >= 0.9.7b3
+BuildRequires:	python-cssutils >= 1:0.9.7
 BuildRequires:	python-dateutil
 BuildRequires:	python-lxml
 BuildRequires:	python-mechanize
