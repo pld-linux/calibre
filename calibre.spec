@@ -88,6 +88,7 @@ Summary:	bash-completion for calibre
 Summary(pl.UTF-8):	bashowe uzupełnianie nazw dla calibre
 Group:		Applications/Shells
 Requires:	%{name} = %{version}-%{release}
+Requires:	bash-completion
 
 %description -n bash-completion-calibre
 bash-completion for calibre.
