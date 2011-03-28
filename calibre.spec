@@ -11,17 +11,19 @@ Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
 Version:	0.7.52
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
 # Source0-md5:	2d20153b4b26c6d5330a141768bffaeb
 Source1:	generate-tarball.sh
+Source2:	calibre-mount-helper
 Patch0:		%{name}-prefix.patch
 Patch1:		%{name}-manpages.patch
 Patch2:		%{name}-no-update.patch
 Patch3:		%{name}-env_module.patch
 Patch4:		%{name}-locales.patch
+Patch5:		shebang-python-fix.patch
 URL:		http://www.calibre-ebook.com/
 BuildRequires:	ImageMagick-devel >= 6.6.4.7
 BuildRequires:	chmlib-devel
@@ -103,6 +105,7 @@ Pakiet ten dostarcza bashowe uzupełnianie nazw dla calibre.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 %{__python} setup.py build
@@ -140,6 +143,8 @@ done;
 
 %{__rm} $RPM_BUILD_ROOT%{_bindir}/%{name}-uninstall
 
+install %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}
+
 %find_lang %{name} --all-name --with-qm
 
 %clean
@@ -152,6 +157,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/calibre-complete
 %attr(755,root,root) %{_bindir}/calibre-customize
 %attr(755,root,root) %{_bindir}/calibre-debug
+%attr(755,root,root) %{_bindir}/calibre-mount-helper
 %attr(755,root,root) %{_bindir}/calibre-parallel
 %attr(755,root,root) %{_bindir}/calibre-server
 %attr(755,root,root) %{_bindir}/calibre-smtp
