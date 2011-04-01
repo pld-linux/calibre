@@ -10,14 +10,14 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	0.7.52
-Release:	2
+Version:	0.7.53
+Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	2d20153b4b26c6d5330a141768bffaeb
+# Source0-md5:	aa041c2bc4a20e0fd20ed14cb3949236
 Source1:	generate-tarball.sh
-Source2:	calibre-mount-helper
+Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
 Patch1:		%{name}-manpages.patch
 Patch2:		%{name}-no-update.patch
