@@ -1,37 +1,37 @@
-diff -up calibre/src/calibre/linux.py.manpages calibre/src/calibre/linux.py
---- calibre/src/calibre/linux.py.manpages	2010-04-10 19:34:42.632332811 +0300
-+++ calibre/src/calibre/linux.py	2010-04-10 19:34:50.404207554 +0300
-@@ -339,7 +339,7 @@ class PostInstall:
+diff -Nur calibre.orig/src/calibre/linux.py calibre/src/calibre/linux.py
+--- calibre.orig/src/calibre/linux.py	2011-05-27 10:42:14.000000000 -0600
++++ calibre/src/calibre/linux.py	2011-05-27 20:06:53.461866793 -0600
+@@ -319,7 +319,7 @@
                      continue
                  parser = parser()
                  raw = create_man_page(prog, parser)
--                if isfreebsd:
-+                if isfreebsd or islinux:
+-                if isbsd:
++                if isbsd or islinux:
                      manfile = os.path.join(manpath, prog+'.1')
                  else:
                      manfile = os.path.join(manpath, prog+'.1'+__appname__+'.bz2')
-diff -up calibre/src/calibre/utils/help2man.py.manpages calibre/src/calibre/utils/help2man.py
---- calibre/src/calibre/utils/help2man.py.manpages	2010-04-10 19:30:51.670926847 +0300
-+++ calibre/src/calibre/utils/help2man.py	2010-04-10 19:32:27.842332121 +0300
-@@ -4,7 +4,7 @@ __copyright__ = '2009, Kovid Goyal <kovi
+diff -Nur calibre.orig/src/calibre/utils/help2man.py calibre/src/calibre/utils/help2man.py
+--- calibre.orig/src/calibre/utils/help2man.py	2011-05-27 10:42:14.000000000 -0600
++++ calibre/src/calibre/utils/help2man.py	2011-05-27 20:08:28.314256418 -0600
+@@ -4,7 +4,7 @@
  __docformat__ = 'restructuredtext en'
  
  import time, bz2
--from calibre.constants import isfreebsd
-+from calibre.constants import isfreebsd, islinux
+-from calibre.constants import isbsd
++from calibre.constants import isbsd, islinux
  
  from calibre.constants import __version__, __appname__, __author__
  
-@@ -58,9 +58,7 @@ def create_man_page(prog, parser):
+@@ -58,9 +58,9 @@
      lines = [x if isinstance(x, unicode) else unicode(x, 'utf-8', 'replace') for
              x in lines]
  
--    if not isfreebsd:
+-    if not isbsd:
 -        return  bz2.compress((u'\n'.join(lines)).encode('utf-8'))
 -    else:
-+    if isfreebsd or islinux:
++    if isbsd or islinux:
          return  (u'\n'.join(lines)).encode('utf-8')
--
--
 +    else:
 +        return  bz2.compress((u'\n'.join(lines)).encode('utf-8'))
+ 
+ 
