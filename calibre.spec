@@ -10,20 +10,19 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	0.8.4
-Release:	2
+Version:	0.8.7
+Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	526c7ee7ab7efc27c1ead17fbb48da68
+# Source0-md5:	f6243502d832893845d8f59bc847ce2f
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
 Patch1:		%{name}-manpages.patch
 Patch2:		%{name}-no-update.patch
 Patch3:		%{name}-env_module.patch
-Patch4:		%{name}-locales.patch
-Patch5:		shebang-python-fix.patch
+Patch4:		shebang-python-fix.patch
 URL:		http://www.calibre-ebook.com/
 BuildRequires:	ImageMagick-devel >= 6.6.4.7
 BuildRequires:	chmlib-devel
@@ -106,7 +105,6 @@ Pakiet ten dostarcza bashowe uzupełnianie nazw dla calibre.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
 
 %build
 %{__python} setup.py build
@@ -124,37 +122,15 @@ rm -rf $RPM_BUILD_ROOT
 
 # move manpages and locales to proper place
 mv $RPM_BUILD_ROOT%{_datadir}/%{name}/man $RPM_BUILD_ROOT%{_mandir}
-mv $RPM_BUILD_ROOT%{_datadir}/%{name}/localization/locales $RPM_BUILD_ROOT%{_datadir}/locale
-
-# set proper filenames for locales (TODO: switch to patch if possible)
-for file in $RPM_BUILD_ROOT%{_datadir}/locale/*/LC_MESSAGES/messages.mo; do
-	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
-	mv $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/messages.mo \
-	$RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/%{name}.mo
-done;
-for file in $RPM_BUILD_ROOT%{_datadir}/locale/*/LC_MESSAGES/iso639.mo; do
-	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
-	mv $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/iso639.mo \
-	$RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/%{name}_iso639.mo
-done;
-for file in $RPM_BUILD_ROOT%{_datadir}/locale/*/LC_MESSAGES/qt.qm; do
-	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
-	mv $file $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/%{name}.$lang.qm
-done;
 
 %{__rm} $RPM_BUILD_ROOT%{_bindir}/%{name}-uninstall
 
-# unsupported
-%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/ltg
-
 install %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}
-
-%find_lang %{name} --all-name --with-qm
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files -f %{name}.lang
+%files
 %defattr(644,root,root,755)
 %doc Changelog.yaml COPYRIGHT README
 %attr(755,root,root) %{_bindir}/calibre
@@ -172,7 +148,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/ebook-viewer
 %attr(755,root,root) %{_bindir}/epub-fix
 %attr(755,root,root) %{_bindir}/fetch-ebook-metadata
-%attr(755,root,root) %{_bindir}/librarything
 %attr(755,root,root) %{_bindir}/lrf2lrs
 %attr(755,root,root) %{_bindir}/lrfviewer
 %attr(755,root,root) %{_bindir}/lrs2lrf
