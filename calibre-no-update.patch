@@ -1,11 +1,36 @@
---- calibre/src/calibre/gui2/ui.py~	2010-07-09 23:38:12.000000000 +0200
-+++ calibre/src/calibre/gui2/ui.py	2010-07-14 13:38:25.919379342 +0200
-@@ -204,7 +204,7 @@
-         self.eject_action.triggered.connect(self.device_manager.umount_device)
+diff -uNr calibre.old/src/calibre/gui2/ui.py calibre/src/calibre/gui2/ui.py
+--- calibre.old/src/calibre/gui2/ui.py	2011-06-26 19:51:17.912975862 +0200
++++ calibre/src/calibre/gui2/ui.py	2011-06-26 19:52:21.156346644 +0200
+@@ -647,7 +647,7 @@
+         if write_settings:
+             self.write_settings()
+         self.check_messages_timer.stop()
+-        self.update_checker.terminate()
++        # self.update_checker.terminate()
+         self.listener.close()
+         self.job_manager.server.close()
+         self.job_manager.threaded_server.close()
+diff -uNr calibre.old/src/calibre/gui2/update.py calibre/src/calibre/gui2/update.py
+--- calibre.old/src/calibre/gui2/update.py	2011-06-26 19:51:17.913975852 +0200
++++ calibre/src/calibre/gui2/update.py	2011-06-26 19:56:50.608665533 +0200
+@@ -121,13 +121,13 @@
  
-         #################### Update notification ###################
--        UpdateMixin.__init__(self, opts)
-+        #UpdateMixin.__init__(self, opts)
+ class UpdateMixin(object):
  
-         ####################### Setup Toolbar #####################
-         ToolbarMixin.__init__(self)
+-    def __init__(self, opts):
+-        self.last_newest_calibre_version = NO_CALIBRE_UPDATE
+-        if not opts.no_update_check:
+-            self.update_checker = CheckForUpdates(self)
+-            self.update_checker.update_found.connect(self.update_found,
+-                    type=Qt.QueuedConnection)
+-            self.update_checker.start()
++    #def __init__(self, opts):
++        #self.last_newest_calibre_version = NO_CALIBRE_UPDATE
++        #if not opts.no_update_check:
++        #    self.update_checker = CheckForUpdates(self)
++        #    self.update_checker.update_found.connect(self.update_found,
++        #            type=Qt.QueuedConnection)
++        #    self.update_checker.start()
+ 
+     def recalc_update_label(self, number_of_plugin_updates):
+         self.update_found('%s%s%d'%(self.last_newest_calibre_version, VSEP,
