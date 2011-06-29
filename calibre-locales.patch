@@ -1,0 +1,141 @@
+--- calibre/src/calibre/utils/localization.py~	2011-06-24 20:01:27.000000000 +0200
++++ calibre/src/calibre/utils/localization.py	2011-06-29 10:27:57.620747185 +0200
+@@ -8,7 +8,6 @@
+ 
+ import os, locale, re, cStringIO, cPickle
+ from gettext import GNUTranslations
+-from zipfile import ZipFile
+ 
+ _available_translations = None
+ 
+@@ -50,20 +49,20 @@
+         lang = 'en'
+     return lang
+ 
++def messages_path(lang):
++    return ('/usr/share/locale/%s/LC_MESSAGES'%lang)
++
+ def get_lc_messages_path(lang):
+     hlang = None
+-    if zf_exists():
+-        if lang in available_translations():
+-            hlang = lang
+-        else:
+-            xlang = lang.split('_')[0]
+-            if xlang in available_translations():
+-                hlang = xlang
+-    return hlang
+-
+-def zf_exists():
+-    return os.path.exists(P('localization/locales.zip',
+-                allow_user_override=False))
++    if lang in available_translations():
++        hlang = lang
++    else:
++        xlang = lang.split('_')[0]
++        if xlang in available_translations():
++            hlang = xlang
++    if hlang is not None:
++        return messages_path(hlang)
++    return None
+ 
+ def set_translators():
+     # To test different translations invoke as
+@@ -79,17 +78,12 @@
+ 
+         mpath = get_lc_messages_path(lang)
+         if mpath is not None:
+-            with ZipFile(P('localization/locales.zip',
+-                allow_user_override=False), 'r') as zf:
+-                if buf is None:
+-                    buf = cStringIO.StringIO(zf.read(mpath + '/messages.mo'))
+-                if mpath == 'nds':
+-                    mpath = 'de'
+-                isof = mpath + '/iso639.mo'
+-                try:
+-                    iso639 = cStringIO.StringIO(zf.read(isof))
+-                except:
+-                    pass # No iso639 translations for this lang
++            if buf is None:
++                buf = open(os.path.join(mpath, 'calibre.mo'), 'rb')
++            mpath = mpath.replace(os.sep+'nds'+os.sep, os.sep+'de'+os.sep)
++            isof = os.path.join(mpath, 'calibre_iso639.mo')
++            if os.path.exists(isof):
++                iso639 = open(isof, 'rb')
+ 
+         if buf is not None:
+             t = GNUTranslations(buf)
+--- calibre/src/calibre/translations/dynamic.py~	2011-06-24 20:01:27.000000000 +0200
++++ calibre/src/calibre/translations/dynamic.py	2011-06-29 10:37:52.305747266 +0200
+@@ -5,9 +5,10 @@
+ __license__   = 'GPL v3'
+ __copyright__ = '2008, Marshall T. Vandegrift <llasram@gmail.com>'
+ 
++import os
+ import cStringIO
+ from gettext import GNUTranslations
+-from calibre.utils.localization import get_lc_messages_path, ZipFile
++from calibre.utils.localization import get_lc_messages_path
+ 
+ __all__ = ['translate']
+ 
+@@ -20,15 +21,10 @@
+     else:
+         mpath = get_lc_messages_path(lang)
+         if mpath is not None:
+-            with ZipFile(P('localization/locales.zip',
+-                allow_user_override=False), 'r') as zf:
+-                try:
+-                    buf = cStringIO.StringIO(zf.read(mpath + '/messages.mo'))
+-                except:
+-                    pass
+-                else:
+-                    trans = GNUTranslations(buf)
+-                    _CACHE[lang] = trans
++    	    p = os.path.join(mpath, 'messages.mo')
++	    if os.path.exists(p):
++		trans = GNUTranslations(open(p, 'rb'))
++		_CACHE[lang] = trans
+     if trans is None:
+         return getattr(__builtins__, '_', lambda x: x)(text)
+     return trans.ugettext(text)
+--- calibre/setup/translations.py~	2011-06-24 20:01:27.000000000 +0200
++++ calibre/setup/translations.py	2011-06-29 10:47:26.808247162 +0200
+@@ -85,7 +85,7 @@
+ 
+     def mo_file(self, po_file):
+         locale = os.path.splitext(os.path.basename(po_file))[0]
+-        return locale, os.path.join(self.DEST, locale, 'messages.mo')
++        return locale, os.path.join(self.DEST, locale, 'LC_MESSAGES', 'messages.mo')
+ 
+ 
+     def run(self, opts):
+@@ -94,8 +94,9 @@
+             base = os.path.dirname(dest)
+             if not os.path.exists(base):
+                 os.makedirs(base)
+-            self.info('\tCompiling translations for', locale)
+-            subprocess.check_call(['msgfmt', '-o', dest, f])
++            if self.newer(dest, f):
++                self.info('\tCompiling translations for', locale)
++                subprocess.check_call(['msgfmt', '-o', dest, f])
+             if locale in ('en_GB', 'nds', 'te', 'yi'):
+                 continue
+             pycountry = self.j(sysconfig.get_python_lib(), 'pycountry',
+@@ -122,16 +123,6 @@
+                 shutil.copy2(f, dest)
+ 
+         self.write_stats()
+-        self.freeze_locales()
+-
+-    def freeze_locales(self):
+-        zf = self.DEST + '.zip'
+-        from calibre import CurrentDir
+-        from calibre.utils.zipfile import ZipFile, ZIP_DEFLATED
+-        with ZipFile(zf, 'w', ZIP_DEFLATED) as zf:
+-            with CurrentDir(self.DEST):
+-                zf.add_dir('.')
+-        shutil.rmtree(self.DEST)
+ 
+     @property
+     def stats(self):
