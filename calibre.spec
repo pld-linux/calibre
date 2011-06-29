@@ -11,7 +11,7 @@ Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
 Version:	0.8.7
-Release:	0.1
+Release:	2
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
@@ -109,9 +109,11 @@ Pakiet ten dostarcza bashowe uzupełnianie nazw dla calibre.
 %patch4 -p1
 %patch5 -p1
 
+# upstream decides to store locale files in a single zip file but we prefer separate .mo
 mkdir resources/localization/locales
 unzip resources/localization/locales.zip -d resources/localization/locales
 chmod 755 resources/localization/locales/*
+rm -f resources/localization/locales.zip
 
 %build
 %{__python} setup.py build
@@ -132,6 +134,12 @@ mv $RPM_BUILD_ROOT%{_datadir}/%{name}/man $RPM_BUILD_ROOT%{_mandir}
 mv $RPM_BUILD_ROOT%{_datadir}/%{name}/localization/locales $RPM_BUILD_ROOT%{_datadir}/locale
 
 # set proper filenames for locales (TODO: switch to patch if possible)
+for file in $RPM_BUILD_ROOT%{_datadir}/locale/*; do
+	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\).*:\1:')
+	mkdir $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES
+	mv $RPM_BUILD_ROOT%{_datadir}/locale/$lang/*.mo \
+	$RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES
+done;
 for file in $RPM_BUILD_ROOT%{_datadir}/locale/*/LC_MESSAGES/messages.mo; do
 	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
 	mv $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/messages.mo \
@@ -142,22 +150,21 @@ for file in $RPM_BUILD_ROOT%{_datadir}/locale/*/LC_MESSAGES/iso639.mo; do
 	mv $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/iso639.mo \
 	$RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/%{name}_iso639.mo
 done;
-for file in $RPM_BUILD_ROOT%{_datadir}/locale/*/LC_MESSAGES/qt.qm; do
-	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
-	mv $file $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/%{name}.$lang.qm
-done;
 
 %{__rm} $RPM_BUILD_ROOT%{_bindir}/%{name}-uninstall
 
 # unsupported
 %{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/ltg
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/en_AU
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}
+
+%find_lang %{name} --all-name
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc Changelog.yaml COPYRIGHT README
 %attr(755,root,root) %{_bindir}/calibre
