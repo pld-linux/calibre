@@ -11,7 +11,7 @@ Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
 Version:	0.8.7
-Release:	1
+Release:	0.1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
@@ -22,7 +22,8 @@ Patch0:		%{name}-prefix.patch
 Patch1:		%{name}-manpages.patch
 Patch2:		%{name}-no-update.patch
 Patch3:		%{name}-env_module.patch
-Patch4:		shebang-python-fix.patch
+Patch4:		%{name}-locales.patch
+Patch5:		shebang-python-fix.patch
 URL:		http://www.calibre-ebook.com/
 BuildRequires:	ImageMagick-devel >= 6.6.4.7
 BuildRequires:	chmlib-devel
@@ -45,6 +46,7 @@ BuildRequires:	rpmbuild(macros) >= 1.586
 BuildRequires:	sed >= 4.0
 BuildRequires:	sqlite3-devel
 BuildRequires:	tar >= 1:1.22
+BuildRequires:	unzip
 BuildRequires:	xdg-utils
 BuildRequires:	xz >= 1:4.999.7
 Requires:	ImageMagick-coder-jpeg
@@ -105,6 +107,11 @@ Pakiet ten dostarcza bashowe uzupełnianie nazw dla calibre.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
+
+mkdir resources/localization/locales
+unzip resources/localization/locales.zip -d resources/localization/locales
+chmod 755 resources/localization/locales/*
 
 %build
 %{__python} setup.py build
@@ -122,8 +129,28 @@ rm -rf $RPM_BUILD_ROOT
 
 # move manpages and locales to proper place
 mv $RPM_BUILD_ROOT%{_datadir}/%{name}/man $RPM_BUILD_ROOT%{_mandir}
+mv $RPM_BUILD_ROOT%{_datadir}/%{name}/localization/locales $RPM_BUILD_ROOT%{_datadir}/locale
+
+# set proper filenames for locales (TODO: switch to patch if possible)
+for file in $RPM_BUILD_ROOT%{_datadir}/locale/*/LC_MESSAGES/messages.mo; do
+	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
+	mv $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/messages.mo \
+	$RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/%{name}.mo
+done;
+for file in $RPM_BUILD_ROOT%{_datadir}/locale/*/LC_MESSAGES/iso639.mo; do
+	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
+	mv $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/iso639.mo \
+	$RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/%{name}_iso639.mo
+done;
+for file in $RPM_BUILD_ROOT%{_datadir}/locale/*/LC_MESSAGES/qt.qm; do
+	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
+	mv $file $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/%{name}.$lang.qm
+done;
 
 %{__rm} $RPM_BUILD_ROOT%{_bindir}/%{name}-uninstall
+
+# unsupported
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/ltg
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}
 
