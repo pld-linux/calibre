@@ -1,5 +1,6 @@
 #
 # TODO: - xdg stuff (put desktops and icons in proper place)
+#	- rewrite generate-tarball.sh script to provide locales.zip handling (if needed)
 #
 # NOTE:
 # Upstream packages some unfree fonts which we cannot redistribute,
