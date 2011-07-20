@@ -118,6 +118,10 @@ chmod 755 resources/localization/locales/*
 rm -f resources/localization/locales.zip
 
 %build
+CC=%{__cc} \
+CXX=%{__cxx} \
+OVERRIDE_CFLAGS="%{rpmcflags}" \
+OVERRIDE_LDFLAGS="%{rpmldflags}" \
 %{__python} setup.py build
 
 %install
