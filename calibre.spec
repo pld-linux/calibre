@@ -111,6 +111,9 @@ Pakiet ten dostarcza bashowe uzupełnianie nazw dla calibre.
 %patch4 -p1
 %patch5 -p1
 
+# 64bit target build fix
+%{__sed} -i -e "s!'/usr/lib'!'%{_libdir}'!g" setup/build_environment.py
+
 # upstream decides to store locale files in a single zip file but we prefer separate .mo
 mkdir resources/localization/locales
 unzip resources/localization/locales.zip -d resources/localization/locales
