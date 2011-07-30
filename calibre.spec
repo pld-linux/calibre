@@ -51,8 +51,6 @@ BuildRequires:	tar >= 1:1.22
 BuildRequires:	unzip
 BuildRequires:	xdg-utils
 BuildRequires:	xz >= 1:4.999.7
-Requires:	ImageMagick-coder-jpeg
-Requires:	ImageMagick-coder-png
 Requires:	python-BeautifulSoup
 Requires:	python-PIL
 Requires:	python-cssutils
@@ -60,6 +58,9 @@ Requires:	python-dateutil
 Requires:	python-lxml
 Requires:	python-mechanize
 Requires:	python-modules-sqlite
+Suggests:	ImageMagick-coder-jpeg
+Suggests:	ImageMagick-coder-png
+Suggests:	poppler-progs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
