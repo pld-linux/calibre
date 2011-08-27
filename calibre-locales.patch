@@ -99,9 +99,9 @@
      if trans is None:
          return getattr(__builtins__, '_', lambda x: x)(text)
      return trans.ugettext(text)
---- calibre/setup/translations.py.orig	2011-07-15 18:54:35.000000000 +0200
-+++ calibre/setup/translations.py	2011-07-18 13:57:58.791853837 +0200
-@@ -132,7 +132,7 @@
+--- calibre/setup/translations.py.orig	2011-08-26 18:36:51.000000000 +0200
++++ calibre/setup/translations.py	2011-08-27 12:55:49.997229244 +0200
+@@ -131,7 +131,7 @@
  
      def mo_file(self, po_file):
          locale = os.path.splitext(os.path.basename(po_file))[0]
@@ -110,7 +110,7 @@
  
      def run(self, opts):
          for f in self.po_files():
-@@ -140,8 +140,9 @@
+@@ -139,8 +139,9 @@
              base = os.path.dirname(dest)
              if not os.path.exists(base):
                  os.makedirs(base)
@@ -119,11 +119,11 @@
 +            if self.newer(dest, f):
 +                self.info('\tCompiling translations for', locale)
 +                subprocess.check_call(['msgfmt', '-o', dest, f])
-             if locale in ('en_GB', 'en_CA', 'en_AU', 'si', 'ur', 'sc', 'ltg', 'nds', 'te', 'yi'):
-                 continue
-             pycountry = self.j(sysconfig.get_python_lib(), 'pycountry',
-@@ -157,16 +158,6 @@
-                 '\nDo you have pycountry installed?')
+             iscpo = {'bn':'bn_IN', 'zh_HK':'zh_CN'}.get(locale, locale)
+             iso639 = self.j(self.d(self.SRC), 'setup', 'iso_639',
+                     '%s.po'%iscpo)
+@@ -155,16 +156,6 @@
+                 self.warn('No ISO 639 translations for locale:', locale)
  
          self.write_stats()
 -        self.freeze_locales()
