@@ -54,6 +54,7 @@ BuildRequires:	xdg-utils
 BuildRequires:	xz >= 1:4.999.7
 Requires:	python-BeautifulSoup
 Requires:	python-PIL
+Requires:	python-PyQt4
 Requires:	python-cssutils
 Requires:	python-dateutil
 Requires:	python-lxml
