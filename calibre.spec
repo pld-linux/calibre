@@ -62,6 +62,8 @@ Requires:	python-mechanize
 Requires:	python-modules-sqlite
 Suggests:	ImageMagick-coder-jpeg
 Suggests:	ImageMagick-coder-png
+### FIXME: libunrar.so is needed for rar-packed files
+Suggests:	libunrar-devel
 Suggests:	poppler-progs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
