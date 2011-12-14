@@ -2,7 +2,7 @@
 
 VERSION=$1
 
-tar -xvzf calibre-$VERSION.tar.gz
+tar -xvJf calibre-$VERSION.tar.xz
 rm -f calibre/resources/fonts/liberation/*
 rm -f calibre/resources/fonts/prs500/*
 
