@@ -2,6 +2,7 @@
 # TODO: - xdg stuff (put desktops and icons in proper place)
 #	- rewrite generate-tarball.sh script to provide locales.zip handling (if needed)
 #	- make separate server package with init-scripts, etc...
+#	- -locales.patch needs love
 #
 # NOTE:
 # Upstream packages some unfree fonts which we cannot redistribute,
