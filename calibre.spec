@@ -13,12 +13,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	0.8.36
+Version:	0.8.38
 Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	04448d32c2cf19de54a02f4e218d5975
+# Source0-md5:	34d70d70836b32bb13bc7d736a9367cf
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
@@ -127,7 +127,7 @@ chmod 755 resources/localization/locales/*
 rm -f resources/localization/locales.zip
 
 %build
-CC=%{__cc} \
+CC="%{__cc}" \
 CXX=%{__cxx} \
 OVERRIDE_CFLAGS="%{rpmcflags}" \
 OVERRIDE_LDFLAGS="%{rpmldflags}" \
