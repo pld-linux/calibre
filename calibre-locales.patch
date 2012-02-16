@@ -4,8 +4,8 @@
          lang = 'en'
      return lang
  
-+    def messages_path(lang):
-+        return ('/usr/share/locale/%s/LC_MESSAGES'%lang)
++def messages_path(lang):
++    return ('/usr/share/locale/%s/LC_MESSAGES'%lang)
 +
  def get_lc_messages_path(lang):
      hlang = None
