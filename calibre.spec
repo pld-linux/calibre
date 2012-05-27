@@ -13,20 +13,21 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	0.8.39
-Release:	2
+Version:	0.8.53
+Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	584549a7d76004131aeb36ec7d62439e
+# Source0-md5:	78785f551169af48f7334785cd1c6d2e
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
-Patch1:		%{name}-manpages.patch
+
 Patch2:		%{name}-no-update.patch
 Patch3:		%{name}-env_module.patch
 Patch4:		%{name}-locales.patch
 Patch5:		shebang-python-fix.patch
+Patch6:		calibre-0.8.21-poppler.patch
 URL:		http://www.calibre-ebook.com/
 BuildRequires:	ImageMagick-devel >= 6.6.4.7
 BuildRequires:	chmlib-devel
@@ -111,11 +112,12 @@ Pakiet ten dostarcza bashowe uzupełnianie nazw dla calibre.
 %prep
 %setup -q -n %{name}
 %patch0 -p1
-%patch1 -p1
+
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 # 64bit target build fix
 %{__sed} -i -e "s!'/usr/lib'!'%{_libdir}'!g" setup/build_environment.py
@@ -144,8 +146,6 @@ rm -rf $RPM_BUILD_ROOT
 %py_comp $RPM_BUILD_ROOT%{_libdir}/%{name}
 %py_postclean %{_libdir}/%{name}
 
-# move manpages and locales to proper place
-mv $RPM_BUILD_ROOT%{_datadir}/%{name}/man $RPM_BUILD_ROOT%{_mandir}
 mv $RPM_BUILD_ROOT%{_datadir}/%{name}/localization/locales $RPM_BUILD_ROOT%{_datadir}/locale
 
 # set proper filenames for locales (TODO: switch to patch if possible)
@@ -205,7 +205,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/web2disk
 %{_datadir}/%{name}
 %{_libdir}/%{name}
-%{_mandir}/man1/*.1*
 
 %files -n bash-completion-calibre
 %defattr(644,root,root,755)
