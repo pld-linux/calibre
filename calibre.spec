@@ -35,6 +35,7 @@ BuildRequires:	libicu-devel
 BuildRequires:	pkgconfig
 BuildRequires:	podofo-devel
 BuildRequires:	poppler-Qt-devel
+BuildRequires:	poppler-glib-devel
 BuildRequires:	python-BeautifulSoup
 BuildRequires:	python-PIL
 BuildRequires:	python-PyQt4-devel
