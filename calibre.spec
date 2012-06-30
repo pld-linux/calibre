@@ -138,7 +138,12 @@ OVERRIDE_LDFLAGS="%{rpmldflags}" \
 
 %install
 rm -rf $RPM_BUILD_ROOT
+# create directories for xdg-utils
+install -d $RPM_BUILD_ROOT%{_datadir}/{icons/hicolor,packages,mime/packages,applications,desktop-directories}
 
+XDG_DATA_DIRS="$RPM_BUILD_ROOT%{_datadir}" \
+XDG_UTILS_INSTALL_MODE="system" \
+LIBPATH="%{_libdir}" \
 %{__python} setup.py install \
 	--root=$RPM_BUILD_ROOT \
 	--libdir="%{_libdir}"
