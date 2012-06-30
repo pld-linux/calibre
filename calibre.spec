@@ -12,21 +12,19 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	0.8.53
-Release:	6
+Version:	0.8.58
+Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	78785f551169af48f7334785cd1c6d2e
+# Source0-md5:	a431cc15339f345068ad89505070c6b2
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
-
-Patch2:		%{name}-no-update.patch
-Patch3:		%{name}-env_module.patch
-Patch4:		%{name}-locales.patch
-Patch5:		shebang-python-fix.patch
-Patch6:		%{name}-0.8.21-poppler.patch
+Patch1:		%{name}-no-update.patch
+Patch2:		%{name}-env_module.patch
+Patch3:		%{name}-locales.patch
+Patch4:		shebang-python-fix.patch
 URL:		http://www.calibre-ebook.com/
 BuildRequires:	ImageMagick-devel >= 6.6.4.7
 BuildRequires:	chmlib-devel
@@ -112,12 +110,10 @@ Pakiet ten dostarcza bashowe uzupełnianie nazw dla calibre.
 %prep
 %setup -q -n %{name}
 %patch0 -p1
-
+%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
-%patch6 -p1
 
 # 64bit target build fix
 %{__sed} -i -e "s!'/usr/lib'!'%{_libdir}'!g" setup/build_environment.py
