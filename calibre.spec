@@ -1,6 +1,5 @@
 #
-# TODO: - xdg stuff (put desktops and icons in proper place)
-#	- rewrite generate-tarball.sh script to provide locales.zip handling (if needed)
+# TODO: - rewrite generate-tarball.sh script to provide locales.zip handling (if needed)
 #	- make separate server package with init-scripts, etc...
 #	- -locales.patch needs love
 #
@@ -14,7 +13,7 @@ Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
 Version:	0.8.53
-Release:	5
+Release:	6
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
@@ -27,7 +26,7 @@ Patch2:		%{name}-no-update.patch
 Patch3:		%{name}-env_module.patch
 Patch4:		%{name}-locales.patch
 Patch5:		shebang-python-fix.patch
-Patch6:		calibre-0.8.21-poppler.patch
+Patch6:		%{name}-0.8.21-poppler.patch
 URL:		http://www.calibre-ebook.com/
 BuildRequires:	ImageMagick-devel >= 6.6.4.7
 BuildRequires:	chmlib-devel
@@ -139,7 +138,8 @@ OVERRIDE_LDFLAGS="%{rpmldflags}" \
 %install
 rm -rf $RPM_BUILD_ROOT
 # create directories for xdg-utils
-install -d $RPM_BUILD_ROOT%{_datadir}/{icons/hicolor,packages,mime/packages,applications,desktop-directories}
+install -d $RPM_BUILD_ROOT%{_datadir}/{icons/hicolor,packages,mime/packages,desktop-directories} \
+	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
 
 XDG_DATA_DIRS="$RPM_BUILD_ROOT%{_datadir}" \
 XDG_UTILS_INSTALL_MODE="system" \
@@ -148,35 +148,40 @@ LIBPATH="%{_libdir}" \
 	--root=$RPM_BUILD_ROOT \
 	--libdir="%{_libdir}"
 
+cp -p resources/images/library.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}-gui.png
+cp -p resources/images/viewer.png $RPM_BUILD_ROOT%{_pixmapsdir}/calibre-viewer.png
+
+mv $RPM_BUILD_ROOT%{_datadir}/mime/packages/calibre-mimetypes{,.xml}
+
 %py_ocomp $RPM_BUILD_ROOT%{_libdir}/%{name}
 %py_comp $RPM_BUILD_ROOT%{_libdir}/%{name}
 %py_postclean %{_libdir}/%{name}
 
-mv $RPM_BUILD_ROOT%{_datadir}/%{name}/localization/locales $RPM_BUILD_ROOT%{_datadir}/locale
+mv $RPM_BUILD_ROOT%{_datadir}/%{name}/localization/locales $RPM_BUILD_ROOT%{_localedir}
 
 # set proper filenames for locales (TODO: switch to patch if possible)
-for file in $RPM_BUILD_ROOT%{_datadir}/locale/*; do
+for file in $RPM_BUILD_ROOT%{_localedir}/*; do
 	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\).*:\1:')
-	mkdir $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES
-	mv $RPM_BUILD_ROOT%{_datadir}/locale/$lang/*.mo \
-	$RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES
+	mkdir $RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES
+	mv $RPM_BUILD_ROOT%{_localedir}/$lang/*.mo \
+	$RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES
 done;
-for file in $RPM_BUILD_ROOT%{_datadir}/locale/*/LC_MESSAGES/messages.mo; do
+for file in $RPM_BUILD_ROOT%{_localedir}/*/LC_MESSAGES/messages.mo; do
 	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
-	mv $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/messages.mo \
-	$RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/%{name}.mo
+	mv $RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/messages.mo \
+	$RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/%{name}.mo
 done;
-for file in $RPM_BUILD_ROOT%{_datadir}/locale/*/LC_MESSAGES/iso639.mo; do
+for file in $RPM_BUILD_ROOT%{_localedir}/*/LC_MESSAGES/iso639.mo; do
 	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
-	mv $RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/iso639.mo \
-	$RPM_BUILD_ROOT%{_datadir}/locale/$lang/LC_MESSAGES/%{name}_iso639.mo
+	mv $RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/iso639.mo \
+	$RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/%{name}_iso639.mo
 done;
 
 %{__rm} $RPM_BUILD_ROOT%{_bindir}/%{name}-uninstall
 
 # unsupported
-%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/ltg
-%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/en_AU
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/ltg
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/en_AU
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}
 
@@ -184,6 +189,18 @@ install %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+%update_desktop_database
+%update_mime_database
+%update_icon_cache hicolor
+
+%postun
+if [ $1 -eq 0 ] ; then
+	%update_desktop_database
+	%update_mime_database
+	%update_icon_cache hicolor
+fi
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
@@ -211,6 +228,18 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/web2disk
 %{_datadir}/%{name}
 %{_libdir}/%{name}
+%{_desktopdir}/calibre-ebook-viewer.desktop
+%{_desktopdir}/calibre-gui.desktop
+%{_desktopdir}/calibre-lrfviewer.desktop
+%{_iconsdir}/hicolor/128x128/apps/calibre-gui.png
+%{_iconsdir}/hicolor/128x128/apps/calibre-viewer.png
+%{_iconsdir}/hicolor/128x128/mimetypes/application-lrf.png
+%{_iconsdir}/hicolor/128x128/mimetypes/gnome-mime-application-lrf.png
+%{_iconsdir}/hicolor/128x128/mimetypes/gnome-mime-text-lrs.png
+%{_iconsdir}/hicolor/128x128/mimetypes/text-lrs.png
+%{_datadir}/mime/packages/calibre-mimetypes.xml
+%{_pixmapsdir}/%{name}-gui.png
+%{_pixmapsdir}/calibre-viewer.png
 
 %files -n bash-completion-calibre
 %defattr(644,root,root,755)
