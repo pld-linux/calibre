@@ -12,8 +12,8 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	0.8.58
-Release:	2
+Version:	0.9.4
+Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
@@ -27,12 +27,16 @@ Patch3:		%{name}-locales.patch
 Patch4:		shebang-python-fix.patch
 URL:		http://www.calibre-ebook.com/
 BuildRequires:	ImageMagick-devel >= 6.6.4.7
-BuildRequires:	chmlib-devel
+BuildRequires:	QtGui-devel
+BuildRequires:	QtSvg-devel
+BuildRequires:	chmlib-devel >= 0.40
 BuildRequires:	libicu-devel
+BuildRequires:	libmtp-devel >= 1.1.5
+BuildRequires:	libwmf-devel >= 0.2.8
 BuildRequires:	pkgconfig
-BuildRequires:	podofo-devel
-BuildRequires:	poppler-Qt-devel
-BuildRequires:	poppler-glib-devel
+BuildRequires:	podofo-devel >= 0.8.2
+BuildRequires:	poppler-Qt-devel >= 0.20.2
+BuildRequires:	poppler-glib-devel >= 0.20.2
 BuildRequires:	python-BeautifulSoup
 BuildRequires:	python-PIL
 BuildRequires:	python-PyQt4-devel
@@ -52,14 +56,19 @@ BuildRequires:	tar >= 1:1.22
 BuildRequires:	unzip
 BuildRequires:	xdg-utils
 BuildRequires:	xz >= 1:4.999.7
-Requires:	python-BeautifulSoup
-Requires:	python-PIL
-Requires:	python-PyQt4
+Requires:	python-BeautifulSoup >= 3.0.5
+Requires:	python-PIL >= 1.1.6
+Requires:	python-PyQt4 >= 4.9.1
+Requires:	python-cssselect >= 0.7.1
 Requires:	python-cssutils >= 1:0.9.9
-Requires:	python-dateutil
-Requires:	python-lxml
-Requires:	python-mechanize
+Requires:	python-dateutil >= 1.4.1
+Requires:	python-dns >= 1.6.0
+Requires:	python-genshi
+Requires:	python-lxml >= 2.2.1
+Requires:	python-mechanize >= 0.1.11
 Requires:	python-modules-sqlite
+Requires:	python-netifaces >= 0.8
+Requires:	python-psutil >= 0.6.1
 Suggests:	ImageMagick-coder-jpeg
 Suggests:	ImageMagick-coder-png
 ### FIXME: libunrar.so is needed for rar-packed files
@@ -147,8 +156,6 @@ LIBPATH="%{_libdir}" \
 cp -p resources/images/library.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}-gui.png
 cp -p resources/images/viewer.png $RPM_BUILD_ROOT%{_pixmapsdir}/calibre-viewer.png
 
-mv $RPM_BUILD_ROOT%{_datadir}/mime/packages/calibre-mimetypes{,.xml}
-
 %py_ocomp $RPM_BUILD_ROOT%{_libdir}/%{name}
 %py_comp $RPM_BUILD_ROOT%{_libdir}/%{name}
 %py_postclean %{_libdir}/%{name}
@@ -176,6 +183,8 @@ done;
 %{__rm} $RPM_BUILD_ROOT%{_bindir}/%{name}-uninstall
 
 # unsupported
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/ber
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/jv
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/ltg
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/en_AU
 
@@ -220,19 +229,13 @@ fi
 %attr(755,root,root) %{_bindir}/lrfviewer
 %attr(755,root,root) %{_bindir}/lrs2lrf
 %attr(755,root,root) %{_bindir}/markdown-calibre
-%attr(755,root,root) %{_bindir}/pdfmanipulate
 %attr(755,root,root) %{_bindir}/web2disk
 %{_datadir}/%{name}
 %{_libdir}/%{name}
 %{_desktopdir}/calibre-ebook-viewer.desktop
 %{_desktopdir}/calibre-gui.desktop
 %{_desktopdir}/calibre-lrfviewer.desktop
-%{_iconsdir}/hicolor/128x128/apps/calibre-gui.png
-%{_iconsdir}/hicolor/128x128/apps/calibre-viewer.png
-%{_iconsdir}/hicolor/128x128/mimetypes/application-lrf.png
-%{_iconsdir}/hicolor/128x128/mimetypes/gnome-mime-application-lrf.png
-%{_iconsdir}/hicolor/128x128/mimetypes/gnome-mime-text-lrs.png
-%{_iconsdir}/hicolor/128x128/mimetypes/text-lrs.png
+%{_iconsdir}/hicolor/*/*/*.png
 %{_datadir}/mime/packages/calibre-mimetypes.xml
 %{_pixmapsdir}/%{name}-gui.png
 %{_pixmapsdir}/calibre-viewer.png

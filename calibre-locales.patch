@@ -1,6 +1,6 @@
---- calibre/src/calibre/utils/localization.py~	2012-01-13 05:32:13.000000000 +0100
-+++ calibre/src/calibre/utils/localization.py	2012-01-17 09:35:01.311333439 +0100
-@@ -49,20 +49,20 @@
+--- calibre/src/calibre/utils/localization.py.old	2012-10-28 22:07:25.481983550 +0100
++++ calibre/src/calibre/utils/localization.py	2012-10-28 22:12:17.250402847 +0100
+@@ -73,20 +73,20 @@ def get_lang():
          lang = 'en'
      return lang
  
@@ -13,7 +13,7 @@
 -        if lang in available_translations():
 -            hlang = lang
 -        else:
--            xlang = lang.split('_')[0]
+-            xlang = lang.split('_')[0].lower()
 -            if xlang in available_translations():
 -                hlang = xlang
 -    return hlang
@@ -33,7 +33,7 @@
  
  def set_translators():
      # To test different translations invoke as
-@@ -84,18 +84,12 @@
+@@ -110,18 +110,12 @@ def set_translators():
                  buf = cStringIO.StringIO(buf.getvalue())
  
          if mpath is not None:
@@ -56,8 +56,8 @@
 +            if os.path.exists(isof):
 +                iso639 = open(isof, 'rb')
  
-         t = None
          if buf is not None:
+             t = GNUTranslations(buf)
 --- calibre/src/calibre/translations/dynamic.py.orig    2012-01-13 05:32:13.000000000 +0100
 +++ calibre/src/calibre/translations/dynamic.py 2012-01-17 09:37:53.594649557 +0100
 @@ -5,10 +5,10 @@
