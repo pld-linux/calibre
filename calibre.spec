@@ -12,12 +12,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	0.9.6
-Release:	2
+Version:	0.9.35
+Release:	0.1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	ff267abb7de29866f7f5565ce10e2b7b
+# Source0-md5:	587fe0f85603067c0f11f0e3318fa3c6
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
@@ -48,6 +48,7 @@ BuildRequires:	python-lxml
 BuildRequires:	python-mechanize
 BuildRequires:	python-modules-sqlite
 BuildRequires:	python-sip-devel
+BuildRequires:	qt4-devel-private
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.586
 BuildRequires:	sed >= 4.0
@@ -136,7 +137,7 @@ rm -f resources/localization/locales.zip
 %build
 CC="%{__cc}" \
 CXX=%{__cxx} \
-OVERRIDE_CFLAGS="%{rpmcflags}" \
+OVERRIDE_CFLAGS="%{rpmcflags} -I/usr/include/qt4/private" \
 OVERRIDE_LDFLAGS="%{rpmldflags}" \
 %{__python} setup.py build
 
