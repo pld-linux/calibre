@@ -1,0 +1,31 @@
+--- calibre/setup/build_environment.py~	2013-06-14 14:05:26.545918167 +0200
++++ calibre/setup/build_environment.py	2013-06-14 14:08:05.417786156 +0200
+@@ -148,7 +148,7 @@
+     # Include directories
+     png_inc_dirs = pkgconfig_include_dirs('libpng', 'PNG_INC_DIR',
+         '/usr/include')
+-    magick_inc_dirs = pkgconfig_include_dirs('MagickWand', 'MAGICK_INC', '/usr/include/ImageMagick')
++    magick_inc_dirs = pkgconfig_include_dirs('MagickWand', 'MAGICK_INC', '/usr/include/ImageMagick-6')
+ 
+     # Library directories
+     png_lib_dirs = pkgconfig_lib_dirs('libpng', 'PNG_LIB_DIR', '/usr/lib64')
+--- calibre/src/calibre/utils/magick/generate.py~	2013-06-14 04:43:40.000000000 +0200
++++ calibre/src/calibre/utils/magick/generate.py	2013-06-14 14:08:45.158252817 +0200
+@@ -7,7 +7,7 @@
+ 
+ import os, textwrap, re, subprocess
+ 
+-INC = '/usr/include/ImageMagick'
++INC = '/usr/include/ImageMagick-6'
+ 
+ '''
+ Various constants defined in the ImageMagick header files. Note that
+@@ -42,7 +42,7 @@
+     '''%const
+     with open('/tmp/ig.c','wb') as f:
+         f.write(t)
+-    subprocess.check_call(['gcc', '-I/usr/include/ImageMagick', '/tmp/ig.c', '-o', '/tmp/ig', '-lMagickWand'])
++    subprocess.check_call(['gcc', '-I/usr/include/ImageMagick-6', '/tmp/ig.c', '-o', '/tmp/ig', '-lMagickWand'])
+     return int(subprocess.Popen(["/tmp/ig"],
+         stdout=subprocess.PIPE).communicate()[0].strip())
+ 

@@ -1,0 +1,11 @@
+--- calibre/setup/build_environment.py~	2013-06-14 14:10:30.722824622 +0200
++++ calibre/setup/build_environment.py	2013-06-14 14:15:07.539397931 +0200
+@@ -82,7 +82,7 @@
+ pyqt = pyqtconfig.Configuration()
+ 
+ qt_inc = pyqt.qt_inc_dir
+-qt_private_inc = []
++qt_private_inc = [ '/usr/include/qt4/private/include/QtGui', '/usr/include/qt4/private/include/QtCore' ]
+ qt_lib = pyqt.qt_lib_dir
+ ft_lib_dirs = []
+ ft_libs = []

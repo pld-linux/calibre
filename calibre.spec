@@ -13,7 +13,7 @@ Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
 Version:	0.9.35
-Release:	0.1
+Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
@@ -25,6 +25,8 @@ Patch1:		%{name}-no-update.patch
 Patch2:		%{name}-env_module.patch
 Patch3:		%{name}-locales.patch
 Patch4:		shebang-python-fix.patch
+Patch5:		imagemagick-6.8.patch
+Patch6:		qt4-private.patch
 URL:		http://www.calibre-ebook.com/
 BuildRequires:	ImageMagick-devel >= 6.6.4.7
 BuildRequires:	QtGui-devel
@@ -124,6 +126,8 @@ Pakiet ten dostarcza bashowe uzupełnianie nazw dla calibre.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 # 64bit target build fix
 %{__sed} -i -e "s!'/usr/lib'!'%{_libdir}'!g" setup/build_environment.py
@@ -137,7 +141,7 @@ rm -f resources/localization/locales.zip
 %build
 CC="%{__cc}" \
 CXX=%{__cxx} \
-OVERRIDE_CFLAGS="%{rpmcflags} -I/usr/include/qt4/private" \
+OVERRIDE_CFLAGS="%{rpmcflags}" \
 OVERRIDE_LDFLAGS="%{rpmldflags}" \
 %{__python} setup.py build
 
@@ -210,7 +214,7 @@ fi
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc Changelog.yaml COPYRIGHT README
+%doc Changelog.yaml COPYRIGHT README.md
 %attr(755,root,root) %{_bindir}/calibre
 %attr(755,root,root) %{_bindir}/calibre-complete
 %attr(755,root,root) %{_bindir}/calibre-customize
@@ -223,8 +227,8 @@ fi
 %attr(755,root,root) %{_bindir}/ebook-convert
 %attr(755,root,root) %{_bindir}/ebook-device
 %attr(755,root,root) %{_bindir}/ebook-meta
+%attr(755,root,root) %{_bindir}/ebook-polish
 %attr(755,root,root) %{_bindir}/ebook-viewer
-%attr(755,root,root) %{_bindir}/epub-fix
 %attr(755,root,root) %{_bindir}/fetch-ebook-metadata
 %attr(755,root,root) %{_bindir}/lrf2lrs
 %attr(755,root,root) %{_bindir}/lrfviewer
@@ -237,6 +241,7 @@ fi
 %{_desktopdir}/calibre-gui.desktop
 %{_desktopdir}/calibre-lrfviewer.desktop
 %{_iconsdir}/hicolor/*/*/*.png
+%{_datadir}/mime/application/*.xml
 %{_datadir}/mime/packages/calibre-mimetypes.xml
 %{_pixmapsdir}/%{name}-gui.png
 %{_pixmapsdir}/calibre-viewer.png
