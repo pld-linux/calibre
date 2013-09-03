@@ -29,6 +29,8 @@ Patch5:		imagemagick-6.8.patch
 Patch6:		qt4-private.patch
 URL:		http://www.calibre-ebook.com/
 BuildRequires:	ImageMagick-devel >= 6.6.4.7
+BuildRequires:	QtCore-devel
+BuildRequires:	QtDBus-devel
 BuildRequires:	QtGui-devel
 BuildRequires:	QtSvg-devel
 BuildRequires:	chmlib-devel >= 0.40
