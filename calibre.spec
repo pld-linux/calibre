@@ -12,12 +12,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	0.9.44
+Version:	1.1.0
 Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	80e0080bdc286e315a4a8d663e5bfed0
+# Source0-md5:	433058a748441237f42cc78e4fceeaff
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
@@ -62,6 +62,7 @@ BuildRequires:	xz >= 1:4.999.7
 Requires:	python-BeautifulSoup >= 3.0.5
 Requires:	python-PIL >= 1.1.6
 Requires:	python-PyQt4 >= 4.9.1
+Requires:	python-apsw
 Requires:	python-cssselect >= 0.7.1
 Requires:	python-cssutils >= 1:0.9.9
 Requires:	python-dateutil >= 1.4.1
@@ -77,6 +78,7 @@ Suggests:	ImageMagick-coder-png
 ### FIXME: libunrar.so is needed for rar-packed files
 Suggests:	libunrar-devel
 Suggests:	poppler-progs
+Obsoletes:	bash-completion-calibre < 1.1.0-1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -105,19 +107,6 @@ Ten czytnik e-książek oferuje również pobieranie okładek, komiksów i
 najnowszych wiadomości z serwisów poświęconym e-książkom. Twórcy
 dołączyli również aplikację, którą użytkownik może wykorzystać jako
 swój własny serwer darmowych książek.
-
-%package -n bash-completion-calibre
-Summary:	bash-completion for calibre
-Summary(pl.UTF-8):	bashowe uzupełnianie nazw dla calibre
-Group:		Applications/Shells
-Requires:	%{name} = %{version}-%{release}
-Requires:	bash-completion
-
-%description -n bash-completion-calibre
-bash-completion for calibre.
-
-%description -n bash-completion-calibre -l pl.UTF-8
-Pakiet ten dostarcza bashowe uzupełnianie nazw dla calibre.
 
 %prep
 %setup -q -n %{name}
@@ -246,7 +235,3 @@ fi
 %{_datadir}/mime/packages/calibre-mimetypes.xml
 %{_pixmapsdir}/%{name}-gui.png
 %{_pixmapsdir}/calibre-viewer.png
-
-%files -n bash-completion-calibre
-%defattr(644,root,root,755)
-%{_sysconfdir}/bash_completion.d/*
