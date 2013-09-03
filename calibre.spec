@@ -64,7 +64,7 @@ BuildRequires:	xz >= 1:4.999.7
 Requires:	python-BeautifulSoup >= 3.0.5
 Requires:	python-PIL >= 1.1.6
 Requires:	python-PyQt4 >= 4.9.1
-Requires:	python-apsw
+Requires:	python-apsw >= 3.8.0.1
 Requires:	python-cssselect >= 0.7.1
 Requires:	python-cssutils >= 1:0.9.9
 Requires:	python-dateutil >= 1.4.1
