@@ -1,23 +1,10 @@
---- calibre/setup/install.py~	2010-05-21 11:18:18.236682966 +0200
-+++ calibre/setup/install.py	2010-05-21 11:18:48.705841545 +0200
-@@ -132,20 +132,8 @@
-         self.setup_mount_helper()
+--- calibre/setup/install.py.orig	2013-09-21 13:01:38.006926552 +0200
++++ calibre/setup/install.py	2013-09-21 13:30:29.042536094 +0200
+@@ -130,7 +130,6 @@ class Develop(Command):
+         self.write_templates()
          self.install_files()
          self.run_postinstall()
 -        self.install_env_module()
          self.success()
  
--    def install_env_module(self):
--        import distutils.sysconfig as s
--        libdir = s.get_python_lib(prefix=self.opts.staging_root)
--        if os.path.exists(libdir):
--            path = os.path.join(libdir, 'init_calibre.py')
--            self.info('Installing calibre environment module: '+path)
--            with open(path, 'wb') as f:
--                f.write(HEADER.format(**self.template_args()))
--        else:
--            self.warn('Cannot install calibre environment module to: '+libdir)
--
-     def setup_mount_helper(self):
-         def warn():
-             self.warn('Failed to compile mount helper. Auto mounting of',
+     def install_env_module(self):
