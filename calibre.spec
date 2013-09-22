@@ -148,10 +148,10 @@ Group:		Applications/Shells
 Requires:	%{name} = %{version}-%{release}
 Requires:	bash-completion
 
-%description -n bash-completion-calibre
-bash-completion for calibre.
+%description -n zsh-completion-calibre
+zsh-completion for calibre.
 
-%description -n bash-completion-calibre -l pl.UTF-8
+%description -n zsh-completion-calibre -l pl.UTF-8
 Pakiet ten dostarcza uzupełnianie nazw dla calibre w powłoce zsh.
 
 %prep
