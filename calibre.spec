@@ -13,7 +13,7 @@ Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
 Version:	1.4.0
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
@@ -28,6 +28,18 @@ Patch4:		shebang-python-fix.patch
 Patch5:		imagemagick-6.8.patch
 Patch6:		qt4-private.patch
 URL:		http://www.calibre-ebook.com/
+%define		baeutifulsoup_ver 3.0.5
+%define		pil_ver 1.1.6
+%define		pyqt4_ver 4.9.1
+%define		apsw_ver 3.8.0.1
+%define		cssselect_ver 0.7.1
+%define		cssutils_ver 1:0.9.9
+%define		dateutil_ver 1.4.1
+%define		dns_ver 1.6.0
+%define		lxml_ver 2.2.1
+%define		mechanize_ver 0.1.11
+%define		netifaces_ver 0.8
+%define		psutil_ver 0.6.1
 BuildRequires:	ImageMagick-devel >= 6.6.4.7
 BuildRequires:	QtCore-devel
 BuildRequires:	QtDBus-devel
@@ -41,16 +53,23 @@ BuildRequires:	pkgconfig
 BuildRequires:	podofo-devel >= 0.8.2
 BuildRequires:	poppler-Qt-devel >= 0.20.2
 BuildRequires:	poppler-glib-devel >= 0.20.2
-BuildRequires:	python-BeautifulSoup
-BuildRequires:	python-PIL
-BuildRequires:	python-PyQt4-devel
-BuildRequires:	python-PyQt4-devel-tools
-BuildRequires:	python-cssutils >= 1:0.9.9
-BuildRequires:	python-dateutil
+BuildRequires:	python-BeautifulSoup >= %{baeutifulsoup_ver}
+BuildRequires:	python-PIL >= %{pil_ver}
+BuildRequires:	python-PyQt4 >= %{pyqt4_ver}
+BuildRequires:	python-PyQt4-devel >= %{pyqt4_ver}
+BuildRequires:	python-PyQt4-devel-tools >= %{pyqt4_ver}
+BuildRequires:	python-apsw >= %{apsw_ver}
+BuildRequires:	python-cssselect >= %{cssselect_ver}
+BuildRequires:	python-cssutils >= %{cssutils_ver}
+BuildRequires:	python-dateutil >= %{dateutil_ver}
 BuildRequires:	python-devel >= 1:2.7.1
-BuildRequires:	python-lxml
-BuildRequires:	python-mechanize
+BuildRequires:	python-dns >= %{dns_ver}
+BuildRequires:	python-genshi
+BuildRequires:	python-lxml >= %{lxml_ver}
+BuildRequires:	python-mechanize >= %{mechanize_ver}
 BuildRequires:	python-modules-sqlite
+BuildRequires:	python-netifaces >= %{netifaces_ver}
+BuildRequires:	python-psutil >= %{psutil_ver}
 BuildRequires:	python-sip-devel
 BuildRequires:	qt4-devel-private
 BuildRequires:	rpm-pythonprov
@@ -61,20 +80,20 @@ BuildRequires:	tar >= 1:1.22
 BuildRequires:	unzip
 BuildRequires:	xdg-utils
 BuildRequires:	xz >= 1:4.999.7
-Requires:	python-BeautifulSoup >= 3.0.5
-Requires:	python-PIL >= 1.1.6
-Requires:	python-PyQt4 >= 4.9.1
-Requires:	python-apsw >= 3.8.0.1
-Requires:	python-cssselect >= 0.7.1
-Requires:	python-cssutils >= 1:0.9.9
-Requires:	python-dateutil >= 1.4.1
-Requires:	python-dns >= 1.6.0
+Requires:	python-BeautifulSoup >= %{baeutifulsoup_ver}
+Requires:	python-PIL >= %{pil_ver}
+Requires:	python-PyQt4 >= %{pyqt4_ver}
+Requires:	python-apsw >= %{apsw_ver}
+Requires:	python-cssselect >= %{cssselect_ver}
+Requires:	python-cssutils >= %{cssutils_ver}
+Requires:	python-dateutil >= %{dateutil_ver}
+Requires:	python-dns >= %{dns_ver}
 Requires:	python-genshi
-Requires:	python-lxml >= 2.2.1
-Requires:	python-mechanize >= 0.1.11
+Requires:	python-lxml >= %{lxml_ver}
+Requires:	python-mechanize >= %{mechanize_ver}
 Requires:	python-modules-sqlite
-Requires:	python-netifaces >= 0.8
-Requires:	python-psutil >= 0.6.1
+Requires:	python-netifaces >= %{netifaces_ver}
+Requires:	python-psutil >= %{psutil_ver}
 Suggests:	ImageMagick-coder-jpeg
 Suggests:	ImageMagick-coder-png
 ### FIXME: libunrar.so is needed for rar-packed files
@@ -122,6 +141,19 @@ bash-completion for calibre.
 %description -n bash-completion-calibre -l pl.UTF-8
 Pakiet ten dostarcza bashowe uzupełnianie nazw dla calibre.
 
+%package -n zsh-completion-calibre
+Summary:	zsh-completion for calibre
+Summary(pl.UTF-8):	uzupełnianie nazw dla calibre w powłoce zsh
+Group:		Applications/Shells
+Requires:	%{name} = %{version}-%{release}
+Requires:	bash-completion
+
+%description -n bash-completion-calibre
+bash-completion for calibre.
+
+%description -n bash-completion-calibre -l pl.UTF-8
+Pakiet ten dostarcza uzupełnianie nazw dla calibre w powłoce zsh.
+
 %prep
 %setup -q -n %{name}
 %patch0 -p1
@@ -152,7 +184,7 @@ OVERRIDE_LDFLAGS="%{rpmldflags}" \
 rm -rf $RPM_BUILD_ROOT
 # create directories for xdg-utils
 install -d $RPM_BUILD_ROOT%{_datadir}/{icons/hicolor,packages,mime/packages,desktop-directories} \
-	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir}}
+	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir},/usr/share/zsh/site-functions}
 
 XDG_DATA_DIRS="$RPM_BUILD_ROOT%{_datadir}" \
 XDG_UTILS_INSTALL_MODE="system" \
@@ -253,3 +285,7 @@ fi
 %files -n bash-completion-calibre
 %defattr(644,root,root,755)
 %{_sysconfdir}/bash_completion.d/*
+
+%files -n zsh-completion-calibre
+%defattr(644,root,root,755)
+%{_datadir}/zsh/site-functions/*
