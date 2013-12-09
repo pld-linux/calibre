@@ -12,12 +12,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	1.13.0
+Version:	1.14.0
 Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	8751a670aed6e97ea02f1d8b4ddcba64
+# Source0-md5:	05c1d3c11150fcc4a88696f4166d08ee
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
@@ -161,7 +161,7 @@ Pakiet ten dostarcza uzupełnianie nazw dla calibre w powłoce zsh.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
+#patch5 -p1
 %patch6 -p1
 
 # 64bit target build fix
@@ -263,6 +263,7 @@ fi
 %attr(755,root,root) %{_bindir}/ebook-device
 %attr(755,root,root) %{_bindir}/ebook-meta
 %attr(755,root,root) %{_bindir}/ebook-polish
+%attr(755,root,root) %{_bindir}/ebook-tweak
 %attr(755,root,root) %{_bindir}/ebook-viewer
 %attr(755,root,root) %{_bindir}/fetch-ebook-metadata
 %attr(755,root,root) %{_bindir}/lrf2lrs
@@ -272,6 +273,7 @@ fi
 %attr(755,root,root) %{_bindir}/web2disk
 %{_datadir}/%{name}
 %{_libdir}/%{name}
+%{_desktopdir}/calibre-ebook-tweak.desktop
 %{_desktopdir}/calibre-ebook-viewer.desktop
 %{_desktopdir}/calibre-gui.desktop
 %{_desktopdir}/calibre-lrfviewer.desktop

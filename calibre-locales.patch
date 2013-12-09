@@ -1,6 +1,87 @@
---- calibre/src/calibre/utils/localization.py.old	2012-10-28 22:07:25.481983550 +0100
-+++ calibre/src/calibre/utils/localization.py	2012-10-28 22:12:17.250402847 +0100
-@@ -73,20 +73,20 @@ def get_lang():
+--- calibre/setup/translations.py.wiget	2013-12-06 05:13:34.000000000 +0100
++++ calibre/setup/translations.py	2013-12-09 09:28:32.349958101 +0100
+@@ -143,7 +143,7 @@ class Translations(POT):  # {{{
+ 
+     def mo_file(self, po_file):
+         locale = os.path.splitext(os.path.basename(po_file))[0]
+-        return locale, os.path.join(self.DEST, locale, 'messages.mo')
++        return locale, os.path.join(self.DEST, locale, 'LC_MESSAGES', 'messages.mo')
+ 
+     def run(self, opts):
+         self.iso639_errors = []
+@@ -152,8 +152,9 @@ class Translations(POT):  # {{{
+             base = os.path.dirname(dest)
+             if not os.path.exists(base):
+                 os.makedirs(base)
+-            self.info('\tCompiling translations for', locale)
+-            subprocess.check_call(['msgfmt', '-o', dest, f])
++            if self.newer(dest, f):
++                self.info('\tCompiling translations for', locale)
++                subprocess.check_call(['msgfmt', '-o', dest, f])
+             iscpo = {'bn':'bn_IN', 'zh_HK':'zh_CN'}.get(locale, locale)
+             iso639 = self.j(self.LP_ISO_PATH, '%s.po'%iscpo)
+ 
+@@ -174,7 +175,6 @@ class Translations(POT):  # {{{
+             raise SystemExit(1)
+ 
+         self.write_stats()
+-        self.freeze_locales()
+ 
+     def check_iso639(self, path):
+         from calibre.utils.localization import langnames_to_langcodes
+@@ -198,15 +198,6 @@ class Translations(POT):  # {{{
+                     # raise SystemExit(1)
+                 rmap[msgstr] = msgid
+ 
+-    def freeze_locales(self):
+-        zf = self.DEST + '.zip'
+-        from calibre import CurrentDir
+-        from calibre.utils.zipfile import ZipFile, ZIP_DEFLATED
+-        with ZipFile(zf, 'w', ZIP_DEFLATED) as zf:
+-            with CurrentDir(self.DEST):
+-                zf.add_dir('.')
+-        shutil.rmtree(self.DEST)
+-
+     @property
+     def stats(self):
+         return self.j(self.d(self.DEST), 'stats.pickle')
+--- calibre/src/calibre/translations/dynamic.py.wiget	2013-12-06 05:13:34.000000000 +0100
++++ calibre/src/calibre/translations/dynamic.py	2013-12-09 09:28:32.349958101 +0100
+@@ -5,10 +5,10 @@ Dynamic language lookup of translations
+ __license__   = 'GPL v3'
+ __copyright__ = '2008, Marshall T. Vandegrift <llasram@gmail.com>'
+ 
++import os
+ import cStringIO
+ from gettext import GNUTranslations
+ from calibre.utils.localization import get_lc_messages_path
+-from zipfile import ZipFile
+ 
+ __all__ = ['translate']
+ 
+@@ -21,15 +21,10 @@ def translate(lang, text):
+     else:
+         mpath = get_lc_messages_path(lang)
+         if mpath is not None:
+-            with ZipFile(P('localization/locales.zip',
+-                allow_user_override=False), 'r') as zf:
+-                try:
+-                    buf = cStringIO.StringIO(zf.read(mpath + '/messages.mo'))
+-                except:
+-                    pass
+-                else:
+-                    trans = GNUTranslations(buf)
+-                    _CACHE[lang] = trans
++           p = os.path.join(mpath, 'messages.mo')
++           if os.path.exists(p):
++               trans = GNUTranslations(open(p, 'rb'))
++               _CACHE[lang] = trans
+     if trans is None:
+         return getattr(__builtins__, '_', lambda x: x)(text)
+     return trans.ugettext(text)
+--- calibre/src/calibre/utils/localization.py.wiget	2013-12-06 05:13:34.000000000 +0100
++++ calibre/src/calibre/utils/localization.py	2013-12-09 09:31:05.694326467 +0100
+@@ -74,20 +74,20 @@ def get_lang():
          lang = 'en'
      return lang
  
@@ -31,9 +112,9 @@
 +            return messages_path(hlang)
 +        return None
  
- def set_translators():
-     # To test different translations invoke as
-@@ -110,18 +110,12 @@ def set_translators():
+ _lang_trans = None
+ 
+@@ -114,18 +114,12 @@ def set_translators():
                  buf = cStringIO.StringIO(buf.getvalue())
  
          if mpath is not None:
@@ -48,7 +129,7 @@
 -                try:
 -                    iso639 = cStringIO.StringIO(zf.read(isof))
 -                except:
--                    pass # No iso639 translations for this lang
+-                    pass  # No iso639 translations for this lang
 +            if buf is None:
 +                buf = open(os.path.join(mpath, 'calibre.mo'), 'rb')
 +            mpath = mpath.replace(os.sep+'nds'+os.sep, os.sep+'de'+os.sep)
@@ -58,84 +139,3 @@
  
          if buf is not None:
              t = GNUTranslations(buf)
---- calibre/src/calibre/translations/dynamic.py.orig    2012-01-13 05:32:13.000000000 +0100
-+++ calibre/src/calibre/translations/dynamic.py 2012-01-17 09:37:53.594649557 +0100
-@@ -5,10 +5,10 @@
- __license__   = 'GPL v3'
- __copyright__ = '2008, Marshall T. Vandegrift <llasram@gmail.com>'
-
-+import os
- import cStringIO
- from gettext import GNUTranslations
- from calibre.utils.localization import get_lc_messages_path
--from zipfile import ZipFile
-
- __all__ = ['translate']
-
-@@ -21,15 +21,10 @@
-     else:
-         mpath = get_lc_messages_path(lang)
-         if mpath is not None:
--            with ZipFile(P('localization/locales.zip',
--                allow_user_override=False), 'r') as zf:
--                try:
--                    buf = cStringIO.StringIO(zf.read(mpath + '/messages.mo'))
--                except:
--                    pass
--                else:
--                    trans = GNUTranslations(buf)
--                    _CACHE[lang] = trans
-+           p = os.path.join(mpath, 'messages.mo')
-+           if os.path.exists(p):
-+               trans = GNUTranslations(open(p, 'rb'))
-+               _CACHE[lang] = trans
-     if trans is None:
-         return getattr(__builtins__, '_', lambda x: x)(text)
-     return trans.ugettext(text)
---- calibre/setup/translations.py.orig	2011-08-26 18:36:51.000000000 +0200
-+++ calibre/setup/translations.py	2011-08-27 12:55:49.997229244 +0200
-@@ -131,7 +131,7 @@
- 
-     def mo_file(self, po_file):
-         locale = os.path.splitext(os.path.basename(po_file))[0]
--        return locale, os.path.join(self.DEST, locale, 'messages.mo')
-+        return locale, os.path.join(self.DEST, locale, 'LC_MESSAGES', 'messages.mo')
- 
-     def run(self, opts):
-         for f in self.po_files():
-@@ -139,8 +139,9 @@
-             base = os.path.dirname(dest)
-             if not os.path.exists(base):
-                 os.makedirs(base)
--            self.info('\tCompiling translations for', locale)
--            subprocess.check_call(['msgfmt', '-o', dest, f])
-+            if self.newer(dest, f):
-+                self.info('\tCompiling translations for', locale)
-+                subprocess.check_call(['msgfmt', '-o', dest, f])
-             iscpo = {'bn':'bn_IN', 'zh_HK':'zh_CN'}.get(locale, locale)
-             iso639 = self.j(self.d(self.SRC), 'setup', 'iso_639',
-                     '%s.po'%iscpo)
-@@ -155,7 +156,6 @@
-                 self.warn('No ISO 639 translations for locale:', locale)
- 
-         self.write_stats()
--        self.freeze_locales()
- 
-     def check_iso639(self, path):
-         from calibre.utils.localization import langnames_to_langcodes
-@@ -165,15 +166,6 @@
-                             os.path.basename(path), msgstr, msgid, rmap[msgstr]))
-                     # raise SystemExit(1)
-                 rmap[msgstr] = msgid
--
--    def freeze_locales(self):
--        zf = self.DEST + '.zip'
--        from calibre import CurrentDir
--        from calibre.utils.zipfile import ZipFile, ZIP_DEFLATED
--        with ZipFile(zf, 'w', ZIP_DEFLATED) as zf:
--            with CurrentDir(self.DEST):
--                zf.add_dir('.')
--        shutil.rmtree(self.DEST)
- 
-     @property
-     def stats(self):
