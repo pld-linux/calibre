@@ -13,7 +13,7 @@ Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
 Version:	1.15.0
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
@@ -261,9 +261,9 @@ fi
 %attr(755,root,root) %{_bindir}/calibredb
 %attr(755,root,root) %{_bindir}/ebook-convert
 %attr(755,root,root) %{_bindir}/ebook-device
+%attr(755,root,root) %{_bindir}/ebook-edit
 %attr(755,root,root) %{_bindir}/ebook-meta
 %attr(755,root,root) %{_bindir}/ebook-polish
-%attr(755,root,root) %{_bindir}/ebook-tweak
 %attr(755,root,root) %{_bindir}/ebook-viewer
 %attr(755,root,root) %{_bindir}/fetch-ebook-metadata
 %attr(755,root,root) %{_bindir}/lrf2lrs
@@ -273,7 +273,7 @@ fi
 %attr(755,root,root) %{_bindir}/web2disk
 %{_datadir}/%{name}
 %{_libdir}/%{name}
-%{_desktopdir}/calibre-ebook-tweak.desktop
+%{_desktopdir}/calibre-ebook-edit.desktop
 %{_desktopdir}/calibre-ebook-viewer.desktop
 %{_desktopdir}/calibre-gui.desktop
 %{_desktopdir}/calibre-lrfviewer.desktop
