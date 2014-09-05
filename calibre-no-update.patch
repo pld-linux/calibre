@@ -13,24 +13,23 @@ diff -uNr calibre.old/src/calibre/gui2/ui.py calibre/src/calibre/gui2/ui.py
 diff -uNr calibre.old/src/calibre/gui2/update.py calibre/src/calibre/gui2/update.py
 --- calibre.old/src/calibre/gui2/update.py	2011-06-26 19:51:17.913975852 +0200
 +++ calibre/src/calibre/gui2/update.py	2011-06-26 19:56:50.608665533 +0200
-@@ -121,13 +121,13 @@
+@@ -121,12 +121,13 @@
+         pass
  
- class UpdateMixin(object):
- 
--    def __init__(self, opts):
+     def init_update_mixin(self, opts):
 -        self.last_newest_calibre_version = NO_CALIBRE_UPDATE
 -        if not opts.no_update_check:
 -            self.update_checker = CheckForUpdates(self)
 -            self.update_checker.update_found.connect(self.update_found,
 -                    type=Qt.QueuedConnection)
 -            self.update_checker.start()
-+    #def __init__(self, opts):
 +        #self.last_newest_calibre_version = NO_CALIBRE_UPDATE
 +        #if not opts.no_update_check:
 +        #    self.update_checker = CheckForUpdates(self)
 +        #    self.update_checker.update_found.connect(self.update_found,
 +        #            type=Qt.QueuedConnection)
 +        #    self.update_checker.start()
++        return
  
      def recalc_update_label(self, number_of_plugin_updates):
          self.update_found('%s%s%d'%(self.last_newest_calibre_version, VSEP,
