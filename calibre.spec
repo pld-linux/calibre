@@ -12,12 +12,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	2.2.0
+Version:	2.5.0
 Release:	0.1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	6aacdd853fe6884d1275603d8b48728c
+# Source0-md5:	b2e63ecac0c28b456f17702cc984bdcd
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
@@ -30,7 +30,7 @@ Patch6:		qt4-private.patch
 URL:		http://www.calibre-ebook.com/
 %define		baeutifulsoup_ver 3.0.5
 %define		pil_ver 1.1.6
-%define		pyqt4_ver 4.9.1
+%define		pyqt5_ver 5.3.1
 %define		apsw_ver 3.8.0.1
 %define		cssselect_ver 0.7.1
 %define		cssutils_ver 1:0.9.9
@@ -41,10 +41,10 @@ URL:		http://www.calibre-ebook.com/
 %define		netifaces_ver 0.8
 %define		psutil_ver 0.6.1
 BuildRequires:	ImageMagick-devel >= 6.6.4.7
-BuildRequires:	QtCore-devel
-BuildRequires:	QtDBus-devel
-BuildRequires:	QtGui-devel
-BuildRequires:	QtSvg-devel
+BuildRequires:	Qt5Core-devel
+BuildRequires:	Qt5DBus-devel
+BuildRequires:	Qt5Gui-devel
+BuildRequires:	Qt5PlatformSupport-devel
 BuildRequires:	chmlib-devel >= 0.40
 BuildRequires:	libicu-devel
 BuildRequires:	libmtp-devel >= 1.1.5
@@ -55,9 +55,9 @@ BuildRequires:	poppler-Qt-devel >= 0.20.2
 BuildRequires:	poppler-glib-devel >= 0.20.2
 BuildRequires:	python-BeautifulSoup >= %{baeutifulsoup_ver}
 BuildRequires:	python-PIL >= %{pil_ver}
-BuildRequires:	python-PyQt4 >= %{pyqt4_ver}
-BuildRequires:	python-PyQt4-devel >= %{pyqt4_ver}
-BuildRequires:	python-PyQt4-devel-tools >= %{pyqt4_ver}
+BuildRequires:	python-PyQt5 >= %{pyqt4_ver}
+BuildRequires:	python-PyQt5-devel >= %{pyqt4_ver}
+BuildRequires:	python-PyQt5-devel-tools >= %{pyqt4_ver}
 BuildRequires:	python-apsw >= %{apsw_ver}
 BuildRequires:	python-cssselect >= %{cssselect_ver}
 BuildRequires:	python-cssutils >= %{cssutils_ver}
@@ -71,7 +71,6 @@ BuildRequires:	python-modules-sqlite
 BuildRequires:	python-netifaces >= %{netifaces_ver}
 BuildRequires:	python-psutil >= %{psutil_ver}
 BuildRequires:	python-sip-devel
-BuildRequires:	qt4-devel-private
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.586
 BuildRequires:	sed >= 4.0
@@ -82,7 +81,7 @@ BuildRequires:	xdg-utils
 BuildRequires:	xz >= 1:4.999.7
 Requires:	python-BeautifulSoup >= %{baeutifulsoup_ver}
 Requires:	python-PIL >= %{pil_ver}
-Requires:	python-PyQt4 >= %{pyqt4_ver}
+Requires:	python-PyQt5 >= %{pyqt5_ver}
 Requires:	python-apsw >= %{apsw_ver}
 Requires:	python-cssselect >= %{cssselect_ver}
 Requires:	python-cssutils >= %{cssutils_ver}
@@ -162,10 +161,10 @@ Pakiet ten dostarcza uzupełnianie nazw dla calibre w powłoce zsh.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
+#%patch3 -p1
 %patch4 -p1
 #patch5 -p1
-%patch6 -p1
+#%patch6 -p1
 
 # 64bit target build fix
 %{__sed} -i -e "s!'/usr/lib'!'%{_libdir}'!g" setup/build_environment.py
