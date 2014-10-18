@@ -1,7 +1,6 @@
 #
 # TODO: - rewrite generate-tarball.sh script to provide locales.zip handling (if needed)
 #	- make separate server package with init-scripts, etc...
-#	- -locales.patch needs love
 #
 # NOTE:
 # Upstream packages some unfree fonts which we cannot redistribute,
@@ -13,7 +12,7 @@ Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
 Version:	2.5.0
-Release:	0.1
+Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
@@ -25,8 +24,6 @@ Patch1:		%{name}-no-update.patch
 Patch2:		%{name}-env_module.patch
 Patch3:		%{name}-locales.patch
 Patch4:		shebang-python-fix.patch
-Patch5:		imagemagick-6.8.patch
-Patch6:		qt4-private.patch
 URL:		http://www.calibre-ebook.com/
 %define		baeutifulsoup_ver 3.0.5
 %define		pil_ver 1.1.6
@@ -161,10 +158,8 @@ Pakiet ten dostarcza uzupełnianie nazw dla calibre w powłoce zsh.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-#%patch3 -p1
+%patch3 -p1
 %patch4 -p1
-#patch5 -p1
-#%patch6 -p1
 
 # 64bit target build fix
 %{__sed} -i -e "s!'/usr/lib'!'%{_libdir}'!g" setup/build_environment.py
@@ -202,37 +197,46 @@ cp -p resources/images/viewer.png $RPM_BUILD_ROOT%{_pixmapsdir}/calibre-viewer.p
 %py_comp $RPM_BUILD_ROOT%{_libdir}/%{name}
 %py_postclean %{_libdir}/%{name}
 
-mv $RPM_BUILD_ROOT%{_datadir}/%{name}/localization/locales $RPM_BUILD_ROOT%{_localedir}
+%{__mv} $RPM_BUILD_ROOT%{_datadir}/%{name}/localization/locales $RPM_BUILD_ROOT%{_localedir}
 
 # set proper filenames for locales (TODO: switch to patch if possible)
 for file in $RPM_BUILD_ROOT%{_localedir}/*; do
 	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\).*:\1:')
 	mkdir $RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES
 	mv $RPM_BUILD_ROOT%{_localedir}/$lang/*.mo \
-	$RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES
+		$RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES
 done;
 for file in $RPM_BUILD_ROOT%{_localedir}/*/LC_MESSAGES/messages.mo; do
 	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
 	mv $RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/messages.mo \
-	$RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/%{name}.mo
+		$RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/%{name}.mo
 done;
 for file in $RPM_BUILD_ROOT%{_localedir}/*/LC_MESSAGES/iso639.mo; do
 	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
 	mv $RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/iso639.mo \
-	$RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/%{name}_iso639.mo
+		$RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/%{name}_iso639.mo
+done;
+for file in $RPM_BUILD_ROOT%{_localedir}/*/lcdata.pickle; do
+	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/lcdata.pickle:\1:')
+	mv $RPM_BUILD_ROOT%{_localedir}/$lang/lcdata.pickle \
+		$RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/%{name}_lcdata.pickle
 done;
 
 %{__rm} $RPM_BUILD_ROOT%{_bindir}/%{name}-uninstall
 
 # unsupported
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/ber
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/jv
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/ltg
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/en_AU
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/sl_SI
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}
 
 %find_lang %{name} --all-name
+for file in $RPM_BUILD_ROOT%{_localedir}/*/LC_MESSAGES/%{name}_lcdata.pickle; do
+	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
+	echo $file | %{__sed} "s:$RPM_BUILD_ROOT\(.*\):%lang($lang) \1:" >>%{name}.lang
+done;
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -274,6 +278,9 @@ fi
 %attr(755,root,root) %{_bindir}/markdown-calibre
 %attr(755,root,root) %{_bindir}/web2disk
 %{_datadir}/%{name}
+%{_datadir}/appdata/calibre-ebook-edit.appdata.xml
+%{_datadir}/appdata/calibre-ebook-viewer.appdata.xml
+%{_datadir}/appdata/calibre-gui.appdata.xml
 %{_libdir}/%{name}
 %{_desktopdir}/calibre-ebook-edit.desktop
 %{_desktopdir}/calibre-ebook-viewer.desktop
@@ -288,7 +295,7 @@ fi
 
 %files -n bash-completion-calibre
 %defattr(644,root,root,755)
-%{_sysconfdir}/bash_completion.d/*
+%{bash_compdir}/calibre
 
 %files -n zsh-completion-calibre
 %defattr(644,root,root,755)
