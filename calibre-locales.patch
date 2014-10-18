@@ -128,9 +128,9 @@
 +        if mpath is not None:
 +            try:
 +                buf = open(os.path.join(mpath, 'calibre.mo'), 'rb')
++                yield lang, GNUTranslations(buf)
 +            except:
 +                pass
-+            yield lang, GNUTranslations(buf)
  
  lcdata = {
      u'abday': (u'Sun', u'Mon', u'Tue', u'Wed', u'Thu', u'Fri', u'Sat'),
