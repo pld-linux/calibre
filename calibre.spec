@@ -11,12 +11,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	2.5.0
-Release:	2
+Version:	2.20.0
+Release:	0.1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	b2e63ecac0c28b456f17702cc984bdcd
+# Source0-md5:	cf10826b56283d9d3dfae92940be0736
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
@@ -53,7 +53,6 @@ BuildRequires:	poppler-glib-devel >= 0.20.2
 BuildRequires:	python-BeautifulSoup >= %{baeutifulsoup_ver}
 BuildRequires:	python-PIL >= %{pil_ver}
 BuildRequires:	python-PyQt5 >= %{pyqt5_ver}
-BuildRequires:	python-PyQt5-devel >= %{pyqt5_ver}
 BuildRequires:	python-PyQt5-devel-tools >= %{pyqt5_ver}
 BuildRequires:	python-PyQt5-uic >= %{pyqt5_ver}
 BuildRequires:	python-apsw >= %{apsw_ver}
@@ -157,7 +156,7 @@ Pakiet ten dostarcza uzupełnianie nazw dla calibre w powłoce zsh.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
+#%patch1 -p1 Patch does not apply, not removed completly since spec update is in progress
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
