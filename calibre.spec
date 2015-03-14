@@ -42,14 +42,16 @@ BuildRequires:	Qt5Core-devel
 BuildRequires:	Qt5DBus-devel
 BuildRequires:	Qt5Gui-devel
 BuildRequires:	Qt5PlatformSupport-devel
+BuildRequires:	Qt5Widgets-devel
 BuildRequires:	chmlib-devel >= 0.40
 BuildRequires:	libicu-devel
 BuildRequires:	libmtp-devel >= 1.1.5
 BuildRequires:	libwmf-devel >= 0.2.8
+BuildRequires:	mtdev-devel
 BuildRequires:	pkgconfig
 BuildRequires:	podofo-devel >= 0.8.2
-BuildRequires:	poppler-Qt-devel >= 0.20.2
-BuildRequires:	poppler-glib-devel >= 0.20.2
+BuildRequires:	poppler-qt5-devel >= 0.28.1
+BuildRequires:	poppler-glib-devel >= 0.28.1
 BuildRequires:	python-BeautifulSoup >= %{baeutifulsoup_ver}
 BuildRequires:	python-PIL >= %{pil_ver}
 BuildRequires:	python-PyQt5 >= %{pyqt5_ver}
@@ -68,10 +70,12 @@ BuildRequires:	python-modules-sqlite
 BuildRequires:	python-netifaces >= %{netifaces_ver}
 BuildRequires:	python-psutil >= %{psutil_ver}
 BuildRequires:	python-sip-devel
+BuildRequires:	qt5-qmake
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.586
 BuildRequires:	sed >= 4.0
 BuildRequires:	sqlite3-devel
+BuildRequires:	sip-PyQt5
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	unzip
 BuildRequires:	xdg-utils
@@ -175,6 +179,7 @@ CC="%{__cc}" \
 CXX=%{__cxx} \
 OVERRIDE_CFLAGS="%{rpmcflags}" \
 OVERRIDE_LDFLAGS="%{rpmldflags}" \
+QMAKE="%{_bindir}/qmake-qt5" \
 %{__python} setup.py build
 
 %install
