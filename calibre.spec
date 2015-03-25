@@ -12,7 +12,7 @@ Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
 Version:	2.22.0
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
@@ -230,9 +230,9 @@ done;
 %{__rm} $RPM_BUILD_ROOT%{_bindir}/%{name}-uninstall
 
 # unsupported
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/bn_BD
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/jv
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/ltg
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/en_AU
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/sl_SI
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}
