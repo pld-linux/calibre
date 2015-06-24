@@ -11,12 +11,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	2.28.0
+Version:	2.31.0
 Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	554b35d56adffbed6b0a7a939568d427
+# Source0-md5:	b3a96168c3bcd97d5b9f3d5736fe3b64
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
@@ -80,6 +80,7 @@ BuildRequires:	tar >= 1:1.22
 BuildRequires:	unzip
 BuildRequires:	xdg-utils
 BuildRequires:	xz >= 1:4.999.7
+Requires:	Qt5Svg
 Requires:	python-BeautifulSoup >= %{baeutifulsoup_ver}
 Requires:	python-PIL >= %{pil_ver}
 Requires:	python-PyQt5 >= %{pyqt5_ver}
@@ -128,34 +129,34 @@ najnowszych wiadomości z serwisów poświęconym e-książkom. Twórcy
 dołączyli również aplikację, którą użytkownik może wykorzystać jako
 swój własny serwer darmowych książek.
 
-%package -n bash-completion-calibre
-Summary:	bash-completion for calibre
-Summary(pl.UTF-8):	bashowe uzupełnianie nazw dla calibre
-Group:		Applications/Shells
-Requires:	%{name} = %{version}-%{release}
-Requires:	bash-completion
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
+#%package -n bash-completion-calibre
+#Summary:	bash-completion for calibre
+#Summary(pl.UTF-8):	bashowe uzupełnianie nazw dla calibre
+#Group:		Applications/Shells
+#Requires:	%{name} = %{version}-%{release}
+#Requires:	bash-completion
+#%if "%{_rpmversion}" >= "5"
+#BuildArch:	noarch
+#%endif
 
-%description -n bash-completion-calibre
-bash-completion for calibre.
+#%description -n bash-completion-calibre
+#bash-completion for calibre.
 
-%description -n bash-completion-calibre -l pl.UTF-8
-Pakiet ten dostarcza bashowe uzupełnianie nazw dla calibre.
+#%description -n bash-completion-calibre -l pl.UTF-8
+#Pakiet ten dostarcza bashowe uzupełnianie nazw dla calibre.
 
-%package -n zsh-completion-calibre
-Summary:	zsh-completion for calibre
-Summary(pl.UTF-8):	uzupełnianie nazw dla calibre w powłoce zsh
-Group:		Applications/Shells
-Requires:	%{name} = %{version}-%{release}
-Requires:	bash-completion
+#%package -n zsh-completion-calibre
+#Summary:	zsh-completion for calibre
+#Summary(pl.UTF-8):	uzupełnianie nazw dla calibre w powłoce zsh
+#Group:		Applications/Shells
+#Requires:	%{name} = %{version}-%{release}
+#Requires:	bash-completion
 
-%description -n zsh-completion-calibre
-zsh-completion for calibre.
+#%description -n zsh-completion-calibre
+#zsh-completion for calibre.
 
-%description -n zsh-completion-calibre -l pl.UTF-8
-Pakiet ten dostarcza uzupełnianie nazw dla calibre w powłoce zsh.
+#%description -n zsh-completion-calibre -l pl.UTF-8
+#Pakiet ten dostarcza uzupełnianie nazw dla calibre w powłoce zsh.
 
 %prep
 %setup -q
@@ -283,25 +284,25 @@ fi
 %attr(755,root,root) %{_bindir}/markdown-calibre
 %attr(755,root,root) %{_bindir}/web2disk
 %{_datadir}/%{name}
-%{_datadir}/appdata/calibre-ebook-edit.appdata.xml
-%{_datadir}/appdata/calibre-ebook-viewer.appdata.xml
-%{_datadir}/appdata/calibre-gui.appdata.xml
+#%{_datadir}/appdata/calibre-ebook-edit.appdata.xml
+#%{_datadir}/appdata/calibre-ebook-viewer.appdata.xml
+#%{_datadir}/appdata/calibre-gui.appdata.xml
 %{_libdir}/%{name}
-%{_desktopdir}/calibre-ebook-edit.desktop
-%{_desktopdir}/calibre-ebook-viewer.desktop
-%{_desktopdir}/calibre-gui.desktop
-%{_desktopdir}/calibre-lrfviewer.desktop
+#%{_desktopdir}/calibre-ebook-edit.desktop
+#%{_desktopdir}/calibre-ebook-viewer.desktop
+#%{_desktopdir}/calibre-gui.desktop
+#%{_desktopdir}/calibre-lrfviewer.desktop
 %{_iconsdir}/hicolor/*/*/*.png
-%{_datadir}/mime/application/*.xml
-%{_datadir}/mime/text/*.xml
-%{_datadir}/mime/packages/calibre-mimetypes.xml
+#%{_datadir}/mime/application/*.xml
+#%{_datadir}/mime/text/*.xml
+#%{_datadir}/mime/packages/calibre-mimetypes.xml
 %{_pixmapsdir}/%{name}-gui.png
 %{_pixmapsdir}/calibre-viewer.png
 
-%files -n bash-completion-calibre
-%defattr(644,root,root,755)
-%{bash_compdir}/calibre
+#%files -n bash-completion-calibre
+#%defattr(644,root,root,755)
+#%{bash_compdir}/calibre
 
-%files -n zsh-completion-calibre
-%defattr(644,root,root,755)
-%{_datadir}/zsh/site-functions/*
+#%files -n zsh-completion-calibre
+#%defattr(644,root,root,755)
+#%{_datadir}/zsh/site-functions/*
