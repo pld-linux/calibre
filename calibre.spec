@@ -11,12 +11,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	2.33.0
+Version:	2.37.1
 Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
-Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	102828023a9661d0767a5677f08fb66e
+Source0:	http://code.calibre-ebook.com/dist/src/%{name}-%{version}.tar.xz
+# Source0-md5:	d2e97c9e690ce2d877d6390445b76994
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
@@ -70,6 +70,7 @@ BuildRequires:	python-modules-sqlite
 BuildRequires:	python-netifaces >= %{netifaces_ver}
 BuildRequires:	python-psutil >= %{psutil_ver}
 BuildRequires:	python-sip-devel
+BuildRequires:	qt5-build
 BuildRequires:	qt5-qmake
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.586
@@ -81,6 +82,7 @@ BuildRequires:	unzip
 BuildRequires:	xdg-utils
 BuildRequires:	xz >= 1:4.999.7
 Requires:	Qt5Svg
+Requires:	Qt5WebKit
 Requires:	python-BeautifulSoup >= %{baeutifulsoup_ver}
 Requires:	python-PIL >= %{pil_ver}
 Requires:	python-PyQt5 >= %{pyqt5_ver}
