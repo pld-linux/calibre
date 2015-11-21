@@ -11,12 +11,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	2.37.1
+Version:	2.44.1
 Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
-Source0:	http://code.calibre-ebook.com/dist/src/%{name}-%{version}.tar.xz
-# Source0-md5:	d2e97c9e690ce2d877d6390445b76994
+Source0:	%{name}-%{version}-nofonts.tar.xz
+# Source0-md5:	bfd48e59aa9d650a2d305e456a857fe0
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
@@ -24,6 +24,7 @@ Patch1:		%{name}-no-update.patch
 Patch2:		%{name}-env_module.patch
 Patch3:		%{name}-locales.patch
 Patch4:		shebang-python-fix.patch
+Patch5:		desktop-integration.patch
 URL:		http://www.calibre-ebook.com/
 %define		baeutifulsoup_ver 3.0.5
 %define		pil_ver 1.1.6
@@ -167,6 +168,7 @@ Pakiet ten dostarcza uzupełnianie nazw dla calibre w powłoce zsh.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 # 64bit target build fix
 %{__sed} -i -e "s!'/usr/lib'!'%{_libdir}'!g" setup/build_environment.py

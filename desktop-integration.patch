@@ -1,0 +1,29 @@
+--- calibre-2.44.1/src/calibre/linux.py.orig	2015-11-21 11:22:06.420641478 +0100
++++ calibre-2.44.1/src/calibre/linux.py	2015-11-21 11:20:41.000000000 +0100
+@@ -781,7 +781,7 @@
+                 def install_single_icon(iconsrc, basename, size, context, is_last_icon=False):
+                     filename = '%s-%s.png' % (basename, size)
+                     render_img(iconsrc, filename, width=int(size), height=int(size))
+-                    cmd = ['xdg-icon-resource', 'install', '--noupdate', '--context', context, '--size', str(size), filename, basename]
++                    cmd = ['xdg-icon-resource', 'install', '--noupdate', '--novendor', '--context', context, '--size', str(size), filename, basename]
+                     if is_last_icon:
+                         del cmd[2]
+                     cc(cmd)
+@@ -850,7 +850,7 @@
+ 
+                 APPDATA = get_appdata()
+                 for x in des:
+-                    cmd = ['xdg-desktop-menu', 'install', '--noupdate', './'+x]
++                    cmd = ['xdg-desktop-menu', 'install', '--noupdate', '--novendor', './'+x]
+                     cc(' '.join(cmd), shell=True)
+                     self.menu_resources.append(x)
+                     ak = x.partition('.')[0]
+@@ -859,7 +859,7 @@
+                 cc(['xdg-desktop-menu', 'forceupdate'])
+                 MIME = P('calibre-mimetypes.xml')
+                 self.mime_resources.append(MIME)
+-                cc(['xdg-mime', 'install', MIME])
++                cc(['xdg-mime', 'install', '--novendor', MIME])
+         except Exception:
+             if self.opts.fatal_errors:
+                 raise
