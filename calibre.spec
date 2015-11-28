@@ -185,7 +185,7 @@ CXX=%{__cxx} \
 OVERRIDE_CFLAGS="%{rpmcflags}" \
 OVERRIDE_LDFLAGS="%{rpmldflags}" \
 QMAKE="%{_bindir}/qmake-qt5" \
-%{__python} setup.py build
+%py_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -196,8 +196,7 @@ install -d $RPM_BUILD_ROOT%{_datadir}/{icons/hicolor,packages,mime/packages,desk
 XDG_DATA_DIRS="$RPM_BUILD_ROOT%{_datadir}" \
 XDG_UTILS_INSTALL_MODE="system" \
 LIBPATH="%{_libdir}" \
-%{__python} setup.py install \
-	--root=$RPM_BUILD_ROOT \
+%py_install \
 	--libdir="%{_libdir}"
 
 cp -p resources/images/library.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}-gui.png
