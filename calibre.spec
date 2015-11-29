@@ -74,7 +74,7 @@ BuildRequires:	python-sip-devel
 BuildRequires:	qt5-build
 BuildRequires:	qt5-qmake
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.586
+BuildRequires:	rpmbuild(macros) >= 1.710
 BuildRequires:	sed >= 4.0
 BuildRequires:	sqlite3-devel
 BuildRequires:	sip-PyQt5
