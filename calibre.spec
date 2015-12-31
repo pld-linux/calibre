@@ -20,11 +20,10 @@ Source0:	%{name}-%{version}-nofonts.tar.xz
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
-Patch1:		%{name}-no-update.patch
-Patch2:		%{name}-env_module.patch
-Patch3:		%{name}-locales.patch
-Patch4:		shebang-python-fix.patch
-Patch5:		desktop-integration.patch
+Patch1:		%{name}-env_module.patch
+Patch2:		%{name}-locales.patch
+Patch3:		shebang-python-fix.patch
+Patch4:		desktop-integration.patch
 URL:		http://www.calibre-ebook.com/
 %define		baeutifulsoup_ver 3.0.5
 %define		pil_ver 1.1.6
@@ -165,11 +164,10 @@ Pakiet ten dostarcza uzupełnianie nazw dla calibre w powłoce zsh.
 %prep
 %setup -q
 %patch0 -p1
-#%patch1 -p1 Patch does not apply, not removed completly since spec update is in progress
+%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
 
 # 64bit target build fix
 %{__sed} -i -e "s!'/usr/lib'!'%{_libdir}'!g" setup/build_environment.py
@@ -201,7 +199,7 @@ LIBPATH="%{_libdir}" \
 	--no-compile \
 	--prefix=%{_prefix} \
 	--root=$RPM_BUILD_ROOT \
-	--libdir="%{_libdir}"
+	--libdir=%{_libdir}
 
 cp -p resources/images/library.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}-gui.png
 cp -p resources/images/viewer.png $RPM_BUILD_ROOT%{_pixmapsdir}/calibre-viewer.png
