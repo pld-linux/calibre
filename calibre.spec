@@ -11,12 +11,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	2.44.1
+Version:	2.47.0
 Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	bfd48e59aa9d650a2d305e456a857fe0
+# Source0-md5:	014738246e7fd31cb328fed3a8c296ff
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
@@ -46,6 +46,7 @@ BuildRequires:	Qt5PlatformSupport-devel
 BuildRequires:	Qt5Widgets-devel
 BuildRequires:	chmlib-devel >= 0.40
 BuildRequires:	libicu-devel
+BuildRequires:	libinput-devel
 BuildRequires:	libmtp-devel >= 1.1.5
 BuildRequires:	libwmf-devel >= 0.2.8
 BuildRequires:	mtdev-devel
@@ -185,7 +186,7 @@ CXX=%{__cxx} \
 OVERRIDE_CFLAGS="%{rpmcflags}" \
 OVERRIDE_LDFLAGS="%{rpmldflags}" \
 QMAKE="%{_bindir}/qmake-qt5" \
-%py_build
+%{__python} setup.py build
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -196,7 +197,10 @@ install -d $RPM_BUILD_ROOT%{_datadir}/{icons/hicolor,packages,mime/packages,desk
 XDG_DATA_DIRS="$RPM_BUILD_ROOT%{_datadir}" \
 XDG_UTILS_INSTALL_MODE="system" \
 LIBPATH="%{_libdir}" \
-%py_install \
+%{__python} setup.py install \
+	--no-compile \
+	--prefix=%{_prefix} \
+	--root=$RPM_BUILD_ROOT \
 	--libdir="%{_libdir}"
 
 cp -p resources/images/library.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}-gui.png
