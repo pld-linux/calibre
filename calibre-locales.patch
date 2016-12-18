@@ -9,24 +9,14 @@
  
      def run(self, opts):
          self.iso639_errors = []
-@@ -152,7 +152,8 @@ class Translations(POT):  # {{{
-             base = os.path.dirname(dest)
-             if not os.path.exists(base):
-                 os.makedirs(base)
--            jobs.append(['msgfmt', '-o', dest, f])
-+            if self.newer(dest, f):
-+                jobs.append(['msgfmt', '-o', dest, f])
-             iscpo = {'bn':'bn_IN', 'zh_HK':'zh_CN'}.get(locale, locale)
-             iso639 = self.j(self.LP_ISO_PATH, '%s.po'%iscpo)
- 
 @@ -174,7 +175,6 @@ class Translations(POT):  # {{{
-             raise SystemExit(1)
- 
-         self.write_stats()
+     def run(self, opts):
+         self.compile_main_translations()
+         self.compile_content_server_translations()
 -        self.freeze_locales()
          self.compile_user_manual_translations()
  
-     def check_iso639(self, path):
+     def compile_group(self, files, handle_stats=None, file_ok=None, action_per_file=None):
 @@ -198,15 +198,6 @@ class Translations(POT):  # {{{
                      # raise SystemExit(1)
                  rmap[msgstr] = msgid
@@ -79,9 +69,9 @@
      return trans.ugettext(text)
 --- calibre/src/calibre/utils/localization.py.wiget	2013-12-06 05:13:34.000000000 +0100
 +++ calibre/src/calibre/utils/localization.py	2013-12-09 09:31:05.694326467 +0100
-@@ -74,20 +74,20 @@ def get_lang():
-         lang = 'en'
-     return lang
+@@ -74,21 +74,20 @@ def get_lang():
+     return get_lang()[:2].lower() in {'he', 'ar'}
+ 
  
 +def messages_path(lang):
 +    return ('/usr/share/locale/%s/LC_MESSAGES'%lang)
@@ -96,6 +86,7 @@
 -            if xlang in available_translations():
 -                hlang = xlang
 -    return hlang
+-
 -
 -def zf_exists():
 -    return os.path.exists(P('localization/locales.zip',
