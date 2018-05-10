@@ -5,18 +5,18 @@
 # NOTE:
 # Upstream packages some unfree fonts which we cannot redistribute,
 # so when upgrading calibre we should download upstream tarball by hand from
-# http://downloads.sourceforge.net/calibre and run generate-tarball.sh script
+# https://download.calibre-ebook.com/ and run generate-tarball.sh script
 # included as SourceX.
 #
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	2.74.0
-Release:	4
+Version:	3.23.0
+Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	b01b92dbb654fd64462ce0010e38d24e
+# Source0-md5:	a723c37703e72fdff6a365e762829191
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
@@ -40,8 +40,11 @@ URL:		http://www.calibre-ebook.com/
 BuildRequires:	ImageMagick-devel >= 6.6.4.7
 BuildRequires:	Qt5Core-devel
 BuildRequires:	Qt5DBus-devel
+BuildRequires:	Qt5EventDispatcherSupport-devel
+BuildRequires:	Qt5FontDatabaseSupport-devel
 BuildRequires:	Qt5Gui-devel
-BuildRequires:	Qt5PlatformSupport-devel
+BuildRequires:	Qt5ServiceSupport-devel
+BuildRequires:	Qt5ThemeSupport-devel
 BuildRequires:	Qt5Widgets-devel
 BuildRequires:	chmlib-devel >= 0.40
 BuildRequires:	libicu-devel
@@ -65,11 +68,14 @@ BuildRequires:	python-dateutil >= %{dateutil_ver}
 BuildRequires:	python-devel >= 1:2.7.1
 BuildRequires:	python-dns >= %{dns_ver}
 BuildRequires:	python-genshi
+BuildRequires:	python-html5-parser
 BuildRequires:	python-lxml >= %{lxml_ver}
 BuildRequires:	python-mechanize >= %{mechanize_ver}
 BuildRequires:	python-modules-sqlite
+BuildRequires:	python-msgpack
 BuildRequires:	python-netifaces >= %{netifaces_ver}
 BuildRequires:	python-psutil >= %{psutil_ver}
+BuildRequires:	python-regex
 BuildRequires:	python-sip-devel
 BuildRequires:	qt5-build
 BuildRequires:	qt5-qmake
@@ -93,11 +99,14 @@ Requires:	python-cssutils >= %{cssutils_ver}
 Requires:	python-dateutil >= %{dateutil_ver}
 Requires:	python-dns >= %{dns_ver}
 Requires:	python-genshi
+Requires:	python-html5-parser
 Requires:	python-lxml >= %{lxml_ver}
 Requires:	python-mechanize >= %{mechanize_ver}
 Requires:	python-modules-sqlite
+Requires:	python-msgpack
 Requires:	python-netifaces >= %{netifaces_ver}
 Requires:	python-psutil >= %{psutil_ver}
+Requires:	python-regex
 Suggests:	ImageMagick-coder-jpeg
 Suggests:	ImageMagick-coder-png
 ### FIXME: libunrar.so is needed for rar-packed files
@@ -289,9 +298,9 @@ fi
 %attr(755,root,root) %{_bindir}/markdown-calibre
 %attr(755,root,root) %{_bindir}/web2disk
 %{_datadir}/%{name}
-%{_datadir}/appdata/calibre-ebook-edit.appdata.xml
-%{_datadir}/appdata/calibre-ebook-viewer.appdata.xml
-%{_datadir}/appdata/calibre-gui.appdata.xml
+%{_datadir}/metainfo/calibre-ebook-edit.appdata.xml
+%{_datadir}/metainfo/calibre-ebook-viewer.appdata.xml
+%{_datadir}/metainfo/calibre-gui.appdata.xml
 %{_libdir}/%{name}
 %{_desktopdir}/calibre-ebook-edit.desktop
 %{_desktopdir}/calibre-ebook-viewer.desktop
