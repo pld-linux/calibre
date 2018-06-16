@@ -16,7 +16,7 @@ Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	70fe3bad4b7fea58c70d81daeaa5931a
+# Source0-md5:	09556340ceceed29ae7f71bfbb26b849
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
