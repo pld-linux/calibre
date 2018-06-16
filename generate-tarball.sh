@@ -2,6 +2,8 @@
 
 VERSION=$1
 
+wget https://download.calibre-ebook.com/$VERSION/calibre-$VERSION.tar.xz
+
 tar -xvJf calibre-$VERSION.tar.xz
 rm -f calibre-$VERSION/resources/fonts/liberation/*
 rm -f calibre-$VERSION/resources/fonts/prs500/*
