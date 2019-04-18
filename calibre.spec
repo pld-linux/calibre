@@ -3,7 +3,7 @@
 #	- make separate server package with init-scripts, etc...
 #
 # NOTE:
-# Upstream packages some unfree fonts which we cannot redistribute,
+# Upstream packages contain some non-free fonts which we cannot redistribute,
 # so when upgrading calibre we should download upstream tarball by hand from
 # https://download.calibre-ebook.com/ and run generate-tarball.sh script
 # included as SourceX.
@@ -12,7 +12,7 @@ Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
 Version:	3.31.0
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
@@ -210,11 +210,13 @@ LIBPATH="%{_libdir}" \
 	--root=$RPM_BUILD_ROOT \
 	--libdir=%{_libdir}
 
+%{__sed} -i -e '1s,/usr/bin/env python,%{__python},' $RPM_BUILD_ROOT%{_bindir}/*
+
 cp -p resources/images/library.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}-gui.png
 cp -p resources/images/viewer.png $RPM_BUILD_ROOT%{_pixmapsdir}/calibre-viewer.png
 
-%py_ocomp $RPM_BUILD_ROOT%{_libdir}/%{name}
 %py_comp $RPM_BUILD_ROOT%{_libdir}/%{name}
+%py_ocomp $RPM_BUILD_ROOT%{_libdir}/%{name}
 %py_postclean %{_libdir}/%{name}
 
 %{__mv} $RPM_BUILD_ROOT%{_datadir}/%{name}/localization/locales $RPM_BUILD_ROOT%{_localedir}
@@ -223,32 +225,31 @@ cp -p resources/images/viewer.png $RPM_BUILD_ROOT%{_pixmapsdir}/calibre-viewer.p
 for file in $RPM_BUILD_ROOT%{_localedir}/*; do
 	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\).*:\1:')
 	mkdir $RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES
-	mv $RPM_BUILD_ROOT%{_localedir}/$lang/*.mo \
+	%{__mv} $RPM_BUILD_ROOT%{_localedir}/$lang/*.mo \
 		$RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES
 done;
 for file in $RPM_BUILD_ROOT%{_localedir}/*/LC_MESSAGES/messages.mo; do
 	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
-	mv $RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/messages.mo \
+	%{__mv} $RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/messages.mo \
 		$RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/%{name}.mo
 done;
 for file in $RPM_BUILD_ROOT%{_localedir}/*/LC_MESSAGES/iso639.mo; do
 	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
-	mv $RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/iso639.mo \
+	%{__mv} $RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/iso639.mo \
 		$RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/%{name}_iso639.mo
 done;
 for file in $RPM_BUILD_ROOT%{_localedir}/*/lcdata.pickle; do
 	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/lcdata.pickle:\1:')
-	mv $RPM_BUILD_ROOT%{_localedir}/$lang/lcdata.pickle \
+	%{__mv} $RPM_BUILD_ROOT%{_localedir}/$lang/lcdata.pickle \
 		$RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/%{name}_lcdata.pickle
 done;
 
 %{__rm} $RPM_BUILD_ROOT%{_bindir}/%{name}-uninstall
 
+# duplicates of bn,sl
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{bn_BD,sl_SI}
 # unsupported
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/bn_BD
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/jv
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/ltg
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/sl_SI
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{jv,ltg}
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}
 
@@ -297,20 +298,38 @@ fi
 %attr(755,root,root) %{_bindir}/lrs2lrf
 %attr(755,root,root) %{_bindir}/markdown-calibre
 %attr(755,root,root) %{_bindir}/web2disk
+%{_libdir}/%{name}
 %{_datadir}/%{name}
 %{_datadir}/metainfo/calibre-ebook-edit.appdata.xml
 %{_datadir}/metainfo/calibre-ebook-viewer.appdata.xml
 %{_datadir}/metainfo/calibre-gui.appdata.xml
-%{_libdir}/%{name}
 %{_desktopdir}/calibre-ebook-edit.desktop
 %{_desktopdir}/calibre-ebook-viewer.desktop
 %{_desktopdir}/calibre-gui.desktop
 %{_desktopdir}/calibre-lrfviewer.desktop
-%{_iconsdir}/hicolor/*/*/*.png
-%{_datadir}/mime/application/*.xml
-%{_datadir}/mime/text/*.xml
+%{_iconsdir}/hicolor/*x*/apps/calibre-*.png
+%{_iconsdir}/hicolor/*x*/mimetypes/application-lrf.png
+%{_iconsdir}/hicolor/*x*/mimetypes/application-x-kindle-application.png
+%{_iconsdir}/hicolor/*x*/mimetypes/application-x-mobi8-ebook.png
+%{_iconsdir}/hicolor/*x*/mimetypes/application-x-mobipocket-ebook.png
+%{_iconsdir}/hicolor/*x*/mimetypes/application-x-topaz-ebook.png
+%{_iconsdir}/hicolor/*x*/mimetypes/gnome-mime-application-lrf.png
+%{_iconsdir}/hicolor/*x*/mimetypes/gnome-mime-application-x-kindle-application.png
+%{_iconsdir}/hicolor/*x*/mimetypes/gnome-mime-application-x-mobi8-ebook.png
+%{_iconsdir}/hicolor/*x*/mimetypes/gnome-mime-application-x-mobipocket-ebook.png
+%{_iconsdir}/hicolor/*x*/mimetypes/gnome-mime-application-x-topaz-ebook.png
+%{_iconsdir}/hicolor/*x*/mimetypes/gnome-mime-text-lrs.png
+%{_iconsdir}/hicolor/*x*/mimetypes/text-lrs.png
+%{_datadir}/mime/application/epub+zip.xml
+%{_datadir}/mime/application/x-kindle-application.xml
+%{_datadir}/mime/application/x-mobi8-ebook.xml
+%{_datadir}/mime/application/x-mobipocket-ebook.xml
+%{_datadir}/mime/application/x-mobipocket-subscription.xml
+%{_datadir}/mime/application/x-sony-bbeb.xml
+%{_datadir}/mime/application/x-topaz-ebook.xml
 %{_datadir}/mime/packages/calibre-mimetypes.xml
-%{_pixmapsdir}/%{name}-gui.png
+%{_datadir}/mime/text/lrs.xml
+%{_pixmapsdir}/calibre-gui.png
 %{_pixmapsdir}/calibre-viewer.png
 
 %files -n bash-completion-calibre
@@ -319,4 +338,4 @@ fi
 
 %files -n zsh-completion-calibre
 %defattr(644,root,root,755)
-%{_datadir}/zsh/site-functions/*
+%{_datadir}/zsh/site-functions/_calibre
