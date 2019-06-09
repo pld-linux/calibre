@@ -11,12 +11,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	3.31.0
-Release:	2
+Version:	3.44.0
+Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	8e412cf8615b06cd5a432e1212f33517
+# Source0-md5:	306d559dc5c4bc4c8191ce3004a6137e
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
@@ -62,7 +62,9 @@ BuildRequires:	python-PyQt5 >= %{pyqt5_ver}
 BuildRequires:	python-PyQt5-devel-tools >= %{pyqt5_ver}
 BuildRequires:	python-PyQt5-uic >= %{pyqt5_ver}
 BuildRequires:	python-apsw >= %{apsw_ver}
+BuildRequires:	python-bs4
 BuildRequires:	python-cssselect >= %{cssselect_ver}
+BuildRequires:	python-css_parser
 BuildRequires:	python-cssutils >= %{cssutils_ver}
 BuildRequires:	python-dateutil >= %{dateutil_ver}
 BuildRequires:	python-devel >= 1:2.7.1
@@ -94,7 +96,9 @@ Requires:	python-BeautifulSoup >= %{baeutifulsoup_ver}
 Requires:	python-PIL >= %{pil_ver}
 Requires:	python-PyQt5 >= %{pyqt5_ver}
 Requires:	python-apsw >= %{apsw_ver}
+Requires:	python-bs4
 Requires:	python-cssselect >= %{cssselect_ver}
+Requires:	python-css_parser
 Requires:	python-cssutils >= %{cssutils_ver}
 Requires:	python-dateutil >= %{dateutil_ver}
 Requires:	python-dns >= %{dns_ver}
@@ -201,14 +205,16 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_datadir}/{icons/hicolor,packages,mime/packages,desktop-directories} \
 	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir},/usr/share/zsh/site-functions}
 
-XDG_DATA_DIRS="$RPM_BUILD_ROOT%{_datadir}" \
-XDG_UTILS_INSTALL_MODE="system" \
-LIBPATH="%{_libdir}" \
+export XDG_DATA_DIRS="$RPM_BUILD_ROOT%{_datadir}"
+export XDG_UTILS_INSTALL_MODE="system"
+export LIBPATH="%{_libdir}"
 %{__python} setup.py install \
 	--no-compile \
-	--prefix=%{_prefix} \
 	--root=$RPM_BUILD_ROOT \
-	--libdir=%{_libdir}
+	--prefix=%{_prefix} \
+	--bindir=%{_bindir} \
+	--libdir=%{_libdir} \
+	--sharedir=%{_datadir}
 
 %{__sed} -i -e '1s,/usr/bin/env python,%{__python},' $RPM_BUILD_ROOT%{_bindir}/*
 
@@ -238,13 +244,6 @@ for file in $RPM_BUILD_ROOT%{_localedir}/*/LC_MESSAGES/iso639.mo; do
 	%{__mv} $RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/iso639.mo \
 		$RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/%{name}_iso639.mo
 done;
-for file in $RPM_BUILD_ROOT%{_localedir}/*/lcdata.pickle; do
-	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/lcdata.pickle:\1:')
-	%{__mv} $RPM_BUILD_ROOT%{_localedir}/$lang/lcdata.pickle \
-		$RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/%{name}_lcdata.pickle
-done;
-
-%{__rm} $RPM_BUILD_ROOT%{_bindir}/%{name}-uninstall
 
 # duplicates of bn,sl
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{bn_BD,sl_SI}
@@ -254,8 +253,8 @@ done;
 install %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}
 
 %find_lang %{name} --all-name
-for file in $RPM_BUILD_ROOT%{_localedir}/*/LC_MESSAGES/%{name}_lcdata.pickle; do
-	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
+for file in $RPM_BUILD_ROOT%{_localedir}/*/lcdata.calibre_msgpack; do
+	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/.*:\1:')
 	echo $file | %{__sed} "s:$RPM_BUILD_ROOT\(.*\):%lang($lang) \1:" >>%{name}.lang
 done;
 
@@ -320,15 +319,7 @@ fi
 %{_iconsdir}/hicolor/*x*/mimetypes/gnome-mime-application-x-topaz-ebook.png
 %{_iconsdir}/hicolor/*x*/mimetypes/gnome-mime-text-lrs.png
 %{_iconsdir}/hicolor/*x*/mimetypes/text-lrs.png
-%{_datadir}/mime/application/epub+zip.xml
-%{_datadir}/mime/application/x-kindle-application.xml
-%{_datadir}/mime/application/x-mobi8-ebook.xml
-%{_datadir}/mime/application/x-mobipocket-ebook.xml
-%{_datadir}/mime/application/x-mobipocket-subscription.xml
-%{_datadir}/mime/application/x-sony-bbeb.xml
-%{_datadir}/mime/application/x-topaz-ebook.xml
 %{_datadir}/mime/packages/calibre-mimetypes.xml
-%{_datadir}/mime/text/lrs.xml
 %{_pixmapsdir}/calibre-gui.png
 %{_pixmapsdir}/calibre-viewer.png
 

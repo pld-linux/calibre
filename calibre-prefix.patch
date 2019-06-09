@@ -20,3 +20,27 @@
  
          self.staging_libdir = opts.staging_libdir = self.j(self.staging_libdir, 'calibre')
          self.staging_sharedir = opts.staging_sharedir = self.j(self.staging_sharedir, 'calibre')
+--- calibre-3.44.0/src/calibre/linux.py~	2019-06-09 19:23:04.000000000 +0200
++++ calibre-3.44.0/src/calibre/linux.py	2019-06-09 19:27:46.476130247 +0200
+@@ -685,10 +685,10 @@
+             self.warn = self.warning
+ 
+         if not self.opts.staging_bindir:
+-            self.opts.staging_bindir = os.path.join(self.opts.staging_root,
++            self.opts.staging_bindir = os.path.join(self.opts.staging_root, 'usr',
+             'bin')
+         if not self.opts.staging_sharedir:
+-            self.opts.staging_sharedir = os.path.join(self.opts.staging_root,
++            self.opts.staging_sharedir = os.path.join(self.opts.staging_root, 'usr',
+             'share', 'calibre')
+         self.opts.staging_etc = '/etc' if self.opts.staging_root == '/usr' else \
+                 os.path.join(self.opts.staging_root, 'etc')
+@@ -696,7 +696,7 @@
+         prefix = getattr(self.opts, 'prefix', None)
+         if prefix and prefix != self.opts.staging_root:
+             self.opts.staged_install = True
+-            os.environ['XDG_DATA_DIRS'] = os.path.join(self.opts.staging_root, 'share')
++            os.environ['XDG_DATA_DIRS'] = os.path.join(self.opts.staging_root, 'usr', 'share')
+             os.environ['XDG_UTILS_INSTALL_MODE'] = 'system'
+ 
+         from calibre.utils.serialize import msgpack_loads
