@@ -12,7 +12,7 @@ Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
 Version:	3.44.0
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
@@ -245,6 +245,7 @@ for file in $RPM_BUILD_ROOT%{_localedir}/*/LC_MESSAGES/iso639.mo; do
 		$RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/%{name}_iso639.mo
 done;
 
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{km_KH,km}
 # duplicates of bn,sl
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{bn_BD,sl_SI}
 # unsupported
