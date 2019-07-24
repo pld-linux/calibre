@@ -55,7 +55,7 @@
 -                allow_user_override=False), 'r') as zf:
 -                try:
 -                    buf = io.BytesIO(zf.read(mpath + '/messages.mo'))
--                except:
+-                except Exception:
 -                    pass
 -                else:
 -                    trans = GNUTranslations(buf)
@@ -125,18 +125,26 @@
  
  lcdata = {
      u'abday': (u'Sun', u'Mon', u'Tue', u'Wed', u'Thu', u'Fri', u'Sat'),
-@@ -134,10 +134,11 @@
+@@ -134,20 +134,11 @@
  
  
  def get_single_translator(mpath, which='messages'):
 -    from zipfile import ZipFile
 -    with ZipFile(P('localization/locales.zip', allow_user_override=False), 'r') as zf:
--        buf = io.BytesIO(zf.read(mpath + '/%s.mo' % which))
-+    try:
-+        buf = open(os.path.join(mpath, '/%s.mo' % which), 'rb')
-         return GNUTranslations(buf)
-+    except:
-+        pass  # No translations for this lang
+-        path = '{}/{}.mo'.format(mpath, which)
+-        data = zf.read(path)
+-        buf = io.BytesIO(data)
+         try:
++            buf = open(os.path.join(mpath, '/%s.mo' % which), 'rb')
+             return GNUTranslations(buf)
+         except Exception as e:
+-            import traceback
+-            traceback.print_exc()
+-            import hashlib
+-            sig = hashlib.sha1(data).hexdigest()
+-            raise ValueError('Failed to load translations for: {} (size: {} and signature: {}) with error: {}'.format(
+-                path, len(data), sig, e))
++            pass  # No translations for this lang
  
  
  def get_iso639_translator(lang):
