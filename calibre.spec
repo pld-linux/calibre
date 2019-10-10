@@ -61,6 +61,7 @@ BuildRequires:	python-PIL >= %{pil_ver}
 BuildRequires:	python-PyQt5 >= %{pyqt5_ver}
 BuildRequires:	python-PyQt5-devel-tools >= %{pyqt5_ver}
 BuildRequires:	python-PyQt5-uic >= %{pyqt5_ver}
+BuildRequires:	python-PyQtWebEngine >= %{pyqt5_ver}
 BuildRequires:	python-apsw >= %{apsw_ver}
 BuildRequires:	python-bs4
 BuildRequires:	python-cssselect >= %{cssselect_ver}
