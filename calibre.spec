@@ -45,6 +45,7 @@ BuildRequires:	Qt5FontDatabaseSupport-devel
 BuildRequires:	Qt5Gui-devel
 BuildRequires:	Qt5ServiceSupport-devel
 BuildRequires:	Qt5ThemeSupport-devel
+BuildRequires:	Qt5WebEngine-devel
 BuildRequires:	Qt5Widgets-devel
 BuildRequires:	chmlib-devel >= 0.40
 BuildRequires:	libicu-devel
