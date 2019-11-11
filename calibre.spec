@@ -11,19 +11,18 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	4.1.0
+Version:	4.3.0
 Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	9aa5823e828ad0e7ff29d8178080e449
+# Source0-md5:	8bfe8d70899f3437626d6040be98020a
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
-Patch1:		%{name}-env_module.patch
-Patch2:		%{name}-locales.patch
-Patch3:		shebang-python-fix.patch
-Patch4:		desktop-integration.patch
+Patch1:		%{name}-locales.patch
+Patch2:		shebang-python-fix.patch
+Patch3:		desktop-integration.patch
 URL:		http://www.calibre-ebook.com/
 %define		baeutifulsoup_ver 3.0.5
 %define		pil_ver 1.1.6
@@ -48,6 +47,7 @@ BuildRequires:	Qt5ThemeSupport-devel
 BuildRequires:	Qt5WebEngine-devel
 BuildRequires:	Qt5Widgets-devel
 BuildRequires:	chmlib-devel >= 0.40
+BuildRequires:	hunspell-devel
 BuildRequires:	libicu-devel
 BuildRequires:	libinput-devel
 BuildRequires:	libmtp-devel >= 1.1.5
@@ -97,6 +97,7 @@ Requires:	Qt5WebKit
 Requires:	python-BeautifulSoup >= %{baeutifulsoup_ver}
 Requires:	python-PIL >= %{pil_ver}
 Requires:	python-PyQt5 >= %{pyqt5_ver}
+Requires:	python-PyQtWebEngine >= %{pyqt5_ver}
 Requires:	python-apsw >= %{apsw_ver}
 Requires:	python-bs4
 Requires:	python-cssselect >= %{cssselect_ver}
@@ -182,7 +183,6 @@ Pakiet ten dostarcza uzupełnianie nazw dla calibre w powłoce zsh.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 
 # 64bit target build fix
 %{__sed} -i -e "s!'/usr/lib'!'%{_libdir}'!g" setup/build_environment.py
@@ -328,7 +328,8 @@ fi
 
 %files -n bash-completion-calibre
 %defattr(644,root,root,755)
-%{bash_compdir}/calibre
+%{bash_compdir}/*
+
 
 %files -n zsh-completion-calibre
 %defattr(644,root,root,755)
