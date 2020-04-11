@@ -11,12 +11,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	4.3.0
-Release:	2
+Version:	4.13.0
+Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	8bfe8d70899f3437626d6040be98020a
+# Source0-md5:	dfee853d8c11bdca4654382e8ab8e2db
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
@@ -48,6 +48,7 @@ BuildRequires:	Qt5WebEngine-devel
 BuildRequires:	Qt5Widgets-devel
 BuildRequires:	chmlib-devel >= 0.40
 BuildRequires:	hunspell-devel
+BuildRequires:	hyphen-devel
 BuildRequires:	libicu-devel
 BuildRequires:	libinput-devel
 BuildRequires:	libmtp-devel >= 1.1.5
@@ -251,7 +252,7 @@ done;
 # duplicates of bn,sl
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{bn_BD,sl_SI}
 # unsupported
-%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{jv,ltg}
+%{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{jv,ltg,uz@Latn}
 
 install %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}
 

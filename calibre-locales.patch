@@ -35,18 +35,6 @@
          return self.j(self.d(self.DEST), 'stats.pickle')
 --- calibre/src/calibre/translations/dynamic.py.wiget	2013-12-06 05:13:34.000000000 +0100
 +++ calibre/src/calibre/translations/dynamic.py	2013-12-09 09:28:32.349958101 +0100
-@@ -5,10 +5,10 @@ Dynamic language lookup of translations
- __license__   = 'GPL v3'
- __copyright__ = '2008, Marshall T. Vandegrift <llasram@gmail.com>'
- 
-+import os
- import io
- from gettext import GNUTranslations
- from calibre.utils.localization import get_lc_messages_path
--from zipfile import ZipFile
- 
- __all__ = ['translate']
- 
 @@ -21,15 +21,10 @@ def translate(lang, text):
      else:
          mpath = get_lc_messages_path(lang)
