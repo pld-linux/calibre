@@ -11,19 +11,19 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	4.13.0
+Version:	4.14.0
 Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	dfee853d8c11bdca4654382e8ab8e2db
+# Source0-md5:	910c4f9ffc0e3fa28a3dd3bbaea344cf
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
 Patch1:		%{name}-locales.patch
 Patch2:		shebang-python-fix.patch
 Patch3:		desktop-integration.patch
-URL:		http://www.calibre-ebook.com/
+Patch4:		%{name}-env_module.patch
 %define		baeutifulsoup_ver 3.0.5
 %define		pil_ver 1.1.6
 %define		pyqt5_ver 5.3.1
@@ -34,8 +34,10 @@ URL:		http://www.calibre-ebook.com/
 %define		dns_ver 1.6.0
 %define		lxml_ver 2.2.1
 %define		mechanize_ver 0.1.11
+%define		msgpack_ver 1.0.0
 %define		netifaces_ver 0.8
 %define		psutil_ver 0.6.1
+URL:		http://www.calibre-ebook.com/
 BuildRequires:	ImageMagick-devel >= 6.6.4.7
 BuildRequires:	Qt5Core-devel
 BuildRequires:	Qt5DBus-devel
@@ -56,8 +58,8 @@ BuildRequires:	libwmf-devel >= 0.2.8
 BuildRequires:	mtdev-devel
 BuildRequires:	pkgconfig
 BuildRequires:	podofo-devel >= 0.8.2
-BuildRequires:	poppler-qt5-devel >= 0.28.1
 BuildRequires:	poppler-glib-devel >= 0.28.1
+BuildRequires:	poppler-qt5-devel >= 0.28.1
 BuildRequires:	python-BeautifulSoup >= %{baeutifulsoup_ver}
 BuildRequires:	python-PIL >= %{pil_ver}
 BuildRequires:	python-PyQt5 >= %{pyqt5_ver}
@@ -66,8 +68,8 @@ BuildRequires:	python-PyQt5-uic >= %{pyqt5_ver}
 BuildRequires:	python-PyQtWebEngine >= %{pyqt5_ver}
 BuildRequires:	python-apsw >= %{apsw_ver}
 BuildRequires:	python-bs4
-BuildRequires:	python-cssselect >= %{cssselect_ver}
 BuildRequires:	python-css_parser
+BuildRequires:	python-cssselect >= %{cssselect_ver}
 BuildRequires:	python-cssutils >= %{cssutils_ver}
 BuildRequires:	python-dateutil >= %{dateutil_ver}
 BuildRequires:	python-devel >= 1:2.7.1
@@ -77,7 +79,7 @@ BuildRequires:	python-html5-parser
 BuildRequires:	python-lxml >= %{lxml_ver}
 BuildRequires:	python-mechanize >= %{mechanize_ver}
 BuildRequires:	python-modules-sqlite
-BuildRequires:	python-msgpack
+BuildRequires:	python-msgpack >= %{msgpack_ver}
 BuildRequires:	python-netifaces >= %{netifaces_ver}
 BuildRequires:	python-psutil >= %{psutil_ver}
 BuildRequires:	python-regex
@@ -87,8 +89,8 @@ BuildRequires:	qt5-qmake
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.710
 BuildRequires:	sed >= 4.0
-BuildRequires:	sqlite3-devel
 BuildRequires:	sip-PyQt5
+BuildRequires:	sqlite3-devel
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	unzip
 BuildRequires:	xdg-utils
@@ -101,8 +103,8 @@ Requires:	python-PyQt5 >= %{pyqt5_ver}
 Requires:	python-PyQtWebEngine >= %{pyqt5_ver}
 Requires:	python-apsw >= %{apsw_ver}
 Requires:	python-bs4
-Requires:	python-cssselect >= %{cssselect_ver}
 Requires:	python-css_parser
+Requires:	python-cssselect >= %{cssselect_ver}
 Requires:	python-cssutils >= %{cssutils_ver}
 Requires:	python-dateutil >= %{dateutil_ver}
 Requires:	python-dns >= %{dns_ver}
@@ -111,7 +113,7 @@ Requires:	python-html5-parser
 Requires:	python-lxml >= %{lxml_ver}
 Requires:	python-mechanize >= %{mechanize_ver}
 Requires:	python-modules-sqlite
-Requires:	python-msgpack
+Requires:	python-msgpack >= %{msgpack_ver}
 Requires:	python-netifaces >= %{netifaces_ver}
 Requires:	python-psutil >= %{psutil_ver}
 Requires:	python-regex
@@ -184,6 +186,7 @@ Pakiet ten dostarcza uzupełnianie nazw dla calibre w powłoce zsh.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 # 64bit target build fix
 %{__sed} -i -e "s!'/usr/lib'!'%{_libdir}'!g" setup/build_environment.py
@@ -206,7 +209,7 @@ QMAKE="%{_bindir}/qmake-qt5" \
 rm -rf $RPM_BUILD_ROOT
 # create directories for xdg-utils
 install -d $RPM_BUILD_ROOT%{_datadir}/{icons/hicolor,packages,mime/packages,desktop-directories} \
-	$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir},/usr/share/zsh/site-functions}
+$RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir},%{zsh_compdir}}
 
 export XDG_DATA_DIRS="$RPM_BUILD_ROOT%{_datadir}"
 export XDG_UTILS_INSTALL_MODE="system"
@@ -254,7 +257,7 @@ done;
 # unsupported
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{jv,ltg,uz@Latn}
 
-install %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}
+cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_bindir}
 
 %find_lang %{name} --all-name
 for file in $RPM_BUILD_ROOT%{_localedir}/*/lcdata.calibre_msgpack; do
@@ -334,4 +337,4 @@ fi
 
 %files -n zsh-completion-calibre
 %defattr(644,root,root,755)
-%{_datadir}/zsh/site-functions/_calibre
+%{zsh_compdir}/_calibre

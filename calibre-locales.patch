@@ -137,32 +137,32 @@
  
  def get_iso639_translator(lang):
 @@ -145,22 +145,21 @@
-                 buf = io.BytesIO(buf.getvalue())
+         buf = load_po(mpath + '.po')
  
-         if mpath is not None:
--            from zipfile import ZipFile
--            with ZipFile(P('localization/locales.zip',
--                allow_user_override=False), 'r') as zf:
--                if buf is None:
--                    buf = io.BytesIO(zf.read(mpath + '/messages.mo'))
-+            if buf is None:
-+                try:
-+                    buf = open(os.path.join(mpath, 'calibre.mo'), 'rb')
-+                except:
-+                    pass  # No translations for this lang
-                 if mpath == 'nds':
-                     mpath = 'de'
--                isof = mpath + '/iso639.mo'
+     if mpath is not None:
+-        from zipfile import ZipFile
+-        with ZipFile(P('localization/locales.zip',
+-            allow_user_override=False), 'r') as zf:
+-            if buf is None:
+-                buf = io.BytesIO(zf.read(mpath + '/messages.mo'))
++        if buf is None:
++            try:
++                buf = open(os.path.join(mpath, 'calibre.mo'), 'rb')
++            except:
++                pass  # No translations for this lang
+             if mpath == 'nds':
+                 mpath = 'de'
+-            isof = mpath + '/iso639.mo'
+             try:
+-                iso639 = io.BytesIO(zf.read(isof))
++                iso639 = open(os.path.join(mpath, 'calibre_iso639.mo'), 'rb')
+             except:
+                 pass  # No iso639 translations for this lang
+             if buf is not None:
+                 from calibre.utils.serialize import msgpack_loads
                  try:
--                    iso639 = io.BytesIO(zf.read(isof))
-+                    iso639 = open(os.path.join(mpath, 'calibre_iso639.mo'), 'rb')
+-                    lcdata = msgpack_loads(zf.read(mpath + '/lcdata.calibre_msgpack'))
++                    lcdata = msgpack_loads(open(os.path.join(mpath, '/lcdata.calibre_msgpack')))
                  except:
-                     pass  # No iso639 translations for this lang
-                 if buf is not None:
-                     from calibre.utils.serialize import msgpack_loads
-                     try:
--                        lcdata = msgpack_loads(zf.read(mpath + '/lcdata.calibre_msgpack'))
-+                        lcdata = msgpack_loads(open(os.path.join(mpath, '/lcdata.calibre_msgpack')))
-                     except:
-                         pass  # No lcdata
+                     pass  # No lcdata
  

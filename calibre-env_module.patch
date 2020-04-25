@@ -1,10 +1,10 @@
---- calibre/setup/install.py.orig	2013-09-21 13:01:38.006926552 +0200
-+++ calibre/setup/install.py	2013-09-21 13:30:29.042536094 +0200
-@@ -130,7 +130,6 @@ class Develop(Command):
-         self.write_templates()
+--- calibre-4.14.0/setup/install.py~	2020-04-25 17:50:17.000000000 +0200
++++ calibre-4.14.0/setup/install.py	2020-04-25 17:50:31.379931989 +0200
+@@ -142,7 +142,6 @@
+         self.consolidate_paths()
          self.install_files()
-         self.run_postinstall()
+         self.write_templates()
 -        self.install_env_module()
+         self.run_postinstall()
          self.success()
  
-     def install_env_module(self):
