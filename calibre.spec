@@ -12,7 +12,7 @@ Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
 Version:	4.14.0
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
@@ -97,6 +97,7 @@ BuildRequires:	xdg-utils
 BuildRequires:	xz >= 1:4.999.7
 Requires:	Qt5Svg
 Requires:	Qt5WebKit
+Requires:	Qt5WebEngine
 Requires:	python-BeautifulSoup >= %{baeutifulsoup_ver}
 Requires:	python-PIL >= %{pil_ver}
 Requires:	python-PyQt5 >= %{pyqt5_ver}
