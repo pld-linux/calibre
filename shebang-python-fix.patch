@@ -1,15 +1,17 @@
---- calibre/recipes/nrc-nl-epub.recipe~	2011-03-26 02:30:09.000000000 +0100
-+++ calibre/recipes/nrc-nl-epub.recipe	2011-03-29 09:31:15.404987337 +0200
+diff -urNp -x '*.orig' calibre-4.20.0.org/recipes/nrc-nl-epub.recipe calibre-4.20.0/recipes/nrc-nl-epub.recipe
+--- calibre-4.20.0.org/recipes/nrc-nl-epub.recipe	2020-07-03 04:11:13.000000000 +0200
++++ calibre-4.20.0/recipes/nrc-nl-epub.recipe	2021-06-23 14:08:48.429265433 +0200
 @@ -1,4 +1,4 @@
 -#!/usr/bin/env  python2
 +#!/usr/bin/env  python
  # -*- coding: utf-8 -*-
- #Based on veezh's original recipe and Kovid Goyal's New York Times recipe
+ # Based on veezh's original recipe and Kovid Goyal's New York Times recipe
  
---- calibre/setup/install.py~	2011-03-29 09:28:50.238365816 +0200
-+++ calibre/setup/install.py	2011-03-29 09:32:00.301640042 +0200
-@@ -12,7 +12,7 @@
-         __appname__, __version__
+diff -urNp -x '*.orig' calibre-4.20.0.org/setup/install.py calibre-4.20.0/setup/install.py
+--- calibre-4.20.0.org/setup/install.py	2021-06-23 14:08:46.395856286 +0200
++++ calibre-4.20.0/setup/install.py	2021-06-23 14:08:48.429265433 +0200
+@@ -20,7 +20,7 @@ from setup import (
+ )
  
  HEADER = '''\
 -#!/usr/bin/env python{py_major_version}

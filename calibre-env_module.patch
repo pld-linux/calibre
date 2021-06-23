@@ -1,6 +1,7 @@
---- calibre-4.14.0/setup/install.py~	2020-04-25 17:50:17.000000000 +0200
-+++ calibre-4.14.0/setup/install.py	2020-04-25 17:50:31.379931989 +0200
-@@ -142,7 +142,6 @@
+diff -urNp -x '*.orig' calibre-4.20.0.org/setup/install.py calibre-4.20.0/setup/install.py
+--- calibre-4.20.0.org/setup/install.py	2021-06-23 14:08:55.902867594 +0200
++++ calibre-4.20.0/setup/install.py	2021-06-23 14:08:57.906270435 +0200
+@@ -142,7 +142,6 @@ class Develop(Command):
          self.consolidate_paths()
          self.install_files()
          self.write_templates()

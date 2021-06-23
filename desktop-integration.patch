@@ -1,6 +1,7 @@
---- calibre-2.44.1/src/calibre/linux.py.orig	2015-11-21 11:22:06.420641478 +0100
-+++ calibre-2.44.1/src/calibre/linux.py	2015-11-21 11:20:41.000000000 +0100
-@@ -781,7 +781,7 @@
+diff -urNp -x '*.orig' calibre-4.20.0.org/src/calibre/linux.py calibre-4.20.0/src/calibre/linux.py
+--- calibre-4.20.0.org/src/calibre/linux.py	2021-06-23 14:08:51.192699952 +0200
++++ calibre-4.20.0/src/calibre/linux.py	2021-06-23 14:08:53.186104962 +0200
+@@ -875,7 +875,7 @@ class PostInstall:
                  def install_single_icon(iconsrc, basename, size, context, is_last_icon=False):
                      filename = '%s-%s.png' % (basename, size)
                      render_img(iconsrc, filename, width=int(size), height=int(size))
@@ -9,7 +10,7 @@
                      if is_last_icon:
                          del cmd[2]
                      cc(cmd)
-@@ -850,7 +850,7 @@
+@@ -941,7 +941,7 @@ class PostInstall:
  
                  APPDATA = get_appdata()
                  for x in des:
@@ -18,7 +19,7 @@
                      cc(' '.join(cmd), shell=True)
                      self.menu_resources.append(x)
                      ak = x.partition('.')[0]
-@@ -856,8 +856,7 @@
+@@ -951,8 +951,7 @@ class PostInstall:
                  MIME = P(MIME_BASE)
                  self.mime_resources.append(MIME_BASE)
                  if not getattr(self.opts, 'staged_install', False):

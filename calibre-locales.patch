@@ -1,6 +1,7 @@
---- calibre/setup/translations.py.wiget	2013-12-06 05:13:34.000000000 +0100
-+++ calibre/setup/translations.py	2013-12-09 09:28:32.349958101 +0100
-@@ -143,7 +143,7 @@ class Translations(POT):  # {{{
+diff -urNp -x '*.orig' calibre-4.20.0.org/setup/translations.py calibre-4.20.0/setup/translations.py
+--- calibre-4.20.0.org/setup/translations.py	2020-07-03 04:11:13.000000000 +0200
++++ calibre-4.20.0/setup/translations.py	2021-06-23 14:08:43.642418411 +0200
+@@ -304,12 +304,11 @@ class Translations(POT):  # {{{
  
      def mo_file(self, po_file):
          locale = os.path.splitext(os.path.basename(po_file))[0]
@@ -8,18 +9,15 @@
 +        return locale, os.path.join(self.DEST, locale, 'LC_MESSAGES', 'messages.mo')
  
      def run(self, opts):
-         self.iso639_errors = []
-@@ -174,7 +175,6 @@ class Translations(POT):  # {{{
-     def run(self, opts):
          self.compile_main_translations()
          self.compile_content_server_translations()
 -        self.freeze_locales()
          self.compile_user_manual_translations()
- 
-     def compile_group(self, files, handle_stats=None, file_ok=None, action_per_file=None):
-@@ -198,15 +198,6 @@ class Translations(POT):  # {{{
-                     # raise SystemExit(1)
+         self.compile_website_translations()
+         self.compile_changelog_translations()
+@@ -539,15 +538,6 @@ class Translations(POT):  # {{{
                  rmap[msgstr] = msgid
+         return not has_errors
  
 -    def freeze_locales(self):
 -        zf = self.DEST + '.zip'
@@ -32,10 +30,11 @@
 -
      @property
      def stats(self):
-         return self.j(self.d(self.DEST), 'stats.pickle')
---- calibre/src/calibre/translations/dynamic.py.wiget	2013-12-06 05:13:34.000000000 +0100
-+++ calibre/src/calibre/translations/dynamic.py	2013-12-09 09:28:32.349958101 +0100
-@@ -21,15 +21,10 @@ def translate(lang, text):
+         return self.j(self.d(self.DEST), 'stats.calibre_msgpack')
+diff -urNp -x '*.orig' calibre-4.20.0.org/src/calibre/translations/dynamic.py calibre-4.20.0/src/calibre/translations/dynamic.py
+--- calibre-4.20.0.org/src/calibre/translations/dynamic.py	2020-07-03 04:11:13.000000000 +0200
++++ calibre-4.20.0/src/calibre/translations/dynamic.py	2021-06-23 14:08:43.642418411 +0200
+@@ -24,15 +24,10 @@ def translate(lang, text):
      else:
          mpath = get_lc_messages_path(lang)
          if mpath is not None:
@@ -54,10 +53,11 @@
 +               _CACHE[lang] = trans
      if trans is None:
          return getattr(__builtins__, '_', lambda x: x)(text)
-     return trans.ugettext(text)
---- calibre/src/calibre/utils/localization.py.wiget	2013-12-06 05:13:34.000000000 +0100
-+++ calibre/src/calibre/utils/localization.py	2013-12-09 09:31:05.694326467 +0100
-@@ -74,21 +74,20 @@ def get_lang():
+     f = getattr(trans, 'gettext' if ispy3 else 'ugettext')
+diff -urNp -x '*.orig' calibre-4.20.0.org/src/calibre/utils/localization.py calibre-4.20.0/src/calibre/utils/localization.py
+--- calibre-4.20.0.org/src/calibre/utils/localization.py	2020-07-03 04:11:13.000000000 +0200
++++ calibre-4.20.0/src/calibre/utils/localization.py	2021-06-23 14:08:43.642418411 +0200
+@@ -104,51 +104,42 @@ def is_rtl():
      return get_lang()[:2].lower() in {'he', 'ar'}
  
  
@@ -89,10 +89,9 @@
 +        return messages_path(hlang)
 +    return None
  
+ 
  _lang_trans = None
  
-@@ -99,13 +99,14 @@
- _lang_trans = None
  
  def get_all_translators():
 -    from zipfile import ZipFile
@@ -101,19 +100,14 @@
 -            mpath = get_lc_messages_path(lang)
 -            if mpath is not None:
 -                buf = io.BytesIO(zf.read(mpath + '/messages.mo'))
--                yield lang, GNUTranslations(buf)
 +    for lang in available_translations():
 +        mpath = get_lc_messages_path(lang)
 +        if mpath is not None:
 +            try:
 +                buf = open(os.path.join(mpath, 'calibre.mo'), 'rb')
-+                yield lang, GNUTranslations(buf)
+                 yield lang, GNUTranslations(buf)
 +            except:
 +                pass
- 
- lcdata = {
-     u'abday': (u'Sun', u'Mon', u'Tue', u'Wed', u'Thu', u'Fri', u'Sat'),
-@@ -134,20 +134,11 @@
  
  
  def get_single_translator(mpath, which='messages'):
@@ -136,7 +130,7 @@
  
  
  def get_iso639_translator(lang):
-@@ -145,22 +145,21 @@
+@@ -219,22 +210,21 @@ def translator_for_lang(lang):
          buf = load_po(mpath + '.po')
  
      if mpath is not None:

@@ -1,6 +1,7 @@
---- calibre/setup/install.py~	2010-05-16 05:55:33.000000000 +0200
-+++ calibre/setup/install.py	2010-05-20 12:00:42.483014835 +0200
-@@ -91,15 +91,10 @@
+diff -urNp -x '*.orig' calibre-4.20.0.org/setup/install.py calibre-4.20.0/setup/install.py
+--- calibre-4.20.0.org/setup/install.py	2020-07-03 04:11:13.000000000 +0200
++++ calibre-4.20.0/setup/install.py	2021-06-23 14:08:38.902233250 +0200
+@@ -100,15 +100,10 @@ class Develop(Command):
              self.sharedir = self.j(opts.prefix, 'share')
          if not getattr(opts, 'staging_root', None):
              opts.staging_root = opts.prefix
@@ -20,9 +21,10 @@
  
          self.staging_libdir = opts.staging_libdir = self.j(self.staging_libdir, 'calibre')
          self.staging_sharedir = opts.staging_sharedir = self.j(self.staging_sharedir, 'calibre')
---- calibre-3.44.0/src/calibre/linux.py~	2019-06-09 19:23:04.000000000 +0200
-+++ calibre-3.44.0/src/calibre/linux.py	2019-06-09 19:27:46.476130247 +0200
-@@ -685,10 +685,10 @@
+diff -urNp -x '*.orig' calibre-4.20.0.org/src/calibre/linux.py calibre-4.20.0/src/calibre/linux.py
+--- calibre-4.20.0.org/src/calibre/linux.py	2020-07-03 04:11:13.000000000 +0200
++++ calibre-4.20.0/src/calibre/linux.py	2021-06-23 14:08:38.902233250 +0200
+@@ -737,10 +737,10 @@ class PostInstall:
              self.warn = self.warning
  
          if not self.opts.staging_bindir:
@@ -35,7 +37,7 @@
              'share', 'calibre')
          self.opts.staging_etc = '/etc' if self.opts.staging_root == '/usr' else \
                  os.path.join(self.opts.staging_root, 'etc')
-@@ -696,7 +696,7 @@
+@@ -748,7 +748,7 @@ class PostInstall:
          prefix = getattr(self.opts, 'prefix', None)
          if prefix and prefix != self.opts.staging_root:
              self.opts.staged_install = True
