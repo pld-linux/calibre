@@ -24,7 +24,6 @@ Patch1:		%{name}-locales.patch
 Patch2:		shebang-python-fix.patch
 Patch3:		desktop-integration.patch
 Patch4:		%{name}-env_module.patch
-Patch5:		icu68.patch
 %define		baeutifulsoup_ver 3.0.5
 %define		pil_ver 1.1.6
 %define		pyqt5_ver 5.3.1
@@ -61,10 +60,11 @@ BuildRequires:	pkgconfig
 BuildRequires:	podofo-devel >= 0.8.2
 BuildRequires:	poppler-glib-devel >= 0.28.1
 BuildRequires:	poppler-qt5-devel >= 0.28.1
-BuildRequires:	python3-BeautifulSoup >= %{baeutifulsoup_ver}
+#BuildRequires:	python3-BeautifulSoup >= %{baeutifulsoup_ver}
 BuildRequires:	python3-PIL >= %{pil_ver}
+BuildRequires:	python3-PyQt-builder
 BuildRequires:	python3-PyQt5 >= %{pyqt5_ver}
-BuildRequires:	python3-PyQt5-devel-tools >= %{pyqt5_ver}
+BuildRequires:	python-PyQt5-devel-tools >= %{pyqt5_ver}
 BuildRequires:	python3-PyQt5-uic >= %{pyqt5_ver}
 BuildRequires:	python3-PyQtWebEngine >= %{pyqt5_ver}
 BuildRequires:	python3-apsw >= %{apsw_ver}
@@ -75,11 +75,11 @@ BuildRequires:	python3-cssutils >= %{cssutils_ver}
 BuildRequires:	python3-dateutil >= %{dateutil_ver}
 BuildRequires:	python3-devel >= 1:2.7.1
 BuildRequires:	python3-dns >= %{dns_ver}
-BuildRequires:	python3-genshi
+#BuildRequires:	python3-genshi
 BuildRequires:	python3-html5-parser
 BuildRequires:	python3-lxml >= %{lxml_ver}
-BuildRequires:	python3-mechanize >= %{mechanize_ver}
-BuildRequires:	python3-modules-sqlite
+#BuildRequires:	python3-mechanize >= %{mechanize_ver}
+#BuildRequires:	python3-modules-sqlite
 BuildRequires:	python3-msgpack >= %{msgpack_ver}
 BuildRequires:	python3-netifaces >= %{netifaces_ver}
 BuildRequires:	python3-psutil >= %{psutil_ver}
@@ -187,7 +187,6 @@ Pakiet ten dostarcza uzupełnianie nazw dla calibre w powłoce zsh.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
 
 # 64bit target build fix
 %{__sed} -i -e "s!'/usr/lib'!'%{_libdir}'!g" setup/build_environment.py
@@ -204,7 +203,7 @@ CXX=%{__cxx} \
 OVERRIDE_CFLAGS="%{rpmcflags}" \
 OVERRIDE_LDFLAGS="%{rpmldflags}" \
 QMAKE="%{_bindir}/qmake-qt5" \
-%{__python} setup.py build
+%{__python3} setup.py build
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -215,7 +214,7 @@ $RPM_BUILD_ROOT{%{_desktopdir},%{_pixmapsdir},%{zsh_compdir}}
 export XDG_DATA_DIRS="$RPM_BUILD_ROOT%{_datadir}"
 export XDG_UTILS_INSTALL_MODE="system"
 export LIBPATH="%{_libdir}"
-%{__python} setup.py install \
+%{__python3} setup.py install \
 	--no-compile \
 	--root=$RPM_BUILD_ROOT \
 	--prefix=%{_prefix} \
@@ -223,7 +222,7 @@ export LIBPATH="%{_libdir}"
 	--libdir=%{_libdir} \
 	--sharedir=%{_datadir}
 
-%{__sed} -i -e '1s,/usr/bin/env python,%{__python},' $RPM_BUILD_ROOT%{_bindir}/*
+%{__sed} -i -e '1s,/usr/bin/env python,%{__python3},' $RPM_BUILD_ROOT%{_bindir}/*
 
 cp -p resources/images/library.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}-gui.png
 cp -p resources/images/viewer.png $RPM_BUILD_ROOT%{_pixmapsdir}/calibre-viewer.png

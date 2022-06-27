@@ -1,12 +1,3 @@
-diff -urNp -x '*.orig' calibre-4.20.0.org/recipes/nrc-nl-epub.recipe calibre-4.20.0/recipes/nrc-nl-epub.recipe
---- calibre-4.20.0.org/recipes/nrc-nl-epub.recipe	2020-07-03 04:11:13.000000000 +0200
-+++ calibre-4.20.0/recipes/nrc-nl-epub.recipe	2021-06-23 14:08:48.429265433 +0200
-@@ -1,4 +1,4 @@
--#!/usr/bin/env  python2
-+#!/usr/bin/env  python
- # -*- coding: utf-8 -*-
- # Based on veezh's original recipe and Kovid Goyal's New York Times recipe
- 
 diff -urNp -x '*.orig' calibre-4.20.0.org/setup/install.py calibre-4.20.0/setup/install.py
 --- calibre-4.20.0.org/setup/install.py	2021-06-23 14:08:46.395856286 +0200
 +++ calibre-4.20.0/setup/install.py	2021-06-23 14:08:48.429265433 +0200

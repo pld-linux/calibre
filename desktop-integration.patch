@@ -2,30 +2,30 @@ diff -urNp -x '*.orig' calibre-4.20.0.org/src/calibre/linux.py calibre-4.20.0/sr
 --- calibre-4.20.0.org/src/calibre/linux.py	2021-06-23 14:08:51.192699952 +0200
 +++ calibre-4.20.0/src/calibre/linux.py	2021-06-23 14:08:53.186104962 +0200
 @@ -875,7 +875,7 @@ class PostInstall:
-                 def install_single_icon(iconsrc, basename, size, context, is_last_icon=False):
-                     filename = '%s-%s.png' % (basename, size)
-                     render_img(iconsrc, filename, width=int(size), height=int(size))
--                    cmd = ['xdg-icon-resource', 'install', '--noupdate', '--context', context, '--size', unicode_type(size), filename, basename]
-+                    cmd = ['xdg-icon-resource', 'install', '--noupdate', '--novendor', '--context', context, '--size', unicode_type(size), filename, basename]
-                     if is_last_icon:
-                         del cmd[2]
-                     cc(cmd)
+         def install_single_icon(iconsrc, basename, size, context, is_last_icon=False):
+             filename = f'{basename}-{size}.png'
+             render_img(iconsrc, filename, width=int(size), height=int(size))
+-            cmd = ['xdg-icon-resource', 'install', '--noupdate', '--context', context, '--size', str(size), filename, basename]
++            cmd = ['xdg-icon-resource', 'install', '--noupdate', '--novendor', '--context', context, '--size', str(size), filename, basename]
+             if is_last_icon:
+                 del cmd[2]
+             cc(cmd)
 @@ -941,7 +941,7 @@ class PostInstall:
  
-                 APPDATA = get_appdata()
-                 for x in des:
--                    cmd = ['xdg-desktop-menu', 'install', '--noupdate', './'+x]
-+                    cmd = ['xdg-desktop-menu', 'install', '--noupdate', '--novendor', './'+x]
-                     cc(' '.join(cmd), shell=True)
-                     self.menu_resources.append(x)
-                     ak = x.partition('.')[0]
+         APPDATA = get_appdata()
+         for x in des:
+-            cmd = ['xdg-desktop-menu', 'install', '--noupdate', './'+x]
++            cmd = ['xdg-desktop-menu', 'install', '--noupdate', '--novendor', './'+x]
+             cc(' '.join(cmd), shell=True)
+             self.menu_resources.append(x)
+             ak = x.partition('.')[0]
 @@ -951,8 +951,7 @@ class PostInstall:
-                 MIME = P(MIME_BASE)
-                 self.mime_resources.append(MIME_BASE)
-                 if not getattr(self.opts, 'staged_install', False):
--                    cc(['xdg-mime', 'install', MIME])
--                    cc(['xdg-desktop-menu', 'forceupdate'])
-+                    cc(['xdg-mime', 'install', '--novendor', MIME])
-                 else:
-                     from shutil import copyfile
-                     copyfile(MIME, os.path.join(env['XDG_DATA_DIRS'], 'mime', 'packages', MIME_BASE))
+         MIME = P(MIME_BASE)
+         self.mime_resources.append(MIME_BASE)
+         if not getattr(self.opts, 'staged_install', False):
+-            cc(['xdg-mime', 'install', MIME])
+-            cc(['xdg-desktop-menu', 'forceupdate'])
++            cc(['xdg-mime', 'install', '--novendor', MIME])
+         else:
+             from shutil import copyfile
+             copyfile(MIME, os.path.join(env['XDG_DATA_DIRS'], 'mime', 'packages', MIME_BASE))

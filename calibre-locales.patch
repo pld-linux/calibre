@@ -53,7 +53,7 @@ diff -urNp -x '*.orig' calibre-4.20.0.org/src/calibre/translations/dynamic.py ca
 +               _CACHE[lang] = trans
      if trans is None:
          return getattr(__builtins__, '_', lambda x: x)(text)
-     f = getattr(trans, 'gettext' if ispy3 else 'ugettext')
+     return trans.gettext(text)
 diff -urNp -x '*.orig' calibre-4.20.0.org/src/calibre/utils/localization.py calibre-4.20.0/src/calibre/utils/localization.py
 --- calibre-4.20.0.org/src/calibre/utils/localization.py	2020-07-03 04:11:13.000000000 +0200
 +++ calibre-4.20.0/src/calibre/utils/localization.py	2021-06-23 14:08:43.642418411 +0200
@@ -113,7 +113,7 @@ diff -urNp -x '*.orig' calibre-4.20.0.org/src/calibre/utils/localization.py cali
  def get_single_translator(mpath, which='messages'):
 -    from zipfile import ZipFile
 -    with ZipFile(P('localization/locales.zip', allow_user_override=False), 'r') as zf:
--        path = '{}/{}.mo'.format(mpath, which)
+-        path = f'{mpath}/{which}.mo'
 -        data = zf.read(path)
 -        buf = io.BytesIO(data)
          try:
