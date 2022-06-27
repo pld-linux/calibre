@@ -11,12 +11,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	4.20.0
-Release:	7
+Version:	5.44.0
+Release:	0.1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	a784765c3f0959b5caa5b1029eed1122
+# Source0-md5:	7cbc2603d8bebf7c69747282f604092d
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
@@ -61,30 +61,30 @@ BuildRequires:	pkgconfig
 BuildRequires:	podofo-devel >= 0.8.2
 BuildRequires:	poppler-glib-devel >= 0.28.1
 BuildRequires:	poppler-qt5-devel >= 0.28.1
-BuildRequires:	python-BeautifulSoup >= %{baeutifulsoup_ver}
-BuildRequires:	python-PIL >= %{pil_ver}
-BuildRequires:	python-PyQt5 >= %{pyqt5_ver}
-BuildRequires:	python-PyQt5-devel-tools >= %{pyqt5_ver}
-BuildRequires:	python-PyQt5-uic >= %{pyqt5_ver}
-BuildRequires:	python-PyQtWebEngine >= %{pyqt5_ver}
-BuildRequires:	python-apsw >= %{apsw_ver}
-BuildRequires:	python-bs4
-BuildRequires:	python-css_parser
-BuildRequires:	python-cssselect >= %{cssselect_ver}
-BuildRequires:	python-cssutils >= %{cssutils_ver}
-BuildRequires:	python-dateutil >= %{dateutil_ver}
-BuildRequires:	python-devel >= 1:2.7.1
-BuildRequires:	python-dns >= %{dns_ver}
-BuildRequires:	python-genshi
-BuildRequires:	python-html5-parser
-BuildRequires:	python-lxml >= %{lxml_ver}
-BuildRequires:	python-mechanize >= %{mechanize_ver}
-BuildRequires:	python-modules-sqlite
-BuildRequires:	python-msgpack >= %{msgpack_ver}
-BuildRequires:	python-netifaces >= %{netifaces_ver}
-BuildRequires:	python-psutil >= %{psutil_ver}
-BuildRequires:	python-regex
-BuildRequires:	python-sip-devel
+BuildRequires:	python3-BeautifulSoup >= %{baeutifulsoup_ver}
+BuildRequires:	python3-PIL >= %{pil_ver}
+BuildRequires:	python3-PyQt5 >= %{pyqt5_ver}
+BuildRequires:	python3-PyQt5-devel-tools >= %{pyqt5_ver}
+BuildRequires:	python3-PyQt5-uic >= %{pyqt5_ver}
+BuildRequires:	python3-PyQtWebEngine >= %{pyqt5_ver}
+BuildRequires:	python3-apsw >= %{apsw_ver}
+BuildRequires:	python3-bs4
+BuildRequires:	python3-css_parser
+BuildRequires:	python3-cssselect >= %{cssselect_ver}
+BuildRequires:	python3-cssutils >= %{cssutils_ver}
+BuildRequires:	python3-dateutil >= %{dateutil_ver}
+BuildRequires:	python3-devel >= 1:2.7.1
+BuildRequires:	python3-dns >= %{dns_ver}
+BuildRequires:	python3-genshi
+BuildRequires:	python3-html5-parser
+BuildRequires:	python3-lxml >= %{lxml_ver}
+BuildRequires:	python3-mechanize >= %{mechanize_ver}
+BuildRequires:	python3-modules-sqlite
+BuildRequires:	python3-msgpack >= %{msgpack_ver}
+BuildRequires:	python3-netifaces >= %{netifaces_ver}
+BuildRequires:	python3-psutil >= %{psutil_ver}
+BuildRequires:	python3-regex
+BuildRequires:	python3-sip-devel
 BuildRequires:	qt5-build
 BuildRequires:	qt5-qmake
 BuildRequires:	rpm-pythonprov
