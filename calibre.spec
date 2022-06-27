@@ -60,11 +60,11 @@ BuildRequires:	pkgconfig
 BuildRequires:	podofo-devel >= 0.8.2
 BuildRequires:	poppler-glib-devel >= 0.28.1
 BuildRequires:	poppler-qt5-devel >= 0.28.1
+BuildRequires:	python-PyQt5-devel-tools >= %{pyqt5_ver}
 #BuildRequires:	python3-BeautifulSoup >= %{baeutifulsoup_ver}
 BuildRequires:	python3-PIL >= %{pil_ver}
 BuildRequires:	python3-PyQt-builder
 BuildRequires:	python3-PyQt5 >= %{pyqt5_ver}
-BuildRequires:	python-PyQt5-devel-tools >= %{pyqt5_ver}
 BuildRequires:	python3-PyQt5-uic >= %{pyqt5_ver}
 BuildRequires:	python3-PyQtWebEngine >= %{pyqt5_ver}
 BuildRequires:	python3-apsw >= %{apsw_ver}
@@ -99,26 +99,26 @@ BuildRequires:	xz >= 1:4.999.7
 Requires:	Qt5Svg
 Requires:	Qt5WebKit
 Requires:	Qt5WebEngine
-Requires:	python-BeautifulSoup >= %{baeutifulsoup_ver}
-Requires:	python-PIL >= %{pil_ver}
-Requires:	python-PyQt5 >= %{pyqt5_ver}
-Requires:	python-PyQtWebEngine >= %{pyqt5_ver}
-Requires:	python-apsw >= %{apsw_ver}
-Requires:	python-bs4
-Requires:	python-css_parser
-Requires:	python-cssselect >= %{cssselect_ver}
-Requires:	python-cssutils >= %{cssutils_ver}
-Requires:	python-dateutil >= %{dateutil_ver}
-Requires:	python-dns >= %{dns_ver}
-Requires:	python-genshi
-Requires:	python-html5-parser
-Requires:	python-lxml >= %{lxml_ver}
-Requires:	python-mechanize >= %{mechanize_ver}
-Requires:	python-modules-sqlite
-Requires:	python-msgpack >= %{msgpack_ver}
-Requires:	python-netifaces >= %{netifaces_ver}
-Requires:	python-psutil >= %{psutil_ver}
-Requires:	python-regex
+#Requires:	python3-BeautifulSoup >= %{baeutifulsoup_ver}
+Requires:	python3-PIL >= %{pil_ver}
+Requires:	python3-PyQt5 >= %{pyqt5_ver}
+Requires:	python3-PyQtWebEngine >= %{pyqt5_ver}
+Requires:	python3-apsw >= %{apsw_ver}
+Requires:	python3-bs4
+Requires:	python3-css_parser
+Requires:	python3-cssselect >= %{cssselect_ver}
+Requires:	python3-cssutils >= %{cssutils_ver}
+Requires:	python3-dateutil >= %{dateutil_ver}
+Requires:	python3-dns >= %{dns_ver}
+#Requires:	python3-genshi
+Requires:	python3-html5-parser
+Requires:	python3-lxml >= %{lxml_ver}
+#Requires:	python3-mechanize >= %{mechanize_ver}
+#Requires:	python3-modules-sqlite
+Requires:	python3-msgpack >= %{msgpack_ver}
+Requires:	python3-netifaces >= %{netifaces_ver}
+Requires:	python3-psutil >= %{psutil_ver}
+Requires:	python3-regex
 Suggests:	ImageMagick-coder-jpeg
 Suggests:	ImageMagick-coder-png
 ### FIXME: libunrar.so is needed for rar-packed files
