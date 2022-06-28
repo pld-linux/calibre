@@ -90,6 +90,7 @@ BuildRequires:	qt5-qmake
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.710
 BuildRequires:	sed >= 4.0
+BuildRequires:	sip5
 BuildRequires:	sip-PyQt5
 BuildRequires:	sqlite3-devel
 BuildRequires:	tar >= 1:1.22
@@ -203,6 +204,7 @@ CXX=%{__cxx} \
 OVERRIDE_CFLAGS="%{rpmcflags}" \
 OVERRIDE_LDFLAGS="%{rpmldflags}" \
 QMAKE="%{_bindir}/qmake-qt5" \
+SIP_BIN="%{_bindir}/sip5" \
 %{__python3} setup.py build
 
 %install
