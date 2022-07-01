@@ -27,7 +27,7 @@ Patch4:		%{name}-env_module.patch
 %define		baeutifulsoup_ver 3.0.5
 %define		pil_ver 1.1.6
 %define		pyqt5_ver 5.15.7
-%define		apsw_ver 3.8.0.1
+%define		apsw_ver 3.38.0
 %define		cssselect_ver 0.7.1
 %define		cssutils_ver 1:0.9.9
 %define		dateutil_ver 1.4.1
@@ -77,7 +77,6 @@ BuildRequires:	python3-dns >= %{dns_ver}
 BuildRequires:	python3-html5-parser
 BuildRequires:	python3-lxml >= %{lxml_ver}
 BuildRequires:	python3-mechanize >= %{mechanize_ver}
-#BuildRequires:	python3-modules-sqlite
 BuildRequires:	python3-msgpack >= %{msgpack_ver}
 BuildRequires:	python3-netifaces >= %{netifaces_ver}
 BuildRequires:	python3-pillow >= %{pil_ver}
@@ -112,7 +111,6 @@ Requires:	python3-dns >= %{dns_ver}
 Requires:	python3-html5-parser
 Requires:	python3-lxml >= %{lxml_ver}
 Requires:	python3-mechanize >= %{mechanize_ver}
-#Requires:	python3-modules-sqlite
 Requires:	python3-msgpack >= %{msgpack_ver}
 Requires:	python3-netifaces >= %{netifaces_ver}
 Requires:	python3-pillow >= %{pil_ver}
