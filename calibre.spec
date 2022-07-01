@@ -26,7 +26,7 @@ Patch3:		desktop-integration.patch
 Patch4:		%{name}-env_module.patch
 %define		baeutifulsoup_ver 3.0.5
 %define		pil_ver 1.1.6
-%define		pyqt5_ver 5.3.1
+%define		pyqt5_ver 5.15.7
 %define		apsw_ver 3.8.0.1
 %define		cssselect_ver 0.7.1
 %define		cssutils_ver 1:0.9.9
@@ -60,15 +60,13 @@ BuildRequires:	pkgconfig
 BuildRequires:	podofo-devel >= 0.8.2
 BuildRequires:	poppler-glib-devel >= 0.28.1
 BuildRequires:	poppler-qt5-devel >= 0.28.1
-BuildRequires:	python-PyQt5-devel-tools >= %{pyqt5_ver}
-#BuildRequires:	python3-BeautifulSoup >= %{baeutifulsoup_ver}
-BuildRequires:	python3-PIL >= %{pil_ver}
+BuildRequires:	python3-PyQt5-devel-tools >= %{pyqt5_ver}
 BuildRequires:	python3-PyQt-builder
 BuildRequires:	python3-PyQt5 >= %{pyqt5_ver}
 BuildRequires:	python3-PyQt5-uic >= %{pyqt5_ver}
-BuildRequires:	python3-PyQtWebEngine >= %{pyqt5_ver}
+BuildRequires:	python3-PyQtWebEngine
 BuildRequires:	python3-apsw >= %{apsw_ver}
-BuildRequires:	python3-bs4
+BuildRequires:	python3-bs4 >= %{baeutifulsoup_ver}
 BuildRequires:	python3-css_parser
 BuildRequires:	python3-cssselect >= %{cssselect_ver}
 BuildRequires:	python3-cssutils >= %{cssutils_ver}
@@ -78,10 +76,11 @@ BuildRequires:	python3-dns >= %{dns_ver}
 #BuildRequires:	python3-genshi
 BuildRequires:	python3-html5-parser
 BuildRequires:	python3-lxml >= %{lxml_ver}
-#BuildRequires:	python3-mechanize >= %{mechanize_ver}
+BuildRequires:	python3-mechanize >= %{mechanize_ver}
 #BuildRequires:	python3-modules-sqlite
 BuildRequires:	python3-msgpack >= %{msgpack_ver}
 BuildRequires:	python3-netifaces >= %{netifaces_ver}
+BuildRequires:	python3-pillow >= %{pil_ver}
 BuildRequires:	python3-psutil >= %{psutil_ver}
 BuildRequires:	python3-regex
 BuildRequires:	python3-sip-devel
@@ -90,8 +89,8 @@ BuildRequires:	qt5-qmake
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.710
 BuildRequires:	sed >= 4.0
-BuildRequires:	sip5
-BuildRequires:	sip-PyQt5
+BuildRequires:	sip6
+BuildRequires:	sip-PyQt5 >= %{pyqt5_ver}
 BuildRequires:	sqlite3-devel
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	unzip
@@ -100,12 +99,10 @@ BuildRequires:	xz >= 1:4.999.7
 Requires:	Qt5Svg
 Requires:	Qt5WebKit
 Requires:	Qt5WebEngine
-#Requires:	python3-BeautifulSoup >= %{baeutifulsoup_ver}
-Requires:	python3-PIL >= %{pil_ver}
 Requires:	python3-PyQt5 >= %{pyqt5_ver}
-Requires:	python3-PyQtWebEngine >= %{pyqt5_ver}
+Requires:	python3-PyQtWebEngine
 Requires:	python3-apsw >= %{apsw_ver}
-Requires:	python3-bs4
+Requires:	python3-bs4 >= %{baeutifulsoup_ver}
 Requires:	python3-css_parser
 Requires:	python3-cssselect >= %{cssselect_ver}
 Requires:	python3-cssutils >= %{cssutils_ver}
@@ -114,10 +111,11 @@ Requires:	python3-dns >= %{dns_ver}
 #Requires:	python3-genshi
 Requires:	python3-html5-parser
 Requires:	python3-lxml >= %{lxml_ver}
-#Requires:	python3-mechanize >= %{mechanize_ver}
+Requires:	python3-mechanize >= %{mechanize_ver}
 #Requires:	python3-modules-sqlite
 Requires:	python3-msgpack >= %{msgpack_ver}
 Requires:	python3-netifaces >= %{netifaces_ver}
+Requires:	python3-pillow >= %{pil_ver}
 Requires:	python3-psutil >= %{psutil_ver}
 Requires:	python3-regex
 Suggests:	ImageMagick-coder-jpeg
@@ -224,14 +222,17 @@ export LIBPATH="%{_libdir}"
 	--libdir=%{_libdir} \
 	--sharedir=%{_datadir}
 
-%{__sed} -i -e '1s,/usr/bin/env python,%{__python3},' $RPM_BUILD_ROOT%{_bindir}/*
+%{__sed} -E -i -e '1s,#!\s*/usr/bin/env\s+python(\s|$),#!%{__python3}\1,' \
+	 -e '1s,#!\s*/usr/bin/env\s+python3(\s|$),#!%{__python3}\1,' \
+	$RPM_BUILD_ROOT%{_bindir}/* \
+	$RPM_BUILD_ROOT%{_libdir}/%{name}/%{name}/devices/cli.py \
+	$RPM_BUILD_ROOT%{_libdir}/%{name}/%{name}/devices/mtp/unix/upstream/update.py
 
 cp -p resources/images/library.png $RPM_BUILD_ROOT%{_pixmapsdir}/%{name}-gui.png
 cp -p resources/images/viewer.png $RPM_BUILD_ROOT%{_pixmapsdir}/calibre-viewer.png
 
-%py_comp $RPM_BUILD_ROOT%{_libdir}/%{name}
-%py_ocomp $RPM_BUILD_ROOT%{_libdir}/%{name}
-%py_postclean %{_libdir}/%{name}
+%py3_comp $RPM_BUILD_ROOT%{_libdir}/%{name}
+%py3_ocomp $RPM_BUILD_ROOT%{_libdir}/%{name}
 
 %{__mv} $RPM_BUILD_ROOT%{_datadir}/%{name}/localization/locales $RPM_BUILD_ROOT%{_localedir}
 
@@ -284,7 +285,7 @@ fi
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc Changelog.yaml COPYRIGHT README.md
+%doc Changelog.txt COPYRIGHT README.md
 %attr(755,root,root) %{_bindir}/calibre
 %attr(755,root,root) %{_bindir}/calibre-complete
 %attr(755,root,root) %{_bindir}/calibre-customize
@@ -308,9 +309,9 @@ fi
 %attr(755,root,root) %{_bindir}/web2disk
 %{_libdir}/%{name}
 %{_datadir}/%{name}
-%{_datadir}/metainfo/calibre-ebook-edit.appdata.xml
-%{_datadir}/metainfo/calibre-ebook-viewer.appdata.xml
-%{_datadir}/metainfo/calibre-gui.appdata.xml
+%{_datadir}/metainfo/calibre-ebook-edit.metainfo.xml
+%{_datadir}/metainfo/calibre-ebook-viewer.metainfo.xml
+%{_datadir}/metainfo/calibre-gui.metainfo.xml
 %{_desktopdir}/calibre-ebook-edit.desktop
 %{_desktopdir}/calibre-ebook-viewer.desktop
 %{_desktopdir}/calibre-gui.desktop
