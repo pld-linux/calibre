@@ -11,12 +11,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	5.44.0
-Release:	1
+Version:	6.4.0
+Release:	0.1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	7cbc2603d8bebf7c69747282f604092d
+# Source0-md5:	456ce5bc579a6865afb7936976cc337f
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
@@ -26,7 +26,7 @@ Patch3:		desktop-integration.patch
 Patch4:		%{name}-env_module.patch
 %define		baeutifulsoup_ver 3.0.5
 %define		pil_ver 1.1.6
-%define		pyqt5_ver 5.15.7
+%define		pyqt6_ver 6.3.1
 %define		apsw_ver 3.38.0
 %define		cssselect_ver 0.7.1
 %define		cssutils_ver 1:0.9.9
@@ -39,15 +39,11 @@ Patch4:		%{name}-env_module.patch
 %define		psutil_ver 0.6.1
 URL:		http://www.calibre-ebook.com/
 BuildRequires:	ImageMagick-devel >= 6.6.4.7
-BuildRequires:	Qt5Core-devel
-BuildRequires:	Qt5DBus-devel
-BuildRequires:	Qt5EventDispatcherSupport-devel
-BuildRequires:	Qt5FontDatabaseSupport-devel
-BuildRequires:	Qt5Gui-devel
-BuildRequires:	Qt5ServiceSupport-devel
-BuildRequires:	Qt5ThemeSupport-devel
-BuildRequires:	Qt5WebEngine-devel
-BuildRequires:	Qt5Widgets-devel
+BuildRequires:	Qt6Core-devel
+BuildRequires:	Qt6DBus-devel
+BuildRequires:	Qt6Gui-devel
+BuildRequires:	Qt6WebEngine-devel
+BuildRequires:	Qt6Widgets-devel
 BuildRequires:	chmlib-devel >= 0.40
 BuildRequires:	hunspell-devel
 BuildRequires:	hyphen-devel
@@ -59,12 +55,12 @@ BuildRequires:	mtdev-devel
 BuildRequires:	pkgconfig
 BuildRequires:	podofo-devel >= 0.8.2
 BuildRequires:	poppler-glib-devel >= 0.28.1
-BuildRequires:	poppler-qt5-devel >= 0.28.1
-BuildRequires:	python3-PyQt5-devel-tools >= %{pyqt5_ver}
+BuildRequires:	poppler-qt6-devel >= 0.28.1
+BuildRequires:	python3-PyQt6-devel-tools >= %{pyqt6_ver}
 BuildRequires:	python3-PyQt-builder
-BuildRequires:	python3-PyQt5 >= %{pyqt5_ver}
-BuildRequires:	python3-PyQt5-uic >= %{pyqt5_ver}
-BuildRequires:	python3-PyQtWebEngine
+BuildRequires:	python3-PyQt6 >= %{pyqt6_ver}
+BuildRequires:	python3-PyQt6-uic >= %{pyqt6_ver}
+BuildRequires:	python3-PyQt6-WebEngine
 BuildRequires:	python3-apsw >= %{apsw_ver}
 BuildRequires:	python3-bs4 >= %{baeutifulsoup_ver}
 BuildRequires:	python3-css_parser
@@ -82,24 +78,21 @@ BuildRequires:	python3-netifaces >= %{netifaces_ver}
 BuildRequires:	python3-pillow >= %{pil_ver}
 BuildRequires:	python3-psutil >= %{psutil_ver}
 BuildRequires:	python3-regex
-BuildRequires:	python3-sip-devel
-BuildRequires:	qt5-build
-BuildRequires:	qt5-qmake
+BuildRequires:	qt6-build
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.710
 BuildRequires:	sed >= 4.0
 BuildRequires:	sip6
-BuildRequires:	sip-PyQt5 >= %{pyqt5_ver}
+BuildRequires:	sip-PyQt6 >= %{pyqt6_ver}
 BuildRequires:	sqlite3-devel
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	unzip
 BuildRequires:	xdg-utils
 BuildRequires:	xz >= 1:4.999.7
-Requires:	Qt5Svg
-Requires:	Qt5WebKit
-Requires:	Qt5WebEngine
-Requires:	python3-PyQt5 >= %{pyqt5_ver}
-Requires:	python3-PyQtWebEngine
+Requires:	Qt6Svg
+Requires:	Qt6WebEngine
+Requires:	python3-PyQt6 >= %{pyqt6_ver}
+Requires:	python3-PyQt6-WebEngine
 Requires:	python3-apsw >= %{apsw_ver}
 Requires:	python3-bs4 >= %{baeutifulsoup_ver}
 Requires:	python3-css_parser
@@ -199,8 +192,7 @@ CC="%{__cc}" \
 CXX=%{__cxx} \
 OVERRIDE_CFLAGS="%{rpmcflags}" \
 OVERRIDE_LDFLAGS="%{rpmldflags}" \
-QMAKE="%{_bindir}/qmake-qt5" \
-SIP_BIN="%{_bindir}/sip5" \
+QMAKE="%{_bindir}/qmake-qt6" \
 %{__python3} setup.py build
 
 %install
@@ -334,7 +326,6 @@ fi
 %files -n bash-completion-calibre
 %defattr(644,root,root,755)
 %{bash_compdir}/*
-
 
 %files -n zsh-completion-calibre
 %defattr(644,root,root,755)
