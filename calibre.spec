@@ -11,12 +11,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	6.4.0
+Version:	6.10.0
 Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	456ce5bc579a6865afb7936976cc337f
+# Source0-md5:	f35bd1a5f0096413b0ccb3924754b340
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
@@ -71,6 +71,7 @@ BuildRequires:	python3-devel >= 1:2.7.1
 BuildRequires:	python3-dns >= %{dns_ver}
 #BuildRequires:	python3-genshi
 BuildRequires:	python3-html5-parser
+BuildRequires:	python3-jeepney
 BuildRequires:	python3-lxml >= %{lxml_ver}
 BuildRequires:	python3-mechanize >= %{mechanize_ver}
 BuildRequires:	python3-msgpack >= %{msgpack_ver}
@@ -102,6 +103,7 @@ Requires:	python3-dateutil >= %{dateutil_ver}
 Requires:	python3-dns >= %{dns_ver}
 #Requires:	python3-genshi
 Requires:	python3-html5-parser
+Requires:	python3-jeepney
 Requires:	python3-lxml >= %{lxml_ver}
 Requires:	python3-mechanize >= %{mechanize_ver}
 Requires:	python3-msgpack >= %{msgpack_ver}
