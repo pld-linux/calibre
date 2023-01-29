@@ -12,7 +12,7 @@ Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
 Version:	6.10.0
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
@@ -37,7 +37,7 @@ Patch4:		%{name}-env_module.patch
 %define		msgpack_ver 1.0.0
 %define		netifaces_ver 0.8
 %define		psutil_ver 0.6.1
-URL:		http://www.calibre-ebook.com/
+URL:		https://calibre-ebook.com/
 BuildRequires:	ImageMagick-devel >= 6.6.4.7
 BuildRequires:	Qt6Core-devel
 BuildRequires:	Qt6DBus-devel
@@ -80,8 +80,9 @@ BuildRequires:	python3-pillow >= %{pil_ver}
 BuildRequires:	python3-psutil >= %{psutil_ver}
 BuildRequires:	python3-regex
 BuildRequires:	qt6-build
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.710
+BuildRequires:	rpmbuild(macros) >= 1.714
 BuildRequires:	sed >= 4.0
 BuildRequires:	sip6
 BuildRequires:	sip-PyQt6 >= %{pyqt6_ver}
