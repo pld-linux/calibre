@@ -11,12 +11,12 @@
 Summary:	E-book converter and library management
 Summary(pl.UTF-8):	Konwerter oraz biblioteka dla e-booków
 Name:		calibre
-Version:	6.10.0
-Release:	4
+Version:	6.23.0
+Release:	1
 License:	GPL v3+
 Group:		Applications/Multimedia
 Source0:	%{name}-%{version}-nofonts.tar.xz
-# Source0-md5:	f35bd1a5f0096413b0ccb3924754b340
+# Source0-md5:	e0a8b9d98f888d1996e3a594edf13cb5
 Source1:	generate-tarball.sh
 Source2:	%{name}-mount-helper
 Patch0:		%{name}-prefix.patch
@@ -245,6 +245,11 @@ for file in $RPM_BUILD_ROOT%{_localedir}/*/LC_MESSAGES/iso639.mo; do
 	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
 	%{__mv} $RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/iso639.mo \
 		$RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/%{name}_iso639.mo
+done;
+for file in $RPM_BUILD_ROOT%{_localedir}/*/LC_MESSAGES/iso3166.mo; do
+	lang=$(echo $file|%{__sed} 's:.*locale/\(.*\)/LC_MESSAGES.*:\1:')
+	%{__mv} $RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/iso3166.mo \
+		$RPM_BUILD_ROOT%{_localedir}/$lang/LC_MESSAGES/%{name}_iso3166.mo
 done;
 
 %{__rm} -r $RPM_BUILD_ROOT%{_localedir}/{km_KH,km}

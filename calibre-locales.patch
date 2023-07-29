@@ -16,8 +16,8 @@ diff -urNp -x '*.orig' calibre-4.20.0.org/setup/translations.py calibre-4.20.0/s
          self.compile_website_translations()
          self.compile_changelog_translations()
 @@ -539,15 +538,6 @@ class Translations(POT):  # {{{
-                 rmap[msgstr] = msgid
-         return not has_errors
+                     zi.compress_type = ZIP_STORED if is_ci else ZIP_DEFLATED
+                     zf.writestr(zi, raw)
  
 -    def freeze_locales(self):
 -        zf = self.DEST + '.zip'
@@ -38,7 +38,7 @@ diff -urNp -x '*.orig' calibre-4.20.0.org/src/calibre/translations/dynamic.py ca
      else:
          mpath = get_lc_messages_path(lang)
          if mpath is not None:
--            with ZipFile(P('localization/locales.zip',
+-            with ZipFile(get_path('localization/locales.zip',
 -                allow_user_override=False), 'r') as zf:
 -                try:
 -                    buf = io.BytesIO(zf.read(mpath + '/messages.mo'))
@@ -90,7 +90,7 @@ diff -urNp -x '*.orig' calibre-4.20.0.org/src/calibre/utils/localization.py cali
 +    return None
  
  
- _lang_trans = None
+ _lang_trans = _country_trans = None
  
  
  def get_all_translators():
@@ -130,7 +130,7 @@ diff -urNp -x '*.orig' calibre-4.20.0.org/src/calibre/utils/localization.py cali
  
  
  def get_iso639_translator(lang):
-@@ -219,22 +210,21 @@ def translator_for_lang(lang):
+@@ -219,27 +210,25 @@ def translator_for_lang(lang):
          buf = load_po(mpath + '.po')
  
      if mpath is not None:
@@ -152,6 +152,12 @@ diff -urNp -x '*.orig' calibre-4.20.0.org/src/calibre/utils/localization.py cali
 +                iso639 = open(os.path.join(mpath, 'calibre_iso639.mo'), 'rb')
              except:
                  pass  # No iso639 translations for this lang
+-            isof = mpath + '/iso3166.mo'
+             try:
+-                iso3166 = io.BytesIO(zf.read(isof))
++                iso3166 = open(os.path.join(mpath, 'calibre_iso3166.mo'), 'rb')
+             except:
+                 pass  # No iso3166 translations for this lang
              if buf is not None:
                  from calibre.utils.serialize import msgpack_loads
                  try:
