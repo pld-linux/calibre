@@ -167,6 +167,7 @@ Summary(pl.UTF-8):	uzupełnianie nazw dla calibre w powłoce zsh
 Group:		Applications/Shells
 Requires:	%{name} = %{version}-%{release}
 Requires:	bash-completion
+BuildArch:	noarch
 
 %description -n zsh-completion-calibre
 zsh-completion for calibre.
