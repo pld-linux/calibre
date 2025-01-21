@@ -1,0 +1,22 @@
+From a3d3d8d33e314ccabb5099e78e4056a79b7c9aa2 Mon Sep 17 00:00:00 2001
+From: Kovid Goyal <kovid@kovidgoyal.net>
+Date: Mon, 20 May 2024 08:13:34 +0530
+Subject: [PATCH] Apparently we need --std=c++17 to compile against libicu 75.1
+
+---
+ setup/extensions.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/setup/extensions.json b/setup/extensions.json
+index 38c268520b05..742a6273c363 100644
+--- a/setup/extensions.json
++++ b/setup/extensions.json
+@@ -82,7 +82,7 @@
+         "name": "sqlite_extension",
+         "headers": "calibre/utils/cpp_binding.h",
+         "sources": "calibre/db/sqlite_extension.cpp",
+-		"needs_c++": "14",
++		"needs_c++": "17",
+         "libraries": "icudata icui18n icuuc icuio stemmer",
+         "windows_libraries": "icudt icuin icuuc icuio libstemmer",
+         "lib_dirs": "!icu_lib_dirs",
