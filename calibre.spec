@@ -336,7 +336,11 @@ fi
 
 %files -n bash-completion-calibre
 %defattr(644,root,root,755)
-%{bash_compdir}/*
+%{bash_compdir}/calibre*
+%{bash_compdir}/ebook-*
+%{bash_compdir}/fetch-ebook-metadata
+%{bash_compdir}/lrf2lrs
+%{bash_compdir}/lrfviewer
 
 %files -n zsh-completion-calibre
 %defattr(644,root,root,755)
