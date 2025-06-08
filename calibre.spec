@@ -60,6 +60,7 @@ BuildRequires:	poppler-qt6-devel >= 0.28.1
 BuildRequires:	python3-PyQt6-devel-tools >= %{pyqt6_ver}
 BuildRequires:	python3-PyQt-builder
 BuildRequires:	python3-PyQt6 >= %{pyqt6_ver}
+BuildRequires:	python3-PyQt6-devel >= %{pyqt6_ver}
 BuildRequires:	python3-PyQt6-uic >= %{pyqt6_ver}
 BuildRequires:	python3-PyQt6-WebEngine
 BuildRequires:	python3-apsw >= %{apsw_ver}
@@ -86,7 +87,6 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
 BuildRequires:	sed >= 4.0
 BuildRequires:	sip6
-BuildRequires:	sip-PyQt6 >= %{pyqt6_ver}
 BuildRequires:	sqlite3-devel
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	unzip
