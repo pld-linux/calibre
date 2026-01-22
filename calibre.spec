@@ -118,6 +118,7 @@ Suggests:	ImageMagick-coder-png
 ### FIXME: libunrar.so is needed for rar-packed files
 Suggests:	libunrar-devel
 Suggests:	poppler-progs
+ExclusiveArch:	%{x8664} aarch64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
