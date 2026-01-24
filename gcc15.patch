@@ -1,0 +1,25 @@
+From c04bd03a68ed0582c3522401e8c7e5ae94c7bfde Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Zbigniew=20J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>
+Date: Sat, 18 Jan 2025 13:49:36 +0100
+Subject: [PATCH] Fix build with -std=gnu23
+
+Gcc 15 defaults to gnu23, which makes bool a native type, so
+it cannot be redefined like this.
+---
+ src/calibre/ebooks/djvu/bzzdecoder.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/calibre/ebooks/djvu/bzzdecoder.c b/src/calibre/ebooks/djvu/bzzdecoder.c
+index d74a8ddc022b..ac27af7fed0e 100644
+--- a/src/calibre/ebooks/djvu/bzzdecoder.c
++++ b/src/calibre/ebooks/djvu/bzzdecoder.c
+@@ -21,7 +21,9 @@
+ #define STRFY2(x) STRFY(x)
+ #define CORRUPT PyErr_SetString(PyExc_ValueError, "Corrupt bitstream at line: " STRFY2(__LINE__))
+ 
++#if __STDC_VERSION__ < 202311L
+ typedef uint8_t bool;
++#endif
+ 
+ typedef struct Table {
+     uint16_t p;
