@@ -26,6 +26,7 @@ Patch3:		desktop-integration.patch
 Patch4:		%{name}-env_module.patch
 Patch5:		icu75.patch
 Patch6:		gcc15.patch
+Patch7:		qt6.9.patch
 %define		baeutifulsoup_ver 3.0.5
 %define		pil_ver 1.1.6
 %define		pyqt6_ver 6.3.1
@@ -186,6 +187,7 @@ Pakiet ten dostarcza uzupełnianie nazw dla calibre w powłoce zsh.
 %patch -P4 -p1
 %patch -P5 -p1
 %patch -P6 -p1
+%patch -P7 -p1
 
 # 64bit target build fix
 %{__sed} -i -e "s!'/usr/lib'!'%{_libdir}'!g" setup/build_environment.py
